@@ -1,8 +1,13 @@
 package ca.csf.io;
 
 import java.io.File;
+import java.util.jar.JarFile;
+
+import javax.swing.JFileChooser;
+
 import ca.csf.formes.ElementGraphique;
 import ca.csf.modele.ModeleGraphiques;
+import ca.csf.ui.FenetrePrincipale;
 
 /**
  * 
@@ -10,10 +15,11 @@ import ca.csf.modele.ModeleGraphiques;
  * @author
  *
  */
-public class GestionnaireFichier implements GestionnaireIO {
+public class GestionnaireFichier  implements GestionnaireIO {
 	
 	public GestionnaireFichier(ModeleGraphiques p_Modele) {
-		// TODO
+		
+		
 	}
 	
 	/**
@@ -21,7 +27,8 @@ public class GestionnaireFichier implements GestionnaireIO {
 	 */
 	@Override
 	public void enregistrer() {
-		// TODO
+		JFileChooser jFileChooser = new JFileChooser();
+		jFileChooser.showSaveDialog(this.FenetrePrincipale());
 	}
 
 	/**
@@ -29,7 +36,8 @@ public class GestionnaireFichier implements GestionnaireIO {
 	 */
 	@Override
 	public void ouvrir(File p_Fichier) {
-		// TODO
+		JFileChooser jFileChooser = new JFileChooser();
+		jFileChooser.showOpenDialog(this);
 	}
 
 	/**
