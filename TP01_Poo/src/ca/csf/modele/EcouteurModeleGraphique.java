@@ -8,7 +8,6 @@ import ca.csf.formes.ElementGraphique;
  * @author
  */
 public interface EcouteurModeleGraphique {
-	
 	/**
 	 * 
 	 */
