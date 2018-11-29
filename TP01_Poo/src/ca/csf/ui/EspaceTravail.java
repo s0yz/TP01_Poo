@@ -38,7 +38,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	protected void paintComponent(Graphics p_Graphics) {
 		Graphics2D graphics2d = (Graphics2D) p_Graphics;
 		super.paintComponent(p_Graphics);
-		//this.m_Rectangle.dessiner(graphics2d);
+		this.m_Rectangle.dessiner(graphics2d);
 		// TODO
 	}
 
