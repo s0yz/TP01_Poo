@@ -1,43 +1,38 @@
 package ca.csf.formes;
 
 import java.awt.Point;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.Shape;
 
 /**
  * 
  * @author Cedric Mariage
  */
 public class Rectangle extends Forme {
-	
+
 	/**
 	 * 
 	 */
 	private java.awt.Rectangle m_Rectangle;
-	
+
 	/**
 	 * 
 	 */
-	Rectangle() {
-		this(new Point(0, 0), 0, 0);
+	public Rectangle() {
+		this(0, 0, 0, 0);
 	}
-	
+
+	/**
+	 * 
+	 * @param p_X
+	 * @param p_Y
+	 * @param p_Largeur
+	 * @param p_Hauteur
+	 */
 	public Rectangle(int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
 		super("Rectangle");
 		this.m_Rectangle = new java.awt.Rectangle(p_X, p_Y, p_Largeur, p_Hauteur);
 	}
-	
-	/**
-	 * @param m_Position
-	 * @param p_Largeur
-	 * @param p_Hauteur
-	 */
-	Rectangle(Point m_Position, int p_Largeur, int p_Hauteur) {
-		this(m_Position.x, m_Position.y, p_Largeur, p_Hauteur);
-	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -56,12 +51,15 @@ public class Rectangle extends Forme {
 
 	/**
 	 * {@inheritDoc}
+	 * 
+	 * @deprecated Va être retirer pour alléger l'interface. Voir {@code getX()} et
+	 *             {@code getY()}.
 	 */
 	@Override
 	public Point getPosition() {
-		return null;
+		return this.m_Rectangle.getLocation();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -82,79 +80,16 @@ public class Rectangle extends Forme {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public java.awt.Rectangle getBounds() {
-		return this.m_Rectangle.getBounds();
+	public boolean contient(Point p_Point) {
+		return false;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Rectangle2D getBounds2D() {
-		return null;
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean contains(double p_x, double p_y) {
-		return this.m_Rectangle.contains(p_x, p_y);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean contains(Point2D p_p) {
-		return this.m_Rectangle.contains(p_p);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean intersects(double p_x, double p_y, double p_w, double p_h) {
-		return this.m_Rectangle.intersects(p_x, p_y, p_w, p_h);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean intersects(Rectangle2D p_r) {
-		return this.m_Rectangle.intersects(p_r);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean contains(double p_x, double p_y, double p_w, double p_h) {
-		return this.m_Rectangle.contains(p_x, p_y, p_w, p_h);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean contains(Rectangle2D p_r) {
-		return this.m_Rectangle.contains(p_r);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public PathIterator getPathIterator(AffineTransform p_at) {
-		return this.m_Rectangle.getPathIterator(p_at);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public PathIterator getPathIterator(AffineTransform p_at, double p_flatness) {
-		return m_Rectangle.getPathIterator(p_at, p_flatness);
+	public boolean contient(int p_X, int p_Y) {
+		return this.m_Rectangle.contains(p_X, p_Y);
 	}
 
 	/**
@@ -167,6 +102,8 @@ public class Rectangle extends Forme {
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated Va être retirer pour alléger l'interface. Voir
+	 *             {@code setPosition(int p_X, int p_Y)}.
 	 */
 	@Override
 	public void setPosition(int p_X, int p_Y) {
@@ -181,7 +118,7 @@ public class Rectangle extends Forme {
 	public void setLargeur(int p_Largeur) {
 		this.m_Rectangle.width = p_Largeur;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -194,7 +131,7 @@ public class Rectangle extends Forme {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contient(Point p_Point) {
-		return this.m_Rectangle.contains(p_Point);
+	protected Shape getShape() {
+		return this.m_Rectangle;
 	}
 }
