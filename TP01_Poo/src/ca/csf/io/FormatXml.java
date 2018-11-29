@@ -5,12 +5,11 @@ import java.io.*;
 import javax.xml.stream.*;
 
 import ca.csf.formes.ElementGraphique;
-import ca.csf.modele.ModeleGraphiques;
 
 public class FormatXml implements FormatFichier {
 
 	@Override
-	public void enregistrer(ModeleGraphiques p_modele) {
+	public void enregistrer(Iterable<ElementGraphique> p_Elements) {
 		// TODO Auto-generated method stub
 		// Declare ici pour le fermer dans le finally
 		XMLStreamWriter doc = null;
@@ -26,14 +25,14 @@ public class FormatXml implements FormatFichier {
 
 			doc.writeStartElement("forme");
 
-			for (ElementGraphique elementGraphique : p_modele) {
+			for (ElementGraphique elementGraphique : p_Elements) {
 
 				doc.writeStartElement(elementGraphique.getNom());
 
 				doc.writeAttribute("position", elementGraphique.getPosition().toString());
 				doc.writeAttribute("hauteur", Integer.toString(elementGraphique.getHauteur()));
 				doc.writeAttribute("largeur", Integer.toString(elementGraphique.getLargeur()));
-				doc.writeAttribute("couleur", Integer.toString(elementGraphique.getCouleur()));
+				doc.writeAttribute("couleur", elementGraphique.getCouleur().toString());
 
 				// </examen>
 				doc.writeEndElement();

@@ -12,52 +12,83 @@ import ca.csf.formes.ElementGraphique;
  */
 public class ModeleGraphiques implements ModeleElementGraphique {
 	
-	
-	
-	
-	
+	/**
+	 * 
+	 */
 	private ArrayList<ElementGraphique> m_Liste;
+	
+	/**
+	 * 
+	 */
 	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs;
-	
-	
-	
-	
-	
+		
+	/**
+	 * 
+	 */
 	public ModeleGraphiques() {
 		this.m_Liste = new ArrayList<ElementGraphique>();
 		this.m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
 	}
 	
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Iterator<ElementGraphique> iterator() {
-		
-		return m_Liste.iterator();
+	public void ajouter(ElementGraphique p_Element) {
+		this.m_Liste.add(p_Element);
+		this.avertirmodifications(p_Element);
 	}
-
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void retirer(ElementGraphique p_Element) {
+		this.m_Liste.remove(p_Element);
+		this.avertirmodifications(p_Element);
+	}
+	
+	public void vider() {
+		this.m_Liste.clear();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void ajouterEcouteur(EcouteurModeleGraphique p_Ecouteur) {
 		this.m_Ecouteurs.add(p_Ecouteur);
 		
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void removeEcouteur(EcouteurModeleGraphique p_Ecouteur) {
 		this.m_Ecouteurs.remove(p_Ecouteur);
 	}
 	
-	public void ajouter (ElementGraphique p_Element) {
-		this.m_Liste.add(p_Element);
-		this.avertirmodifications(p_Element);
-	}
-	public void retirer(ElementGraphique p_Element) {
-		this.m_Liste.add(p_Element);
-		this.avertirmodifications(p_Element);
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterator<ElementGraphique> iterator() {
+		return m_Liste.iterator();
 	}
 	
+	/**
+	 * 
+	 */
+	private void avertirModifications() {
+		this.m_Ecouteurs.forEach(e -> e.reagirModifications());
+	}
+	
+	/**
+	 * 
+	 * @param p_Element
+	 */
 	private void avertirmodifications(ElementGraphique p_Element) {
-		this.m_Ecouteurs.forEach( e-> e.reagirNouvelElement(p_Element));
+		this.m_Ecouteurs.forEach(e-> e.reagirModifications(p_Element));
 	}
-	
-	
-	
 }
