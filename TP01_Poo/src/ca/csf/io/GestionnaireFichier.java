@@ -1,8 +1,10 @@
 package ca.csf.io;
 
 import java.io.File;
+
 import ca.csf.formes.ElementGraphique;
-import ca.csf.modele.ModeleGraphiques;
+import ca.csf.modele.EcouteurModeleGraphique;
+import ca.csf.modele.ModeleElementGraphique;
 
 /**
  * 
@@ -10,17 +12,22 @@ import ca.csf.modele.ModeleGraphiques;
  * @author
  *
  */
-public class GestionnaireFichier implements GestionnaireIO {
+public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphique {
 	
-	public GestionnaireFichier(ModeleGraphiques p_Modele) {
-		// TODO
+	private File m_File;
+	private ModeleElementGraphique m_Modele;
+	private boolean m_Modifications = false;
+	
+	public GestionnaireFichier(ModeleElementGraphique p_Modele) {
+		this.m_Modele = p_Modele;
+		this.m_Modele.ajouterEcouteur(this);
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void enregistrer() {
+	public void enregistrer(FormatFichier p_FormatFichier) {
 		// TODO
 	}
 
@@ -29,7 +36,8 @@ public class GestionnaireFichier implements GestionnaireIO {
 	 */
 	@Override
 	public void ouvrir(File p_Fichier) {
-		// TODO
+		this.m_File = p_Fichier;
+		this.m_Modifications = false;
 	}
 
 	/**
@@ -37,14 +45,14 @@ public class GestionnaireFichier implements GestionnaireIO {
 	 */
 	@Override
 	public void reagirModifications() {
-		// TODO
+		this.m_Modifications = true;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelElement(ElementGraphique p_Element) {
-		// TODO
+	public void reagirModifications(ElementGraphique p_Element) {
+		this.reagirModifications();
 	}
 }

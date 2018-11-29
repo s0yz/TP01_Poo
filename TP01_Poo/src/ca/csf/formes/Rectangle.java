@@ -1,80 +1,137 @@
 package ca.csf.formes;
 
-import java.awt.Color;
 import java.awt.Point;
+import java.awt.Shape;
 
-public class Rectangle implements ElementGraphique {
-	
-	private Integer x;
-	private Integer y;
-	private Integer largeur;
-	private Integer Hauteur;
+/**
+ * 
+ * @author Cedric Mariage
+ */
+public class Rectangle extends Forme {
 
-	public Rectangle (Integer p_x, Integer p_y, Integer p_Largeur, Integer p_Hauteur) {
-		this.x = p_x;
-		this.y = p_y;
-		this.largeur = p_Largeur;
-		this.Hauteur = p_Hauteur;
+	/**
+	 * 
+	 */
+	private java.awt.Rectangle m_Rectangle;
+
+	/**
+	 * 
+	 */
+	public Rectangle() {
+		this(0, 0, 0, 0);
 	}
-	
+
+	/**
+	 * 
+	 * @param p_X
+	 * @param p_Y
+	 * @param p_Largeur
+	 * @param p_Hauteur
+	 */
+	public Rectangle(int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
+		super("Rectangle");
+		this.m_Rectangle = new java.awt.Rectangle(p_X, p_Y, p_Largeur, p_Hauteur);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getX() {
+		return this.m_Rectangle.x;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getY() {
+		return this.m_Rectangle.y;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @deprecated Va être retirer pour alléger l'interface. Voir {@code getX()} et
+	 *             {@code getY()}.
+	 */
 	@Override
 	public Point getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.m_Rectangle.getLocation();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getLargeur() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.m_Rectangle.width;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getHauteur() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.m_Rectangle.height;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public int getCouleur() {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean contient(Point p_Point) {
+		return false;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public String getNom() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean contient(int p_X, int p_Y) {
+		return this.m_Rectangle.contains(p_X, p_Y);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setPosition(Point p_Position) {
-		// TODO Auto-generated method stub
-
+		this.m_Rectangle.setLocation(p_Position);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @deprecated Va être retirer pour alléger l'interface. Voir
+	 *             {@code setPosition(int p_X, int p_Y)}.
+	 */
 	@Override
 	public void setPosition(int p_X, int p_Y) {
-		// TODO Auto-generated method stub
-
+		this.m_Rectangle.x = p_X;
+		this.m_Rectangle.y = p_Y;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setLargeur(int p_Largeur) {
-		// TODO Auto-generated method stub
-
+		this.m_Rectangle.width = p_Largeur;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setHauteur(int p_Hauteur) {
-		// TODO Auto-generated method stub
-
+		this.m_Rectangle.height = p_Hauteur;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void setCouleur(Color p_Couleur) {
-		// TODO Auto-generated method stub
-
+	protected Shape getShape() {
+		return this.m_Rectangle;
 	}
-
 }
