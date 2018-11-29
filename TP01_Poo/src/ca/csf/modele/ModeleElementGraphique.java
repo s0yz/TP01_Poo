@@ -1,5 +1,7 @@
 package ca.csf.modele;
 
+import java.awt.Color;
+
 import ca.csf.formes.ElementGraphique;
 
 /**
@@ -36,4 +38,11 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * @param p_Ecouteur l'écouteur à retirer.
 	 */
 	void removeEcouteur(EcouteurModeleGraphique p_Ecouteur);
+	
+	void setLargeur(int p_Largeur);
+	void setHauteur(int p_Hauteur);
+	void setCouleurArrierePlan(Color p_Color);
+	int getLargeur();
+	int getHauteur();
+	Color getCouleurArrierePlan();
 }
