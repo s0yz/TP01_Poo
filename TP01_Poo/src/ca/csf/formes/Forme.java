@@ -44,6 +44,7 @@ public abstract class Forme implements ElementGraphique {
 		}
 	}
 	
+	
 	/**
 	 * {@inheritDoc}
 	 */

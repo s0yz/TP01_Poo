@@ -17,8 +17,8 @@ import ca.csf.modele.ModeleGraphiques;
 public class FenetrePrincipale extends JFrame {
 
 	private static final long serialVersionUID = -4586998190495167383L;
-	
-	private ModeleGraphiques m_Modele;
+	//temporaire
+	public ModeleGraphiques m_Modele;
 	private EspaceTravail m_Espace;
 	
 	public FenetrePrincipale() {
