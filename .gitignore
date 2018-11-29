@@ -17,6 +17,8 @@ local.properties
 .classpath    
 *.classpath
 /*.classpath
+TP01_Poo\.classpath
+TP01_Poo\*.classpath
 
 # External tool builders
 .externalToolBuilders/
