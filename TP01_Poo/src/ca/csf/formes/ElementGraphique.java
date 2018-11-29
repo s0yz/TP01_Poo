@@ -8,7 +8,7 @@ import java.awt.Point;
  * @author Cedric Mariage
  */
 public interface ElementGraphique {
-	
+
 	/**
 	 * Pour dessiner l'élément.
 	 * 
@@ -31,12 +31,14 @@ public interface ElementGraphique {
 	int getY();
 
 	/**
-	 * Pour obtenir la largeur en pixel.
+	 * Pour obtenir la position de l'élément..
 	 * 
-	 * @return
+	 * @return la position (coins supérieur gauche)
+	 * @deprecated Va être retirer pour alléger l'interface. Voir {@code getX()} et
+	 *             {@code getY()}.
 	 */
 	Point getPosition();
-	
+
 	/**
 	 * Pour obtenir la largeur en pixel.
 	 * 
@@ -75,17 +77,28 @@ public interface ElementGraphique {
 	/**
 	 * Pour vérifier si l'élément contient le point.
 	 * 
-	 * @param p_Point le point à vérifier.
+	 * @param p_X la coordonnée du point en x.
+	 * @param p_Y la coordonnée du point en y.
 	 * @return vrai si l'élément contient le point.
 	 */
+	boolean contient(int p_X, int p_Y);
+
+	/**
+	 * Pour vérifier si l'élément contient le point.
+	 * 
+	 * @param p_Point le point à vérifier.
+	 * @return vrai si l'élément contient le point.
+	 * @deprecated Va être retirer pour alléger l'interface. Voir
+	 *             {@code contient(int p_X, int p_Y)}.
+	 */
 	boolean contient(Point p_Point);
-	
+
 	/**
 	 * @return un iterable contenant les points representant l'element ou null.
 	 */
 	Iterable<Point> getPoints();
 
-	/**	
+	/**
 	 * @return le nom de l'element ou de la forme représentée.
 	 */
 	String getNom();
@@ -94,6 +107,8 @@ public interface ElementGraphique {
 	 * Pour modifier la position.
 	 * 
 	 * @param p_Position la nouvelle position.
+	 * @deprecated Va être retirer pour alléger l'interface. Voir
+	 *             {@code setPosition(int p_X, int p_Y)}.
 	 */
 	void setPosition(Point p_Position);
 
@@ -101,7 +116,7 @@ public interface ElementGraphique {
 	 * Pour modifier la position.
 	 * 
 	 * @param p_X la nouvelle coordonnée en x.
-	 * @param p_Yla nouvelle coordonnée en y.
+	 * @param p_Y la nouvelle coordonnée en y.
 	 */
 	void setPosition(int p_X, int p_Y);
 
@@ -131,7 +146,7 @@ public interface ElementGraphique {
 	 * 
 	 * @param p_Couleur la nouvelle largeur du trait.
 	 */
-	public void setsetLargeurTrait(int p_PX);
+	public void setLargeurTrait(int p_PX);
 
 	/**
 	 * Pour modifier la largeur du trait.
