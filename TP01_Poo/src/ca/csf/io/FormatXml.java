@@ -33,7 +33,7 @@ public class FormatXml implements FormatFichier {
 				doc.writeAttribute("position", elementGraphique.getPosition().toString());
 				doc.writeAttribute("hauteur", Integer.toString(elementGraphique.getHauteur()));
 				doc.writeAttribute("largeur", Integer.toString(elementGraphique.getLargeur()));
-				doc.writeAttribute("couleur", Integer.toString(elementGraphique.getCouleur()));
+				doc.writeAttribute("couleur", elementGraphique.getCouleur().toString());
 
 				// </examen>
 				doc.writeEndElement();
