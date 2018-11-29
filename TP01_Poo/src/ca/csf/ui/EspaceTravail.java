@@ -45,6 +45,6 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 */
 	@Override
 	public void reagirNouvelElement(ElementGraphique p_Element) {
-		this.repaint(p_Element.getPosition().x, p_Element.getPosition().y, p_Element.getLargeur(), p;
+		this.repaint(p_Element.getPosition().x, p_Element.getPosition().y, p_Element.getLargeur(), p_Element.getHauteur());
 	}
 }
