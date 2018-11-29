@@ -3,11 +3,9 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 import ca.csf.formes.ElementGraphique;
-import ca.csf.formes.Formes;
 import ca.csf.formes.Rectangle;
 import ca.csf.modele.EcouteurModeleGraphique;
 import ca.csf.modele.ModeleElementGraphique;
-import ca.csf.modele.ModeleGraphiques;
 
 /**
  * 
