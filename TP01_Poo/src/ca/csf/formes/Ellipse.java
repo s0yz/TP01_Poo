@@ -3,6 +3,8 @@ package ca.csf.formes;
 import java.awt.Point;
 import java.awt.Shape;
 
+import ca.csf.formes.Forme;
+
 /**
  * 
  * 
