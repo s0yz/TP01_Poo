@@ -11,7 +11,7 @@ import java.awt.Shape;
  * 
  * @author Cedric Mariage
  */
-public abstract class Forme implements ElementGraphique, Shape {
+public abstract class Forme implements ElementGraphique {
 	
 	/**
 	 * Nom de la forme.
@@ -36,11 +36,11 @@ public abstract class Forme implements ElementGraphique, Shape {
 		if (this.getLargeurTrait() > 0 && this.getCouleurTrait() != null) {
 			p_Graphic.setStroke(new BasicStroke(this.getLargeurTrait()));
 			p_Graphic.setColor(this.getCouleurTrait());
-			p_Graphic.draw(this);
+			p_Graphic.draw(this.getShape());
 		}
 		if (this.getCouleur() != null) {
 			p_Graphic.setColor(this.getCouleur());
-			p_Graphic.fill(this);
+			p_Graphic.fill(this.getShape());
 		}
 	}
 	
@@ -96,7 +96,7 @@ public abstract class Forme implements ElementGraphique, Shape {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setsetLargeurTrait(int p_PX) {
+	public void setLargeurTrait(int p_PX) {
 		this.m_LargeurTrait = p_PX;
 	}
 	
@@ -107,4 +107,11 @@ public abstract class Forme implements ElementGraphique, Shape {
 	public void setCouleurTrait(Color p_Couleur) {
 		this.m_CouleurTrait = p_Couleur;
 	}
+	
+	/**
+	 * Pour obtenir la Shape représentant la Forme.
+	 * 
+	 * @return
+	 */
+	protected abstract Shape getShape();
 }
