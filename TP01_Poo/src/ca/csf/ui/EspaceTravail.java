@@ -69,4 +69,20 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 				p_Element.getLargeur() + 2 * p_Element.getLargeurTrait(),
 				p_Element.getHauteur() + 2 * p_Element.getLargeurTrait());
 	}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	
+	void reagirNouvelleTaille(Integer p_Hauteur, Integer p_Largeur) {
+		this.setPreferredSize(p_Hauteur, p_Largeur);
+	};
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	void reagirNouvelleCouleur(Color p_Couleur) {
+		this.setBackground(p_Couleur);
+	};
 }
