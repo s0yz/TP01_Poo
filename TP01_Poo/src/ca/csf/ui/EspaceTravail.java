@@ -35,7 +35,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				//EspaceTravail.this.selectionner(e.getX(), e.getY());
-				for (var el : EspaceTravail.this.m_ModeleGraphique) {
+				for (ElementGraphique el : EspaceTravail.this.m_ModeleGraphique) {
 					if (el.contient(e.getX(), e.getY())) {
 						;
 						break;
@@ -87,16 +87,12 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	
-	void reagirNouvelleTaille(Integer p_Hauteur, Integer p_Largeur) {
-		this.setPreferredSize(p_Hauteur, p_Largeur);
+	public void reagirNouvelleTaille(int p_Hauteur, int p_Largeur) {
+		this.setPreferredSize(new Dimension(p_Hauteur, p_Hauteur));
 	};
-	
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
-	void reagirNouvelleCouleur(Color p_Couleur) {
+	public void reagirNouvelleCouleurDeFond(Color p_Couleur) {
 		this.setBackground(p_Couleur);
 	};
 }
