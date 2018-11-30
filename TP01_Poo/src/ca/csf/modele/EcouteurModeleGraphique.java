@@ -25,13 +25,11 @@ public interface EcouteurModeleGraphique {
 	
 	/**
 	 * Invoqué par le modèle lors d'un changement de taille.
-	 */
-	
+	 */	
 	void reagirNouvelleTaille(int p_Hauteur, int p_Largeur);
 	
 	/**
 	 * Invoqué par le modèe lors d'un changement de couleur de fond.
-	 */
-	
+	 */	
 	void reagirNouvelleCouleurDeFond(Color p_Couleur);
 }

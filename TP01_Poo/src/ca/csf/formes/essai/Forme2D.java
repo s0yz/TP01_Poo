@@ -1,22 +1,21 @@
-package ca.csf.formes;
+package ca.csf.formes.essai;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 /**
- * L'interface ElementGraphique fournit des opérations pour manipuler des .
+ * 
  * 
  * @author Cedric Mariage
  */
-public interface ElementGraphique {
-
+public interface Forme2D {
+	
 	/**
 	 * Pour dessiner l'élément.
 	 * 
 	 * @param p_Graphic
 	 */
-	void dessiner(Graphics2D p_Graphic);
+	void dessiner(Graphics2D p_Dessinateur);
 
 	/**
 	 * Pour obtenir la coordonne en x
@@ -33,25 +32,16 @@ public interface ElementGraphique {
 	int getY();
 
 	/**
-	 * Pour obtenir la position de l'élément..
-	 * 
-	 * @return la position (coins supérieur gauche)
-	 * @deprecated Va être retirer pour alléger l'interface. Voir {@code getX()} et
-	 *             {@code getY()}.
-	 */
-	Point getPosition();
-
-	/**
-	 * Pour obtenir la largeur en pixel.
+	 * Pour obtenir la largeur.
 	 * 
 	 * @return la largeur en pixel.
 	 */
 	int getLargeur();
 
 	/**
-	 * Pour obtenir la hauteur en pixel.
+	 * Pour obtenir la hauteur.
 	 * 
-	 * @return la hauteur en pixel.
+	 * @return la hauteur.
 	 */
 	int getHauteur();
 
@@ -65,7 +55,7 @@ public interface ElementGraphique {
 	/**
 	 * Pour obtenir la largeur du trait.
 	 * 
-	 * @return l'épaisseur du trait en pixel.
+	 * @return l'épaisseur du trait.
 	 */
 	int getLargeurTrait();
 
@@ -86,28 +76,9 @@ public interface ElementGraphique {
 	boolean contient(int p_X, int p_Y);
 
 	/**
-	 * Pour vérifier si l'élément contient le point.
-	 * 
-	 * @param p_Point le point à vérifier.
-	 * @return vrai si l'élément contient le point.
-	 * @deprecated Va être retirer pour alléger l'interface. Voir
-	 *             {@code contient(int p_X, int p_Y)}.
-	 */
-	boolean contient(Point p_Point);
-
-	/**
 	 * @return le nom de l'element ou de la forme représentée.
 	 */
 	String getNom();
-
-	/**
-	 * Pour modifier la position.
-	 * 
-	 * @param p_Position la nouvelle position.
-	 * @deprecated Va être retirer pour alléger l'interface. Voir
-	 *             {@code setPosition(int p_X, int p_Y)}.
-	 */
-	void setPosition(Point p_Position);
 
 	/**
 	 * Pour modifier la position.
@@ -143,12 +114,12 @@ public interface ElementGraphique {
 	 * 
 	 * @param p_Couleur la nouvelle largeur du trait.
 	 */
-	void setLargeurTrait(int p_PX);
+	public void setLargeurTrait(int p_PX);
 
 	/**
 	 * Pour modifier la largeur du trait.
 	 * 
 	 * @param p_Couleur la nouvelle largeur du trait.
 	 */
-	void setCouleurTrait(Color p_Couleur);
+	public void setCouleurTrait(Color p_Couleur);
 }

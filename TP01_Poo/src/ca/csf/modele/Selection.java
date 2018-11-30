@@ -8,7 +8,7 @@ import ca.csf.formes.*;
 public class Selection implements ElementGraphique {
 	
 	private Integer p_posX;
-	private Integer p_posY; 
+	private Integer p_posY;
 	private ElementGraphique formeContour;
 	
 	void setForme (ElementGraphique p_Element) {
@@ -68,11 +68,6 @@ public class Selection implements ElementGraphique {
 	@Override
 	public boolean contient(Point p_Point) {
 		return false;
-	}
-
-	@Override
-	public Iterable<Point> getPoints() {
-		return null;
 	}
 
 	@Override

@@ -59,10 +59,12 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 
 	@Override
 	public void reagirNouvelleTaille(int p_Hauteur, int p_Largeur) {
+		this.reagirModifications();
 	}
 
 	@Override
 	public void reagirNouvelleCouleurDeFond(Color p_Couleur) {
+		this.reagirModifications();
 	}
 
 	
