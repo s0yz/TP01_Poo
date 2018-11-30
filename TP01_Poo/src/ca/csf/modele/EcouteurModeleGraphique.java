@@ -1,5 +1,7 @@
 package ca.csf.modele;
 
+import java.awt.Color;
+
 import ca.csf.formes.ElementGraphique;
 
 /**
@@ -25,7 +27,7 @@ public interface EcouteurModeleGraphique {
 	 * Invoqué par le modèle lors d'un changement de taille.
 	 */
 	
-	void reagirNouvelleTaille(Integer p_Hauteur, Integer p_Largeur);
+	void reagirNouvelleTaille(int p_Hauteur, int p_Largeur);
 	
 	/**
 	 * Invoqué par le modèe lors d'un changement de couleur de fond.
