@@ -18,7 +18,7 @@ public abstract class Forme implements ElementGraphique {
 	private final String m_Nom;
 	private Color m_Couleur;
 	private Color m_CouleurTrait;
-	private int m_LargeurTrait=1;
+	private int m_LargeurTrait = 1;
 	
 	/**
 	 * @param p_Nom nom de la forme
