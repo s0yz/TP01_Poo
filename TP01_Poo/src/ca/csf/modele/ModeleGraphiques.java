@@ -3,6 +3,7 @@ package ca.csf.modele;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import ca.csf.formes.ElementGraphique;
 
@@ -20,7 +21,7 @@ public class ModeleGraphiques implements ModeleElementGraphique {
 	/**
 	 * 
 	 */
-	private ArrayList<ElementGraphique> m_Liste;
+	private LinkedList<ElementGraphique> m_Liste;
 	
 	/**
 	 * 
@@ -31,7 +32,7 @@ public class ModeleGraphiques implements ModeleElementGraphique {
 	 * 
 	 */
 	public ModeleGraphiques() {
-		this.m_Liste = new ArrayList<ElementGraphique>();
+		this.m_Liste = new LinkedList<ElementGraphique>();
 		this.m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
 	}
 	

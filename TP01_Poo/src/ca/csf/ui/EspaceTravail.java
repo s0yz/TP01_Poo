@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 import ca.csf.formes.ElementGraphique;
@@ -29,6 +31,18 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		this.setPreferredSize(new Dimension(p_largeur, p_hauteur));
 		this.setOpaque(true);
 		this.setBackground(Color.WHITE);
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				//EspaceTravail.this.selectionner(e.getX(), e.getY());
+				for (ElementGraphique el : EspaceTravail.this.m_ModeleGraphique) {
+					if (el.contient(e.getX(), e.getY())) {
+						;
+						break;
+					}
+				}
+			}
+		});
 	}
 
 	/**
@@ -69,4 +83,16 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 				p_Element.getLargeur() + 2 * p_Element.getLargeurTrait(),
 				p_Element.getHauteur() + 2 * p_Element.getLargeurTrait());
 	}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void reagirNouvelleTaille(int p_Hauteur, int p_Largeur) {
+		this.setPreferredSize(new Dimension(p_Hauteur, p_Hauteur));
+	};
+
+	@Override
+	public void reagirNouvelleCouleurDeFond(Color p_Couleur) {
+		this.setBackground(p_Couleur);
+	};
 }
