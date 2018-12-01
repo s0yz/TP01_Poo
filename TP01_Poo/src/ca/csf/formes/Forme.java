@@ -9,6 +9,8 @@ import java.awt.Shape;
 import ca.csf.formes.ElementGraphique;
 
 /**
+ * Classe abstraite définissant des méthodes permettant de manipuler des formes 2D.
+ * 
  * @author Cedric Mariage
  */
 public abstract class Forme implements ElementGraphique {
@@ -54,16 +56,7 @@ public abstract class Forme implements ElementGraphique {
 	 * 
 	 */
 	private Color m_CouleurTrait = Color.BLACK;
-	
-	/**
-	 * 
-	 * 
-	 * @param p_Nom nom de la forme
-	 */
-	Forme(String p_Nom) {
-		this.m_Nom = p_Nom;
-	}
-	
+		
 	/**
 	 * 
 	 * @param p_Nom

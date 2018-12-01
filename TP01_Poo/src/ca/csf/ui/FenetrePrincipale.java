@@ -178,10 +178,10 @@ public class FenetrePrincipale extends JFrame {
 
 	/**
 	 * Pour obtenir une ImageIcon à partir du nom de l'image spécifié.
-	 * Le fichier doit être situé dans le dossier "src/res"
+	 * Le fichier doit être situé dans le dossier "src/res".
 	 * 
 	 * @param p_Image le nom de l'image, avec l'extension.
-	 * @return l'URL de l'image.
+	 * @return un nouvel ImageIcon ou null.
 	 */
 	public static ImageIcon chargerIcone(String p_Image) {
 		ImageIcon icone = null; 
@@ -189,7 +189,7 @@ public class FenetrePrincipale extends JFrame {
 		URL url = FenetrePrincipale.class.getResource(chemin);
 		try {
 			icone = new ImageIcon(url);
-		} catch (Exception e) {
+		} catch (NullPointerException e) {
 			System.err.println("Image introuvable : " + chemin);
 		}
 		return icone;

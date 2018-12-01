@@ -19,6 +19,13 @@ public class Ligne extends Forme {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * 
+	 * @param p_X1
+	 * @param p_Y1
+	 * @param p_X2
+	 * @param p_Y2
+	 */
 	Ligne(int p_X1, int p_Y1, int p_X2, int p_Y2) {
 		super("Ligne", p_X1, p_Y1, p_X2 - p_X1, p_Y2 - p_Y1);
 	}
