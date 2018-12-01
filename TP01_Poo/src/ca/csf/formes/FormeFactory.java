@@ -1,3 +1,4 @@
+package ca.csf.formes;
 
 /**
  * @author Cedric Mariage
