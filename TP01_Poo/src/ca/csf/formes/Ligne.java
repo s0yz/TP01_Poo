@@ -1,5 +1,6 @@
-package ca.csf.formes.essai;
+package ca.csf.formes;
 
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 
@@ -32,6 +33,29 @@ public class Ligne extends Forme {
 				this.getY(),
 				this.getX() + this.getLargeur(),
 				this.getY() + this.getHauteur());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Point getPosition() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean contient(Point p_Point) {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setPosition(Point p_Position) {
 	}
 
 }
