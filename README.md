@@ -42,3 +42,6 @@ Fichier :
   * FrançoisLetourneau
   * Alpo alwadimahabi
   * breakrider
+
+## Classes
+![alt text](https://github.com/s0yz/TP01_Poo/blob/master/TP01_Poo/Diagrammes/Detaille.png)
