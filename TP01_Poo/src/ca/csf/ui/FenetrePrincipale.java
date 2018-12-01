@@ -3,8 +3,8 @@ package ca.csf.ui;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 import java.net.URL;
 import java.util.function.Consumer;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,16 +25,20 @@ import ca.csf.formes.Rectangle;
 import ca.csf.modele.ModeleGraphiques;
 
 /**
- * @author Cedric Mariage
+ * Fenetre principale
  */
 public class FenetrePrincipale extends JFrame {
 
 	private static final long serialVersionUID = -4586998190495167383L;
 
-	private ModeleGraphiques m_Modele;
-	private EspaceTravail m_Espace;
-	private Consumer<MouseEvent> m_action;
+	private static final Dimension BTN_TAILLE = new Dimension(32, 32);
 
+	private ModeleGraphiques m_Modele;
+	
+	private EspaceTravail m_Espace;
+	
+	private Consumer<MouseEvent> m_action;
+	
 	public FenetrePrincipale() {
 		super("TP01 - Poo");
 		this.parametrer();
@@ -41,16 +46,23 @@ public class FenetrePrincipale extends JFrame {
 		super.pack();
 	}
 
+	/**
+	 * Configure la {@code FenetrePrincipale}.
+	 */
 	private void parametrer() {
 		super.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		super.setLayout(new BorderLayout());
 		super.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Initialise les composants de la {@code FenetrePrincipale}.
+	 */
 	private void initialiserComposants() {
 		this.m_Modele = new ModeleGraphiques();
 		this.m_Espace = new EspaceTravail(this.m_Modele);
-		JPanel center = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel_Centre = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel_Outils = new JPanel();
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu_Fichier = new JMenu("Fichier");
 		JMenu menu_Selection = new JMenu("Selection");
@@ -66,12 +78,11 @@ public class FenetrePrincipale extends JFrame {
 		JButton btn_Elipse = new JButton();
 		JButton btn_Rectangle = new JButton();
 		JButton btn_Ligne = new JButton();
-		JPanel panel_Outils = new JPanel(new GridLayout(4, 1));
 		//
-		// center
-		center.setOpaque(true);
-		center.setBackground(Color.gray);
-		super.add(center, BorderLayout.CENTER);
+		// panel_Centre
+		panel_Centre.setOpaque(true);
+		panel_Centre.setBackground(Color.gray);
+		super.add(panel_Centre, BorderLayout.CENTER);
 		//
 		// m_Espace
 		this.m_Espace.addMouseListener(new MouseAdapter() {
@@ -81,15 +92,7 @@ public class FenetrePrincipale extends JFrame {
 					FenetrePrincipale.this.m_action.accept(e);
 			}
 		});
-		center.add(this.m_Espace);
-		//
-		//
-		super.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent p_e) {
-				FenetrePrincipale.this.dispose();
-			}
-		});
+		panel_Centre.add(this.m_Espace);
 		//
 		// menuBar
 		super.setJMenuBar(menuBar);
@@ -129,6 +132,7 @@ public class FenetrePrincipale extends JFrame {
 		});
 		//
 		// panel_Outils
+		panel_Outils.setLayout(new BoxLayout(panel_Outils, BoxLayout.Y_AXIS));
 		panel_Outils.add(btn_Selection);
 		panel_Outils.add(btn_Elipse);
 		panel_Outils.add(btn_Rectangle);
@@ -136,17 +140,20 @@ public class FenetrePrincipale extends JFrame {
 		super.add(panel_Outils, BorderLayout.EAST);
 		//
 		// btn_Selection
-		btn_Selection.setIcon(new ImageIcon(FenetrePrincipale.getPNG("cursor")));
+		btn_Selection.setIcon(FenetrePrincipale.chargerIcone("24_Souris.png"));
+		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Selection.addActionListener(e -> {
 		});
 		//
 		// btn_Elipse
-		btn_Elipse.setIcon(new ImageIcon(FenetrePrincipale.getPNG("circle")));
+		btn_Elipse.setIcon(FenetrePrincipale.chargerIcone("24_Ellipse.png"));
+		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Elipse.addActionListener(e -> {
 		});
 		//
 		// btn_Rect
-		btn_Rectangle.setIcon(new ImageIcon(FenetrePrincipale.getPNG("rect")));
+		btn_Rectangle.setIcon(FenetrePrincipale.chargerIcone("24_Rectangle.png"));
+		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Rectangle.addActionListener(e -> {
 			this.m_action = me -> {
 				Rectangle rectangle = new Rectangle(me.getX(), me.getY(), 50, 60);
@@ -155,21 +162,36 @@ public class FenetrePrincipale extends JFrame {
 		});
 		//
 		// btn_Ligne
-		btn_Ligne.setIcon(new ImageIcon(FenetrePrincipale.getPNG("line")));
+		btn_Ligne.setIcon(FenetrePrincipale.chargerIcone("24_Ligne.png"));
+		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Ligne.addActionListener(e -> {
+		});
+		//
+		// windowClosing
+		super.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent p_e) {
+				FenetrePrincipale.this.dispose();
+			}
 		});
 	}
 
 	/**
-	 * Pour obtenir l'URL d'une image située dans "/res".
+	 * Pour obtenir une ImageIcon à partir du nom de l'image spécifié.
+	 * Le fichier doit être situé dans le dossier "src/res"
 	 * 
-	 * @param p_Nom le nom de l'image, sans l'extension.
+	 * @param p_Image le nom de l'image, avec l'extension.
 	 * @return l'URL de l'image.
 	 */
-	private static URL getPNG(String p_Nom) {
-		String chemin = String.format("/res/%s.png", p_Nom);
+	public static ImageIcon chargerIcone(String p_Image) {
+		ImageIcon icone = null; 
+		String chemin = "/res/" + p_Image;
 		URL url = FenetrePrincipale.class.getResource(chemin);
-		assert (url == null) : "Image introuvable : " + chemin;
-		return url;
+		try {
+			icone = new ImageIcon(url);
+		} catch (Exception e) {
+			System.err.println("Image introuvable : " + chemin);
+		}
+		return icone;
 	}
 }

@@ -5,7 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 /**
- * L'interface ElementGraphique fournit des opérations pour manipuler des .
+ * L'interface ElementGraphique fournit des opérations pour manipuler des formes
+ * ou autres éléments vivant dans un plan à 2 dimensions.
  * 
  * @author Cedric Mariage
  */
