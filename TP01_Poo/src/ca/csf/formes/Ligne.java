@@ -34,28 +34,4 @@ public class Ligne extends Forme {
 				this.getX() + this.getLargeur(),
 				this.getY() + this.getHauteur());
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Point getPosition() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean contient(Point p_Point) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setPosition(Point p_Position) {
-	}
-
 }

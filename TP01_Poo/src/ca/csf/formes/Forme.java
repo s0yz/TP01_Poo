@@ -3,6 +3,7 @@ package ca.csf.formes;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
 
 import ca.csf.formes.ElementGraphique;
@@ -222,4 +223,30 @@ public abstract class Forme implements ElementGraphique {
 	 * @return
 	 */
 	protected abstract Shape getShape();
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Deprecated
+	public final Point getPosition() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Deprecated
+	public final boolean contient(Point p_Point) {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Deprecated
+	public final void setPosition(Point p_Position) {
+	}
 }

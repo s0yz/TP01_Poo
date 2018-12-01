@@ -1,6 +1,5 @@
 package ca.csf.formes;
 
-import java.awt.Point;
 import java.awt.Shape;
 
 /**
@@ -28,28 +27,4 @@ public class Ellipse extends Forme {
 		return new java.awt.geom.Ellipse2D.Float(
 				this.getX(), this.getY(), this.getLargeur(), this.getHauteur());
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Point getPosition() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean contient(Point p_Point) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setPosition(Point p_Position) {
-	}
-
 }

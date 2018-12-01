@@ -1,6 +1,5 @@
 package ca.csf.formes;
 
-import java.awt.Point;
 import java.awt.Shape;
 
 /**
@@ -24,28 +23,5 @@ public class Rectangle extends Forme {
 	protected Shape getShape() {
 		return new java.awt.Rectangle(
 				this.getX(), this.getY(), this.getLargeur(), this.getHauteur());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Point getPosition() {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean contient(Point p_Point) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setPosition(Point p_Position) {
 	}
 }
