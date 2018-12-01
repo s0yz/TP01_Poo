@@ -20,14 +20,20 @@ import ca.csf.modele.ModeleElementGraphique;
 public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 
 	private static final long serialVersionUID = -7570189304007187337L;
+	public static final int LARGEUR_DEFAULT = 640;
+	public static final int HAUTEUR_DEFAULT = 360;
 	private ModeleElementGraphique m_ModeleGraphique;
 	private ElementGraphique m_Rectangle;
 
+	EspaceTravail(ModeleElementGraphique p_Modele) {
+		this(p_Modele, EspaceTravail.LARGEUR_DEFAULT, EspaceTravail.HAUTEUR_DEFAULT);
+	}
+	
 	public EspaceTravail(ModeleElementGraphique p_Modele, int p_largeur, int p_hauteur) {
 		this.m_ModeleGraphique = p_Modele;
 		this.m_ModeleGraphique.ajouterEcouteur(this);
 		this.m_Rectangle = new Rectangle(0, 0, p_largeur, p_hauteur);
-		this.m_Rectangle.setCouleur(Color.WHITE);
+		this.m_Rectangle.setCouleur(Color.RED);
 		this.setPreferredSize(new Dimension(p_largeur, p_hauteur));
 		this.setOpaque(true);
 		this.setBackground(Color.WHITE);
@@ -35,12 +41,6 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				//EspaceTravail.this.selectionner(e.getX(), e.getY());
-				for (ElementGraphique el : EspaceTravail.this.m_ModeleGraphique) {
-					if (el.contient(e.getX(), e.getY())) {
-						;
-						break;
-					}
-				}
 			}
 		});
 	}
@@ -52,8 +52,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	protected void paintComponent(Graphics p_Graphics) {
 		Graphics2D graphics2d = (Graphics2D) p_Graphics;
 		super.paintComponent(p_Graphics);
-		this.m_Rectangle.dessiner(graphics2d);
-		// TODO
+		this.m_ModeleGraphique.forEach(e -> e.dessiner(graphics2d));
 	}
 
 	/**
