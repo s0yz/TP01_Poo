@@ -9,11 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.function.Consumer;
 
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,10 +19,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-
-import org.junit.experimental.theories.Theories;
-
-import com.sun.prism.Image;
 
 import ca.csf.formes.Rectangle;
 import ca.csf.modele.ModeleGraphiques;
@@ -35,114 +29,56 @@ import ca.csf.modele.ModeleGraphiques;
 public class FenetrePrincipale extends JFrame {
 
 	private static final long serialVersionUID = -4586998190495167383L;
-	
+
 	private ModeleGraphiques m_Modele;
 	private EspaceTravail m_Espace;
-	
-	private Consumer<MouseEvent> m_action = me -> {
-		Rectangle rectangle = new  Rectangle(me.getX(), me.getY(),50,60);
-		rectangle.setCouleur(Color.BLACK);
-		this.m_Modele.ajouter(rectangle);
-	};
-	
-	JMenuBar menuBar = new JMenuBar();
-	JMenu fichier = new JMenu("Fichier");
-	JMenu selection = new JMenu("Selection");
-	JMenu formes = new JMenu("Formes");
-	
-	JButton boutonSelection = new JButton("");
-	JButton boutonElipse = new JButton("");
-	JButton boutonRect= new JButton("");
-	JButton boutonLine = new JButton("");
-	
-	JMenuItem ouvrir = new JMenuItem("Ouvrir");
-	JMenuItem enregistrer = new JMenuItem("Enregistrer");
-	JMenuItem exporter = new JMenuItem("Exporter");
-	JMenuItem quitter = new JMenuItem("Quitter");
-	
-	JMenuItem couleur = new JMenuItem("Couleur");
-	JMenuItem couleurTrait = new JMenuItem("Couleur de Trait");
-	JMenuItem epaisTrait = new JMenuItem("Epaisseur Trait");
-	
-	
-	
-	
+	private Consumer<MouseEvent> m_action;
+
 	public FenetrePrincipale() {
 		super("TP01 - Poo");
 		this.parametrer();
-		this.initialiserComposant();
+		this.initialiserComposants();
 		super.pack();
-		
 	}
-	public void createMenu() {
-		fichier.add(ouvrir);
-		fichier.add(enregistrer);
-		fichier.add(exporter);
-		fichier.addSeparator();
-		fichier.add(quitter);
-		menuBar.add(fichier);
-		
-		selection.add(couleur);
-		selection.add(couleurTrait);
-		selection.add(epaisTrait);
-		menuBar.add(selection);
-		
-		this.setJMenuBar(menuBar);
-		
-		ImageIcon img_cursor = new ImageIcon(this.getClass().getResource("/res/cursor.png"));
-		boutonSelection.setIcon(img_cursor);
-		
-		ImageIcon img_elipse = new ImageIcon(this.getClass().getResource("/res/circle.png"));
-		boutonElipse.setIcon(img_elipse);
-		
-		ImageIcon img_rect= new ImageIcon(this.getClass().getResource("/res/rect.png"));
-		boutonRect.setIcon(img_rect);
-		boutonRect.addActionListener(e ->{
-			this.m_action = me -> {
-				this.m_Modele.ajouter(new Rectangle(me.getX(),me.getY(),50,60));
-			};
-		});
-		
-		
-		ImageIcon img_line= new ImageIcon(this.getClass().getResource("/res/line.png"));
-		boutonLine.setIcon(img_line);
-		
-		JPanel j = new JPanel(new GridLayout(2,1));
-		JPanel jPanel = new JPanel(new GridLayout(4,1));
-		jPanel.add(boutonSelection);
-		jPanel.add(boutonElipse);
-		jPanel.add(boutonRect);
-		jPanel.add(boutonLine);
-		j.add(jPanel);
-		super.add(j,BorderLayout.EAST);
-		
-	}
-		
-	
-	public void parametrer() {
+
+	private void parametrer() {
 		super.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		super.setLayout(new BorderLayout());
 		super.setLocationRelativeTo(null);
 	}
-	
-	public void initialiserComposant() {
+
+	private void initialiserComposants() {
+		this.m_Modele = new ModeleGraphiques();
+		this.m_Espace = new EspaceTravail(this.m_Modele);
+		JPanel center = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu_Fichier = new JMenu("Fichier");
+		JMenu menu_Selection = new JMenu("Selection");
+		JMenu menu_Formes = new JMenu("Formes");
+		JMenuItem item_Ouvrir = new JMenuItem("Ouvrir");
+		JMenuItem item_Enregistrer = new JMenuItem("Enregistrer");
+		JMenuItem item_Exporter = new JMenuItem("Exporter");
+		JMenuItem item_Quitter = new JMenuItem("Quitter");
+		JMenuItem item_Couleur = new JMenuItem("Couleur");
+		JMenuItem item_CouleurTrait = new JMenuItem("Couleur de Trait");
+		JMenuItem item_EpaisTrait = new JMenuItem("Epaisseur Trait");
+		JButton btn_Selection = new JButton();
+		JButton btn_Elipse = new JButton();
+		JButton btn_Rectangle = new JButton();
+		JButton btn_Ligne = new JButton();
+		JPanel panel_Outils = new JPanel(new GridLayout(4, 1));
 		//
 		// center
-		JPanel center = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		center.setOpaque(true);
 		center.setBackground(Color.gray);
 		super.add(center, BorderLayout.CENTER);
 		//
-		// m_Modele
-		this.m_Modele = new ModeleGraphiques();
-		//
 		// m_Espace
-		this.m_Espace = new EspaceTravail(this.m_Modele, 640, 360);
 		this.m_Espace.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println("allo");
-				FenetrePrincipale.this.m_action.accept(e);
+				if (FenetrePrincipale.this.m_action != null)
+					FenetrePrincipale.this.m_action.accept(e);
 			}
 		});
 		center.add(this.m_Espace);
@@ -154,7 +90,86 @@ public class FenetrePrincipale extends JFrame {
 				FenetrePrincipale.this.dispose();
 			}
 		});
-		
-		createMenu();
+		//
+		// menuBar
+		super.setJMenuBar(menuBar);
+		menuBar.add(menu_Fichier);
+		menuBar.add(menu_Selection);
+		menuBar.add(menu_Formes);
+		//
+		// menu_Fichier
+		menu_Fichier.add(item_Ouvrir);
+		menu_Fichier.add(item_Enregistrer);
+		menu_Fichier.add(item_Exporter);
+		menu_Fichier.addSeparator();
+		menu_Fichier.add(item_Quitter);
+		//
+		// menu_Selection
+		menu_Selection.add(item_Couleur);
+		menu_Selection.add(item_CouleurTrait);
+		menu_Selection.add(item_EpaisTrait);
+		//
+		// menu_Formes
+		menu_Formes.add("JMenuItems...");
+		//
+		// item_Ouvrir
+		item_Ouvrir.addActionListener(e -> {
+		});
+		//
+		// item_Enregistrer
+		item_Enregistrer.addActionListener(e -> {
+		});
+		//
+		// item_Exporter
+		item_Exporter.addActionListener(e -> {
+		});
+		//
+		// item_Quitter
+		item_Quitter.addActionListener(e -> {
+		});
+		//
+		// panel_Outils
+		panel_Outils.add(btn_Selection);
+		panel_Outils.add(btn_Elipse);
+		panel_Outils.add(btn_Rectangle);
+		panel_Outils.add(btn_Ligne);
+		super.add(panel_Outils, BorderLayout.EAST);
+		//
+		// btn_Selection
+		btn_Selection.setIcon(new ImageIcon(FenetrePrincipale.getPNG("cursor")));
+		btn_Selection.addActionListener(e -> {
+		});
+		//
+		// btn_Elipse
+		btn_Elipse.setIcon(new ImageIcon(FenetrePrincipale.getPNG("circle")));
+		btn_Elipse.addActionListener(e -> {
+		});
+		//
+		// btn_Rect
+		btn_Rectangle.setIcon(new ImageIcon(FenetrePrincipale.getPNG("rect")));
+		btn_Rectangle.addActionListener(e -> {
+			this.m_action = me -> {
+				Rectangle rectangle = new Rectangle(me.getX(), me.getY(), 50, 60);
+				this.m_Modele.ajouter(rectangle);
+			};
+		});
+		//
+		// btn_Ligne
+		btn_Ligne.setIcon(new ImageIcon(FenetrePrincipale.getPNG("line")));
+		btn_Ligne.addActionListener(e -> {
+		});
+	}
+
+	/**
+	 * Pour obtenir l'URL d'une image située dans "/res".
+	 * 
+	 * @param p_Nom le nom de l'image, sans l'extension.
+	 * @return l'URL de l'image.
+	 */
+	private static URL getPNG(String p_Nom) {
+		String chemin = String.format("/res/%s.png", p_Nom);
+		URL url = FenetrePrincipale.class.getResource(chemin);
+		assert (url == null) : "Image introuvable : " + chemin;
+		return url;
 	}
 }
