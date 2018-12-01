@@ -23,8 +23,8 @@ Espace de travail :
 
 Dessiner des formes :
 * lignes
-* ellipse
-* rectangle
+* ellipses
+* rectangles
 
 Propriétés des formes :
 * couleur de remplissage
