@@ -9,6 +9,10 @@ import java.awt.Shape;
  */
 public class Rectangle extends Forme {
 	
+	public Rectangle() {
+		this(0, 0);
+	}
+	
 	/**
 	 * 
 	 * @param p_X

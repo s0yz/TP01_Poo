@@ -1,6 +1,5 @@
 package ca.csf.formes;
 
-import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 
@@ -11,6 +10,10 @@ import java.awt.geom.Line2D;
  */
 public class Ligne extends Forme {
 
+	Ligne() {
+		this(0, 0);
+	}
+	
 	/**
 	 * @param p_Nom
 	 */

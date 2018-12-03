@@ -69,6 +69,7 @@ public class FenetrePrincipale extends JFrame {
 		JMenu menu_Formes = new JMenu("Formes");
 		JMenuItem item_Ouvrir = new JMenuItem("Ouvrir");
 		JMenuItem item_Enregistrer = new JMenuItem("Enregistrer");
+		JMenuItem item_EnregistrerSous = new JMenuItem("Enregistrer");
 		JMenuItem item_Exporter = new JMenuItem("Exporter");
 		JMenuItem item_Quitter = new JMenuItem("Quitter");
 		JMenuItem item_Couleur = new JMenuItem("Couleur");
@@ -123,6 +124,10 @@ public class FenetrePrincipale extends JFrame {
 		item_Enregistrer.addActionListener(e -> {
 		});
 		//
+		// item_EnregistrerSous
+		item_EnregistrerSous.addActionListener(e -> {
+		});
+		//
 		// item_Exporter
 		item_Exporter.addActionListener(e -> {
 		});
@@ -137,26 +142,26 @@ public class FenetrePrincipale extends JFrame {
 		panel_Outils.add(btn_Elipse);
 		panel_Outils.add(btn_Rectangle);
 		panel_Outils.add(btn_Ligne);
-		super.add(panel_Outils, BorderLayout.EAST);
+		super.add(panel_Outils, BorderLayout.WEST);
 		//
 		// btn_Selection
 		btn_Selection.setIcon(FenetrePrincipale.chargerIcone("24_Souris.png"));
-		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
+		btn_Selection.setSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Selection.addActionListener(e -> {
 		});
 		//
 		// btn_Elipse
 		btn_Elipse.setIcon(FenetrePrincipale.chargerIcone("24_Ellipse.png"));
-		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
+		btn_Selection.setSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Elipse.addActionListener(e -> {
 		});
 		//
 		// btn_Rect
 		btn_Rectangle.setIcon(FenetrePrincipale.chargerIcone("24_Rectangle.png"));
-		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
+		btn_Selection.setSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Rectangle.addActionListener(e -> {
 			this.m_action = me -> {
-				Rectangle rectangle = new Rectangle(me.getX(), me.getY(), 50, 60);
+				Rectangle rectangle = new Rectangle(me.getX(), me.getY(), 50, 50);
 				this.m_Modele.ajouter(rectangle);
 			};
 		});
