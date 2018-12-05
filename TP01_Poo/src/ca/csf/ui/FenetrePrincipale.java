@@ -21,7 +21,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import ca.csf.formes.Rectangle;
+import ca.csf.formes.ElementGraphique;
+import ca.csf.formes.FormeFactory;
 import ca.csf.modele.ModeleGraphiques;
 
 /**
@@ -35,7 +36,7 @@ public class FenetrePrincipale extends JFrame {
 
 	private ModeleGraphiques m_Modele;
 	
-	private EspaceTravail m_Espace;
+  private EspaceTravail m_Espace;
 	
 	private Consumer<MouseEvent> m_action;
 	
@@ -74,9 +75,9 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem item_Quitter = new JMenuItem("Quitter");
 		JMenuItem item_Couleur = new JMenuItem("Couleur");
 		JMenuItem item_CouleurTrait = new JMenuItem("Couleur de Trait");
-		JMenuItem item_EpaisTrait = new JMenuItem("Epaisseur Trait");
+		JMenuItem item_LargeurTrait = new JMenuItem("Epaisseur Trait");
 		JButton btn_Selection = new JButton();
-		JButton btn_Elipse = new JButton();
+		JButton btn_Ellipse = new JButton();
 		JButton btn_Rectangle = new JButton();
 		JButton btn_Ligne = new JButton();
 		//
@@ -111,7 +112,7 @@ public class FenetrePrincipale extends JFrame {
 		// menu_Selection
 		menu_Selection.add(item_Couleur);
 		menu_Selection.add(item_CouleurTrait);
-		menu_Selection.add(item_EpaisTrait);
+		menu_Selection.add(item_LargeurTrait);
 		//
 		// menu_Formes
 		menu_Formes.add("JMenuItems...");
@@ -139,7 +140,7 @@ public class FenetrePrincipale extends JFrame {
 		// panel_Outils
 		panel_Outils.setLayout(new BoxLayout(panel_Outils, BoxLayout.Y_AXIS));
 		panel_Outils.add(btn_Selection);
-		panel_Outils.add(btn_Elipse);
+		panel_Outils.add(btn_Ellipse);
 		panel_Outils.add(btn_Rectangle);
 		panel_Outils.add(btn_Ligne);
 		super.add(panel_Outils, BorderLayout.WEST);
@@ -150,18 +151,26 @@ public class FenetrePrincipale extends JFrame {
 		btn_Selection.addActionListener(e -> {
 		});
 		//
-		// btn_Elipse
-		btn_Elipse.setIcon(FenetrePrincipale.chargerIcone("24_Ellipse.png"));
+		// btn_Ellipse
+		btn_Ellipse.setIcon(FenetrePrincipale.chargerIcone("24_Ellipse.png"));
 		btn_Selection.setSize(FenetrePrincipale.BTN_TAILLE);
-		btn_Elipse.addActionListener(e -> {
+		btn_Ellipse.addActionListener(e -> {
+			this.m_action = me -> {
+				ElementGraphique ellipse = FormeFactory.getInstance().getForme("Ellipse");
+				ellipse.setPosition(me.getX() - 25, me.getY() - 25);
+				ellipse.setDimension(50, 50);
+				this.m_Modele.ajouter(ellipse);
+			};
 		});
 		//
-		// btn_Rect
+		// btn_Rectangle
 		btn_Rectangle.setIcon(FenetrePrincipale.chargerIcone("24_Rectangle.png"));
 		btn_Selection.setSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Rectangle.addActionListener(e -> {
 			this.m_action = me -> {
-				Rectangle rectangle = new Rectangle(me.getX(), me.getY(), 50, 50);
+				ElementGraphique rectangle = FormeFactory.getInstance().getForme("Rectangle");
+				rectangle.setPosition(me.getX() - 25, me.getY() - 25);
+				rectangle.setDimension(50, 50);
 				this.m_Modele.ajouter(rectangle);
 			};
 		});
@@ -170,6 +179,12 @@ public class FenetrePrincipale extends JFrame {
 		btn_Ligne.setIcon(FenetrePrincipale.chargerIcone("24_Ligne.png"));
 		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Ligne.addActionListener(e -> {
+			this.m_action = me -> {
+				ElementGraphique ligne = FormeFactory.getInstance().getForme("Ligne");
+				ligne.setPosition(me.getX() - 25, me.getY() -25);
+				ligne.setDimension(50, 50);
+				this.m_Modele.ajouter(ligne);
+			};
 		});
 		//
 		// windowClosing

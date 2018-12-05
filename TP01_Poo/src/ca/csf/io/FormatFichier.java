@@ -10,6 +10,6 @@ import ca.csf.formes.ElementGraphique;
 public interface FormatFichier {
 
 	public void enregistrer(Iterable<ElementGraphique> p_Elements);
-	public String ouvrir(File p_Fichier)throws XMLStreamException, FileNotFoundException;
+	public String ouvrir()throws XMLStreamException, FileNotFoundException;
 	
 }

@@ -121,17 +121,25 @@ public interface ElementGraphique {
 	/**
 	 * Pour modifier la largeur.
 	 * 
-	 * @param p_Largeur la nouvelle largeur en pixel.
+	 * @param p_Largeur la nouvelle largeur.
 	 */
 	void setLargeur(int p_Largeur);
 
 	/**
 	 * Pour modifier la hauteur.
 	 * 
-	 * @param p_Largeur la nouvelle hauteur en pixel.
+	 * @param p_Largeur la nouvelle hauteur.
 	 */
 	void setHauteur(int p_Hauteur);
 
+	/**
+	 * Pour modifier les dimensions de la formes.
+	 * 
+	 * @param p_Largeur largeur.
+	 * @param p_Hauteur hauteur
+	 */
+	void setDimension(int p_Largeur, int p_Hauteur);
+	
 	/**
 	 * Pour modifier la couleur.
 	 * 
