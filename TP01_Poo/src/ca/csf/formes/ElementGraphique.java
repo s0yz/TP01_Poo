@@ -34,15 +34,6 @@ public interface ElementGraphique {
 	int getY();
 
 	/**
-	 * Pour obtenir la position de l'élément..
-	 * 
-	 * @return la position (coins supérieur gauche)
-	 * @deprecated Va être retirer pour alléger l'interface. Voir {@code getX()} et
-	 *             {@code getY()}.
-	 */
-	Point getPosition();
-
-	/**
 	 * Pour obtenir la largeur en pixel.
 	 * 
 	 * @return la largeur en pixel.
@@ -87,28 +78,9 @@ public interface ElementGraphique {
 	boolean contient(int p_X, int p_Y);
 
 	/**
-	 * Pour vérifier si l'élément contient le point.
-	 * 
-	 * @param p_Point le point à vérifier.
-	 * @return vrai si l'élément contient le point.
-	 * @deprecated Va être retirer pour alléger l'interface. Voir
-	 *             {@code contient(int p_X, int p_Y)}.
-	 */
-	boolean contient(Point p_Point);
-
-	/**
 	 * @return le nom de l'element ou de la forme représentée.
 	 */
 	String getNom();
-
-	/**
-	 * Pour modifier la position.
-	 * 
-	 * @param p_Position la nouvelle position.
-	 * @deprecated Va être retirer pour alléger l'interface. Voir
-	 *             {@code setPosition(int p_X, int p_Y)}.
-	 */
-	void setPosition(Point p_Position);
 
 	/**
 	 * Pour modifier la position.

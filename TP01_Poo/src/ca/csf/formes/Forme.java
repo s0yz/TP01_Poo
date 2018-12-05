@@ -192,29 +192,23 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	protected abstract Shape getShape();
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	@Deprecated
-	public final Point getPosition() {
-		return null;
+	public int getX() {
+		return this.m_X;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	@Deprecated
-	public final boolean contient(Point p_Point) {
-		return false;
+	public int getY() {
+		return this.m_Y;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	@Deprecated
-	public final void setPosition(Point p_Position) {
+	public int getLargeur() {
+		return this.m_Largeur;
+	}
+
+	@Override
+	public int getHauteur() {
+		return this.m_Hauteur;
 	}
 }
