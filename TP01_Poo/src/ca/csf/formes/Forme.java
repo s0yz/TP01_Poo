@@ -65,12 +65,10 @@ public abstract class Forme implements ElementGraphique {
 	 * @param p_Largeur
 	 * @param p_Hauteur
 	 */
-	Forme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
+	protected Forme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
 		this.m_Nom = p_Nom;
-		this.m_X = p_X;
-		this.m_Y = p_Y;
-		this.m_Largeur = p_Largeur;
-		this.m_Hauteur = p_Hauteur;
+		this.setPosition(p_X, p_Y);
+		this.setDimension(p_Largeur, p_Hauteur);
 	}
 	
 	/**
@@ -175,7 +173,7 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void setLargeur(int p_Largeur) {
-		this.m_Largeur = p_Largeur;
+		this.setDimension(p_Largeur, this.m_Hauteur);
 	}
 
 	/**
@@ -183,6 +181,15 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void setHauteur(int p_Hauteur) {
+		this.setDimension(this.m_Largeur, p_Hauteur);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setDimension(int p_Largeur, int p_Hauteur) {
+		this.m_Largeur = p_Largeur;
 		this.m_Hauteur = p_Hauteur;
 	}
 
