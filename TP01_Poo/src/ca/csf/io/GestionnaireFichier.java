@@ -1,5 +1,6 @@
 package ca.csf.io;
 
+import java.awt.Color;
 import java.io.File;
 
 import ca.csf.formes.ElementGraphique;
@@ -55,4 +56,16 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	public void reagirModifications(ElementGraphique p_Element) {
 		this.reagirModifications();
 	}
+
+	@Override
+	public void reagirNouvelleTaille(int p_Hauteur, int p_Largeur) {
+		this.reagirModifications();
+	}
+
+	@Override
+	public void reagirNouvelleCouleurDeFond(Color p_Couleur) {
+		this.reagirModifications();
+	}
+
+	
 }

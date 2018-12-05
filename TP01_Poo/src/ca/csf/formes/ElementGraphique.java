@@ -5,6 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 /**
+ * L'interface ElementGraphique fournit des opérations pour manipuler des formes
+ * ou autres éléments vivant dans un plan à 2 dimensions.
+ * 
  * @author Cedric Mariage
  */
 public interface ElementGraphique {
@@ -94,11 +97,6 @@ public interface ElementGraphique {
 	boolean contient(Point p_Point);
 
 	/**
-	 * @return un iterable contenant les points representant l'element ou null.
-	 */
-	Iterable<Point> getPoints();
-
-	/**
 	 * @return le nom de l'element ou de la forme représentée.
 	 */
 	String getNom();
@@ -123,17 +121,25 @@ public interface ElementGraphique {
 	/**
 	 * Pour modifier la largeur.
 	 * 
-	 * @param p_Largeur la nouvelle largeur en pixel.
+	 * @param p_Largeur la nouvelle largeur.
 	 */
 	void setLargeur(int p_Largeur);
 
 	/**
 	 * Pour modifier la hauteur.
 	 * 
-	 * @param p_Largeur la nouvelle hauteur en pixel.
+	 * @param p_Largeur la nouvelle hauteur.
 	 */
 	void setHauteur(int p_Hauteur);
 
+	/**
+	 * Pour modifier les dimensions de la formes.
+	 * 
+	 * @param p_Largeur largeur.
+	 * @param p_Hauteur hauteur
+	 */
+	void setDimension(int p_Largeur, int p_Hauteur);
+	
 	/**
 	 * Pour modifier la couleur.
 	 * 
@@ -146,12 +152,12 @@ public interface ElementGraphique {
 	 * 
 	 * @param p_Couleur la nouvelle largeur du trait.
 	 */
-	public void setLargeurTrait(int p_PX);
+	void setLargeurTrait(int p_PX);
 
 	/**
 	 * Pour modifier la largeur du trait.
 	 * 
 	 * @param p_Couleur la nouvelle largeur du trait.
 	 */
-	public void setCouleurTrait(Color p_Couleur);
+	void setCouleurTrait(Color p_Couleur);
 }

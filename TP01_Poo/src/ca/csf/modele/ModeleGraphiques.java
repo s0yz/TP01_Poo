@@ -1,7 +1,9 @@
 package ca.csf.modele;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import ca.csf.formes.ElementGraphique;
 
@@ -15,7 +17,22 @@ public class ModeleGraphiques implements ModeleElementGraphique {
 	/**
 	 * 
 	 */
-	private ArrayList<ElementGraphique> m_Liste;
+	private int m_Hauteur;
+	
+	/**
+	 * 
+	 */
+	private int m_Largeur;
+	
+	/**
+	 * 
+	 */
+	private Color m_Color;
+	
+	/**
+	 * 
+	 */
+	private LinkedList<ElementGraphique> m_Liste;
 	
 	/**
 	 * 
@@ -26,7 +43,7 @@ public class ModeleGraphiques implements ModeleElementGraphique {
 	 * 
 	 */
 	public ModeleGraphiques() {
-		this.m_Liste = new ArrayList<ElementGraphique>();
+		this.m_Liste = new LinkedList<ElementGraphique>();
 		this.m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
 	}
 	
@@ -43,11 +60,33 @@ public class ModeleGraphiques implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public void ajouter(Iterable<ElementGraphique> p_Elements) {
+		p_Elements.forEach(this.m_Liste::add);
+		this.avertirModifications();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void remplir(Iterable<ElementGraphique> p_Elements) {
+		this.m_Liste.clear();
+		this.ajouter(p_Elements);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void retirer(ElementGraphique p_Element) {
 		this.m_Liste.remove(p_Element);
 		this.avertirmodifications(p_Element);
 	}
 	
+	/**
+	 * 
+	 */
+	@Override
 	public void vider() {
 		this.m_Liste.clear();
 	}
@@ -67,6 +106,54 @@ public class ModeleGraphiques implements ModeleElementGraphique {
 	@Override
 	public void removeEcouteur(EcouteurModeleGraphique p_Ecouteur) {
 		this.m_Ecouteurs.remove(p_Ecouteur);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setLargeur(int p_Largeur) {
+		this.m_Largeur = p_Largeur;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setHauteur(int p_Hauteur) {
+		this.m_Hauteur = p_Hauteur;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setCouleurArrierePlan(Color p_Color) {
+		this.m_Color = p_Color;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getLargeur() {
+		return this.m_Largeur;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getHauteur() {
+		return this.m_Hauteur;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Color getCouleurArrierePlan() {
+		return this.m_Color;
 	}
 	
 	/**
