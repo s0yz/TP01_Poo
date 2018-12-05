@@ -1,5 +1,6 @@
 package ca.csf.formes;
 
+import java.awt.Point;
 import java.awt.Shape;
 
 /**
