@@ -36,7 +36,7 @@ public class FenetrePrincipale extends JFrame {
 
 	private ModeleGraphiques m_Modele;
 	
-	private EspaceTravail m_Espace;
+  private EspaceTravail m_Espace;
 	
 	private Consumer<MouseEvent> m_action;
 	

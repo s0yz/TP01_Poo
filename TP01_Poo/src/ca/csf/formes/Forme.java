@@ -91,38 +91,6 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getX() {
-		return this.m_X;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getY() {
-		return this.m_Y;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getLargeur() {
-		return this.m_Largeur;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int getHauteur() {
-		return this.m_Hauteur;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public Color getCouleur() {
 		return this.m_Couleur;
 	}

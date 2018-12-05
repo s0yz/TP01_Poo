@@ -4,6 +4,8 @@ import java.io.*;
 
 import javax.xml.stream.*;
 
+
+
 import ca.csf.formes.ElementGraphique;
 
 public class FormatXml implements FormatFichier {
@@ -16,7 +18,7 @@ public class FormatXml implements FormatFichier {
 
 		try {
 			// Mettre en paramètre le chemin et le nom du fichier.
-			FileWriter output = new FileWriter(new File("data.xml"));
+			FileWriter output = new FileWriter(new File("data2.xml"));
 
 			doc = XMLOutputFactory.newInstance().createXMLStreamWriter(output);
 
@@ -29,10 +31,14 @@ public class FormatXml implements FormatFichier {
 
 				doc.writeStartElement(elementGraphique.getNom());
 
-				doc.writeAttribute("position", elementGraphique.getPosition().toString());
+				doc.writeAttribute("X", Integer.toString(elementGraphique.getX()));
+				doc.writeAttribute("Y", Integer.toString(elementGraphique.getY()));
 				doc.writeAttribute("hauteur", Integer.toString(elementGraphique.getHauteur()));
 				doc.writeAttribute("largeur", Integer.toString(elementGraphique.getLargeur()));
-				doc.writeAttribute("couleur", elementGraphique.getCouleur().toString());
+				if (elementGraphique.getCouleur() != null) {
+					doc.writeAttribute("couleur",elementGraphique.getCouleur().toString());
+				}
+				
 
 				// </examen>
 				doc.writeEndElement();
@@ -67,13 +73,13 @@ public class FormatXml implements FormatFichier {
 	}
 
 	@Override
-	public String ouvrir(File p_Fichier) throws XMLStreamException, FileNotFoundException {
+	public String ouvrir() throws XMLStreamException, FileNotFoundException {
 		// TODO Auto-generated method stub
 		// Declare ici pour le fermer dans le finally
 		XMLStreamReader doc = null;
-
+		String cool = "";
 		// Mettre en paramètre le chemin et le nom du fichier.
-		FileReader input = new FileReader(new File("data.xml"));
+		FileReader input = new FileReader("data2.xml");
 
 		doc = XMLInputFactory.newInstance().createXMLStreamReader(input);
 
@@ -89,11 +95,18 @@ public class FormatXml implements FormatFichier {
 		doc.next();
 
 		while (doc.isStartElement()) {
-
 			
+			String X = doc.getAttributeValue("", "X");
+			String Y = doc.getAttributeValue("", "Y");
+			String hauteur = doc.getAttributeValue("", "hauteur");
+			String largeur = doc.getAttributeValue("", "largeur");
 			
+			doc.next();
+			
+			cool = X +" "+ Y+" " + hauteur+" " + largeur+" ";
 		}
 
-		return "yeah";
+		
+		return cool;
 	}
 }
