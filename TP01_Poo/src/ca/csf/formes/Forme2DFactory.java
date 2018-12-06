@@ -23,4 +23,14 @@ public interface Forme2DFactory {
 	 * @return
 	 */
 	ElementGraphique getForme(String p_Nom, int p_X, int p_Y);
+
+	/**
+	 * @param p_Nom
+	 * @param p_X
+	 * @param p_Y
+	 * @param p_Largeur
+	 * @param p_Hauteur
+	 * @return
+	 */
+	ElementGraphique getForme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur);
 }

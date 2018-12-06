@@ -17,23 +17,15 @@ import ca.csf.modele.ModeleElementGraphique;
 public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 
 	private static final long serialVersionUID = -7570189304007187337L;
-	
-	public static final int LARGEUR_DEFAULT = 640;
-	
-	public static final int HAUTEUR_DEFAULT = 360;
-	
+		
 	private ModeleElementGraphique m_ModeleGraphique;
-	
-	EspaceTravail(ModeleElementGraphique p_Modele) {
-		this(p_Modele, EspaceTravail.LARGEUR_DEFAULT, EspaceTravail.HAUTEUR_DEFAULT);
-	}
-	
-	public EspaceTravail(ModeleElementGraphique p_Modele, int p_largeur, int p_hauteur) {
+		
+	public EspaceTravail(ModeleElementGraphique p_Modele) {
 		this.m_ModeleGraphique = p_Modele;
 		this.setOpaque(true);
-		this.setBackground(Color.WHITE);
+		this.setBackground(this.m_ModeleGraphique.getCouleurArrierePlan());
 		this.m_ModeleGraphique.ajouterEcouteur(this);
-		this.setPreferredSize(new Dimension(p_largeur, p_hauteur));
+		this.setPreferredSize(new Dimension(p_Modele.getLargeur(), p_Modele.getHauteur()));
 	}
 	
 	/**
@@ -44,6 +36,9 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		Graphics2D graphics2d = (Graphics2D) p_Graphics;
 		super.paintComponent(p_Graphics);
 		this.m_ModeleGraphique.forEach(e -> e.dessiner(graphics2d));
+		if (this.m_ModeleGraphique.getSelection() != null) {
+			this.m_ModeleGraphique.getSelection().dessiner(graphics2d);
+		}
 	}
 	
 	/**
@@ -66,8 +61,9 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleTaille(int p_Hauteur, int p_Largeur) {
-		this.setPreferredSize(new Dimension(p_Hauteur, p_Hauteur));
+	public void reagirNouvelleTaille(int p_Largeur, int p_Hauteur) {
+		this.setPreferredSize(new Dimension(p_Largeur, p_Hauteur));
+		this.updateUI();
 	};
 
 	/**
@@ -76,6 +72,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	@Override
 	public void reagirNouvelleCouleurDeFond(Color p_Couleur) {
 		this.setBackground(p_Couleur);
+		this.updateUI();
 	};
 	
 	/**
@@ -84,12 +81,21 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * 
 	 * @param p_Element
 	 */
-	private void redessinerElement(ElementGraphique p_Element) {
+	private void redessinerElement(ElementGraphique p_Element) {		
 		int x = p_Element.getX() - p_Element.getLargeurTrait();
 		int y = p_Element.getY() - p_Element.getLargeurTrait();
-		int largeur = p_Element.getLargeur() + 2 * p_Element.getLargeurTrait();
-		int hauteur = p_Element.getHauteur() + 2 * p_Element.getLargeurTrait();
+		int largeur = p_Element.getLargeur();
+		int hauteur = p_Element.getHauteur();
+		if (largeur < 0) {
+			x += largeur;
+			largeur *= -1;
+		}
+		if (hauteur < 0) {
+			y += hauteur;
+			hauteur *= -1;
+		}
+		largeur += 2 * p_Element.getLargeurTrait();
+		hauteur += 2 * p_Element.getLargeurTrait();
 		this.repaint(x, y, largeur, hauteur);
-				
-	}
+	}	
 }

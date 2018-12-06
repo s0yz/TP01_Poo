@@ -2,7 +2,6 @@ package ca.csf.formes;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 /**
  * L'interface ElementGraphique fournit des opérations pour manipuler des formes
@@ -32,15 +31,6 @@ public interface ElementGraphique {
 	 * @return la coordonne en y.
 	 */
 	int getY();
-
-	/**
-	 * Pour obtenir la position de l'élément..
-	 * 
-	 * @return la position (coins supérieur gauche)
-	 * @deprecated Va être retirer pour alléger l'interface. Voir {@code getX()} et
-	 *             {@code getY()}.
-	 */
-	Point getPosition();
 
 	/**
 	 * Pour obtenir la largeur en pixel.
@@ -87,28 +77,9 @@ public interface ElementGraphique {
 	boolean contient(int p_X, int p_Y);
 
 	/**
-	 * Pour vérifier si l'élément contient le point.
-	 * 
-	 * @param p_Point le point à vérifier.
-	 * @return vrai si l'élément contient le point.
-	 * @deprecated Va être retirer pour alléger l'interface. Voir
-	 *             {@code contient(int p_X, int p_Y)}.
-	 */
-	boolean contient(Point p_Point);
-
-	/**
 	 * @return le nom de l'element ou de la forme représentée.
 	 */
 	String getNom();
-
-	/**
-	 * Pour modifier la position.
-	 * 
-	 * @param p_Position la nouvelle position.
-	 * @deprecated Va être retirer pour alléger l'interface. Voir
-	 *             {@code setPosition(int p_X, int p_Y)}.
-	 */
-	void setPosition(Point p_Position);
 
 	/**
 	 * Pour modifier la position.
@@ -117,6 +88,14 @@ public interface ElementGraphique {
 	 * @param p_Y la nouvelle coordonnée en y.
 	 */
 	void setPosition(int p_X, int p_Y);
+	
+	/**
+	 * Pour déplacer la forme.
+	 * 
+	 * @param p_X déplacement en x.
+	 * @param p_Y déplacement en y.
+	 */
+	void deplacer(int p_X, int p_Y);
 
 	/**
 	 * Pour modifier la largeur.
