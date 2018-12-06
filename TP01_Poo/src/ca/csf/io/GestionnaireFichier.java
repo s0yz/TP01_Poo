@@ -61,6 +61,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 			try {
 				File fichier = chooser.getSelectedFile();
 				p_Format.enregistrer(this.m_Modele, fichier);
+				this.m_Fichier = fichier;
 				this.m_Modifications = false;
 			} catch (Exception e) {
 				e.printStackTrace();

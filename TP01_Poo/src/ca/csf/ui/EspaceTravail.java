@@ -97,7 +97,5 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		largeur += 2 * p_Element.getLargeurTrait();
 		hauteur += 2 * p_Element.getLargeurTrait();
 		this.repaint(x, y, largeur, hauteur);
-	}
-	
-	
+	}	
 }

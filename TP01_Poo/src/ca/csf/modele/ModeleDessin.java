@@ -111,6 +111,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void vider() {
+		this.m_Selection = null;
 		this.m_Elements.clear();
 		this.avertirModifications();
 	}

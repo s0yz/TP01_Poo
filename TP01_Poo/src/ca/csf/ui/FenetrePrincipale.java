@@ -43,7 +43,7 @@ public class FenetrePrincipale extends JFrame {
 	private EspaceTravail m_Espace;
 
 	private String m_Forme;
-	
+
 	private GestionnaireFichier m_GestionnaireFichier;
 
 	private JButton btn_Selection;
@@ -100,23 +100,8 @@ public class FenetrePrincipale extends JFrame {
 		super.add(panel_Centre, BorderLayout.CENTER);
 		//
 		// m_Espace
-		this.m_Espace.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				FenetrePrincipale.this.gererClic(e);
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent p_e) {
-				FenetrePrincipale.this.finaliserForme(p_e);
-			}
-		});
-		this.m_Espace.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent p_e) {
-				FenetrePrincipale.this.gererDrag(p_e);
-			}
-		});
+		this.m_Espace.addMouseListener(new EouteurSouris());
+		this.m_Espace.addMouseMotionListener(new EcouteurDrag());
 		panel_Centre.add(this.m_Espace);
 		//
 		// menuBar
@@ -144,8 +129,12 @@ public class FenetrePrincipale extends JFrame {
 		// menu_Formes
 		menu_Formes.add("JMenuItems...");
 		this.spin_trait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
-		JSpinner.NumberEditor comp = (JSpinner.NumberEditor) this.spin_trait.getEditor();
-		comp.getTextField().setColumns(2);
+		this.spin_trait.addChangeListener(e -> {
+			ElementGraphique element = FenetrePrincipale.this.m_Modele.getSelection();
+			if (element != null) {
+				element.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
+			}
+		});
 		menu_Formes.add(this.spin_trait);
 		//
 		// item_Nouveau
@@ -173,7 +162,7 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// item_Exporter
 		item_Exporter.addActionListener(e -> {
-			this.m_GestionnaireFichier.enregistrerSous(null/*new FormatSVG(FormeFactory.getInstance())*/);
+			this.m_GestionnaireFichier.enregistrerSous(null/* new FormatSVG(FormeFactory.getInstance()) */);
 		});
 		//
 		// item_Quitter
@@ -232,55 +221,6 @@ public class FenetrePrincipale extends JFrame {
 		});
 	}
 
-	private void ajouterForme(MouseEvent p_e) {
-		ElementGraphique forme = FormeFactory.getInstance().getForme(this.m_Forme);
-		forme.setPosition(p_e.getX(), p_e.getY());
-		this.m_Modele.ajouter(forme);
-	}
-
-	private void finaliserForme(MouseEvent p_e) {
-		ElementGraphique selection = this.m_Modele.getSelection();
-		if (selection != null) {
-			if (selection.getLargeur() == 0 && selection.getHauteur() == 0) {
-				selection.setLargeur(50);
-				selection.setHauteur(50);
-				selection.deplacer(-25, -25);
-			} else {
-				if (selection.getLargeur() < 0) {
-					selection.deplacer(selection.getLargeur(), 0);
-					selection.setLargeur(Math.abs(selection.getLargeur()));
-				}
-				if (selection.getHauteur() < 0) {
-					selection.deplacer(0, selection.getHauteur());
-					selection.setHauteur(Math.abs(selection.getHauteur()));
-				}
-			}
-		}
-	}
-
-	private void gererClic(MouseEvent p_e) {
-		if (this.btn_Selection.hasFocus()) {
-			this.m_Modele.selectionner(p_e.getX(), p_e.getY());
-		} else if (this.m_Forme != null) {
-			this.ajouterForme(p_e);
-		}
-	}
-
-	private void gererDrag(MouseEvent p_e) {
-		ElementGraphique selection = this.m_Modele.getSelection();
-		if (selection != null) {
-			if (this.btn_Selection.hasFocus() && selection != null && selection.contient(p_e.getX(), p_e.getY())) {
-				int milieuX = selection.getLargeur() >> 1;
-				int milieuY = selection.getHauteur() >> 1;
-				selection.setPosition(p_e.getX() - milieuX, p_e.getY() - milieuY);
-			} else {
-				int largeur = p_e.getX() - selection.getX();
-				int hauteur = p_e.getY() - selection.getY();
-				selection.setDimension(largeur, hauteur);
-			}
-		}
-	}
-
 	/**
 	 * Pour obtenir une ImageIcon à partir du nom de l'image spécifié. Le fichier
 	 * doit être situé dans le dossier "src/res".
@@ -298,5 +238,62 @@ public class FenetrePrincipale extends JFrame {
 			System.err.println("Image introuvable : " + chemin);
 		}
 		return icone;
+	}
+
+	private class EouteurSouris extends MouseAdapter {
+		@Override
+		public void mousePressed(MouseEvent p_e) {
+			if (FenetrePrincipale.this.btn_Selection.hasFocus()) {
+				FenetrePrincipale.this.m_Modele.selectionner(p_e.getX(), p_e.getY());
+			} else if (FenetrePrincipale.this.m_Forme != null) {
+				ElementGraphique forme = FormeFactory.getInstance().getForme(FenetrePrincipale.this.m_Forme);
+				forme.setPosition(p_e.getX(), p_e.getY());
+				forme.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
+				FenetrePrincipale.this.m_Modele.ajouter(forme);
+			}
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent p_e) {
+			ElementGraphique selection = FenetrePrincipale.this.m_Modele.getSelection();
+			if (selection != null) {
+				if (selection.getLargeur() == 0 && selection.getHauteur() == 0) {
+					selection.setLargeur(50);
+					selection.setHauteur(50);
+					selection.deplacer(-25, -25);
+				} else {
+					if (selection.getLargeur() < 0) {
+						selection.deplacer(selection.getLargeur(), 0);
+						selection.setLargeur(Math.abs(selection.getLargeur()));
+					}
+					if (selection.getHauteur() < 0) {
+						selection.deplacer(0, selection.getHauteur());
+						selection.setHauteur(Math.abs(selection.getHauteur()));
+					}
+				}
+			}
+		}
+	}
+
+	private class EcouteurDrag extends MouseMotionAdapter {
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void mouseDragged(MouseEvent p_e) {
+			ElementGraphique selection = FenetrePrincipale.this.m_Modele.getSelection();
+			if (selection != null) {
+				if (FenetrePrincipale.this.btn_Selection.hasFocus() && selection != null
+						&& selection.contient(p_e.getX(), p_e.getY())) {
+					int milieuX = selection.getLargeur() >> 1;
+					int milieuY = selection.getHauteur() >> 1;
+					selection.setPosition(p_e.getX() - milieuX, p_e.getY() - milieuY);
+				} else {
+					int largeur = p_e.getX() - selection.getX();
+					int hauteur = p_e.getY() - selection.getY();
+					selection.setDimension(largeur, hauteur);
+				}
+			}
+		}
 	}
 }

@@ -30,8 +30,10 @@ public class XMLJFileChooser extends JFileChooser {
 	 */
 	@Override
 	public File getSelectedFile() {
-		return super.getSelectedFile();
-//		return this.getFileFilter().accept(super.getSelectedFile()) ?
-//				super.getSelectedFile() : new File(super.getSelectedFile() + ".xml");
+		File fichier = super.getSelectedFile();
+		if (fichier != null && !this.accept(fichier)) {
+			fichier = new File(super.getSelectedFile() + ".xml");
+		}				
+		return fichier;
 	}
 }

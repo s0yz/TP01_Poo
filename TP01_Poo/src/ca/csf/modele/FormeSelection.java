@@ -1,5 +1,6 @@
 package ca.csf.modele;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -113,6 +114,7 @@ public class FormeSelection extends DecorateurElementGraphique {
 	public void dessiner(Graphics2D p_Graphic) {
 		super.dessiner(p_Graphic);
 		p_Graphic.setColor(Color.CYAN);
+		p_Graphic.setStroke(new BasicStroke(1));
 		p_Graphic.drawRect(super.getX(), super.getY(),
 				super.getLargeur(), super.getHauteur());
 	}
