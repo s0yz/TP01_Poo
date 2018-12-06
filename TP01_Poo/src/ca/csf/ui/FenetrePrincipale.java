@@ -93,6 +93,7 @@ public class FenetrePrincipale extends JFrame {
 		JButton btn_Ellipse = new JButton();
 		JButton btn_Rectangle = new JButton();
 		JButton btn_Ligne = new JButton();
+		this.spin_trait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
 		//
 		// panel_Centre
 		panel_Centre.setOpaque(true);
@@ -127,14 +128,7 @@ public class FenetrePrincipale extends JFrame {
 		menu_Selection.add(item_LargeurTrait);
 		//
 		// menu_Formes
-		menu_Formes.add("JMenuItems...");
-		this.spin_trait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
-		this.spin_trait.addChangeListener(e -> {
-			ElementGraphique element = FenetrePrincipale.this.m_Modele.getSelection();
-			if (element != null) {
-				element.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
-			}
-		});
+		menu_Formes.add("JMenuItems...");		
 		menu_Formes.add(this.spin_trait);
 		//
 		// item_Nouveau
@@ -173,6 +167,14 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// item_Quitter
 		item_Quitter.addActionListener(e -> {
+		});
+		//
+		// spin_trait
+		this.spin_trait.addChangeListener(e -> {
+			ElementGraphique element = FenetrePrincipale.this.m_Modele.getSelection();
+			if (element != null) {
+				element.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
+			}
 		});
 		//
 		// panel_Outils
@@ -240,7 +242,8 @@ public class FenetrePrincipale extends JFrame {
 		return icone;
 	}
 
-	private class EouteurSouris extends MouseAdapter {
+	private class EouteurSouris extends MouseAdapter {		
+		
 		@Override
 		public void mousePressed(MouseEvent p_e) {
 			if (FenetrePrincipale.this.btn_Selection.hasFocus()) {
@@ -261,7 +264,7 @@ public class FenetrePrincipale extends JFrame {
 					selection.setLargeur(50);
 					selection.setHauteur(50);
 					selection.deplacer(-25, -25);
-				} else {
+				} else if (selection.getNom() != "Ligne") {
 					if (selection.getLargeur() < 0) {
 						selection.deplacer(selection.getLargeur(), 0);
 						selection.setLargeur(Math.abs(selection.getLargeur()));
@@ -283,7 +286,7 @@ public class FenetrePrincipale extends JFrame {
 		public void mouseDragged(MouseEvent p_e) {
 			ElementGraphique selection = FenetrePrincipale.this.m_Modele.getSelection();
 			if (selection != null) {
-				if (FenetrePrincipale.this.btn_Selection.hasFocus() && selection != null
+				if (FenetrePrincipale.this.btn_Selection.hasFocus()
 						&& selection.contient(p_e.getX(), p_e.getY())) {
 					int milieuX = selection.getLargeur() >> 1;
 					int milieuY = selection.getHauteur() >> 1;

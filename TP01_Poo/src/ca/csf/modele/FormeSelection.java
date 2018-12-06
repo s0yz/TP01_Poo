@@ -68,14 +68,6 @@ public class FormeSelection extends DecorateurElementGraphique {
 	@Override
 	public void setDimension(int p_Largeur, int p_Hauteur) {
 		this.avertirModifications(this);
-//		if (p_Largeur < 0) {
-//			super.setPosition(this.getX() + p_Largeur, this.getY());
-//			p_Largeur = Math.abs(p_Largeur);
-//		}
-//		if (p_Hauteur < 0) {
-//			super.setPosition(this.getX(), this.getY() + p_Hauteur);
-//			p_Hauteur = Math.abs(p_Hauteur);
-//		}
 		super.setDimension(p_Largeur, p_Hauteur);
 		this.avertirModifications(this);
 	}
