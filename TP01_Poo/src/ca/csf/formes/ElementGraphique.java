@@ -89,6 +89,14 @@ public interface ElementGraphique {
 	 * @param p_Y la nouvelle coordonnée en y.
 	 */
 	void setPosition(int p_X, int p_Y);
+	
+	/**
+	 * Pour déplacer la forme.
+	 * 
+	 * @param p_X déplacement en x.
+	 * @param p_Y déplacement en y.
+	 */
+	void deplacer(int p_X, int p_Y);
 
 	/**
 	 * Pour modifier la largeur.

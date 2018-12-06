@@ -10,7 +10,7 @@ import ca.csf.formes.ElementGraphique;
 import ca.csf.formes.Forme;
 import ca.csf.formes.Forme2DFactory;
 import ca.csf.formes.FormeFactory;
-import ca.csf.modele.ModeleGraphiques;
+import ca.csf.modele.ModeleDessin;
 
 public class FormatXml implements FormatFichier {
 
@@ -27,7 +27,7 @@ public class FormatXml implements FormatFichier {
 	}
 	
 	@Override
-	public void enregistrer(ModeleGraphiques p_Elements, File p_file) {
+	public void enregistrer(ModeleDessin p_Elements, File p_file) {
 		// TODO Auto-generated method stub
 		// Declare ici pour le fermer dans le finally
 		XMLStreamWriter doc = null;
@@ -89,11 +89,11 @@ public class FormatXml implements FormatFichier {
 	}
 
 	@Override
-	public void ouvrir(ModeleGraphiques p_graph,File p_file) throws XMLStreamException, FileNotFoundException {
+	public void ouvrir(ModeleDessin p_graph,File p_file) throws XMLStreamException, FileNotFoundException {
 		// TODO Auto-generated method stub
 		// Declare ici pour le fermer dans le finally
 		XMLStreamReader doc = null;
-		ModeleGraphiques temp = new ModeleGraphiques();
+		ModeleDessin temp = new ModeleDessin();
 		
 		// Mettre en paramètre le chemin et le nom du fichier.
 		FileReader input = new FileReader(p_file);

@@ -7,12 +7,6 @@ import ca.csf.formes.ElementGraphique;
 import ca.csf.modele.EcouteurModeleGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 
-/**
- * 
- * 
- * @author
- *
- */
 public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphique {
 	
 	private File m_File;

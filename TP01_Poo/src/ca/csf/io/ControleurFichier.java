@@ -7,14 +7,14 @@ import java.util.*;
 import javax.xml.stream.XMLStreamException;
 
 import ca.csf.formes.*;
-import ca.csf.modele.ModeleGraphiques;
+import ca.csf.modele.ModeleDessin;
 
 public class ControleurFichier {
 
 	//private ArrayList<ElementGraphique> m_Elements;
-	private ModeleGraphiques m_graph;
+	private ModeleDessin m_graph;
 	
-	public ControleurFichier(ModeleGraphiques p_modele) {
+	public ControleurFichier(ModeleDessin p_modele) {
 		// TODO Auto-generated constructor stub
 		m_graph = p_modele;
 		/* for (ElementGraphique elementGraphique : p_modele) {

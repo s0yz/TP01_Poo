@@ -44,6 +44,9 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		Graphics2D graphics2d = (Graphics2D) p_Graphics;
 		super.paintComponent(p_Graphics);
 		this.m_ModeleGraphique.forEach(e -> e.dessiner(graphics2d));
+		if (this.m_ModeleGraphique.getSelection() != null) {
+			this.m_ModeleGraphique.getSelection().dessiner(graphics2d);
+		}
 	}
 	
 	/**
@@ -66,8 +69,8 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleTaille(int p_Hauteur, int p_Largeur) {
-		this.setPreferredSize(new Dimension(p_Hauteur, p_Hauteur));
+	public void reagirNouvelleTaille(int p_Largeur, int p_Hauteur) {
+		this.setPreferredSize(new Dimension(p_Largeur, p_Hauteur));
 	};
 
 	/**
@@ -90,6 +93,5 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		int largeur = p_Element.getLargeur() + 2 * p_Element.getLargeurTrait();
 		int hauteur = p_Element.getHauteur() + 2 * p_Element.getLargeurTrait();
 		this.repaint(x, y, largeur, hauteur);
-				
 	}
 }

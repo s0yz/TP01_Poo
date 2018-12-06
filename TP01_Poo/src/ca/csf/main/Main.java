@@ -14,7 +14,7 @@ import ca.csf.formes.Rectangle;
 import ca.csf.io.ControleurFichier;
 import ca.csf.io.FormatFichier;
 import ca.csf.io.FormatXml;
-import ca.csf.modele.ModeleGraphiques;
+import ca.csf.modele.ModeleDessin;
 import ca.csf.ui.FenetrePrincipale;
 
 /**
