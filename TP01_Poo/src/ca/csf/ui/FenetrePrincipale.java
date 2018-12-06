@@ -15,6 +15,7 @@ import java.net.URL;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -47,7 +48,9 @@ public class FenetrePrincipale extends JFrame {
 	private GestionnaireFichier m_GestionnaireFichier;
 
 	private JButton btn_Selection;
-
+	
+	private JButton btn_Remplissage;
+	
 	private JSpinner spin_trait;
 
 	public FenetrePrincipale() {
@@ -93,6 +96,7 @@ public class FenetrePrincipale extends JFrame {
 		JButton btn_Ellipse = new JButton();
 		JButton btn_Rectangle = new JButton();
 		JButton btn_Ligne = new JButton();
+		this.btn_Remplissage = new JButton();
 		this.spin_trait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
 		//
 		// panel_Centre
@@ -183,6 +187,7 @@ public class FenetrePrincipale extends JFrame {
 		panel_Outils.add(btn_Ellipse);
 		panel_Outils.add(btn_Rectangle);
 		panel_Outils.add(btn_Ligne);
+		panel_Outils.add(btn_Remplissage);
 		super.add(panel_Outils, BorderLayout.WEST);
 		//
 		// btn_Selection
@@ -210,6 +215,17 @@ public class FenetrePrincipale extends JFrame {
 		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Ligne.addActionListener(e -> {
 			this.m_Forme = "Ligne";
+		});
+		//
+		// btn_Remplissage
+		this.btn_Remplissage.setIcon(FenetrePrincipale.chargerIcone("24_Vide.png"));
+		this.btn_Remplissage.setBackground(null);
+		this.btn_Remplissage.addActionListener(e -> {
+			Color couleur = JColorChooser.showDialog(this, "Choisissez votre couleur", null);
+			this.btn_Remplissage.setBackground(couleur);
+			if (this.m_Modele.getSelection() != null) {
+				this.m_Modele.getSelection().setCouleur(couleur);
+			}
 		});
 		//
 		// windowClosing
@@ -251,6 +267,7 @@ public class FenetrePrincipale extends JFrame {
 			} else if (FenetrePrincipale.this.m_Forme != null) {
 				ElementGraphique forme = FormeFactory.getInstance().getForme(FenetrePrincipale.this.m_Forme);
 				forme.setPosition(p_e.getX(), p_e.getY());
+				forme.setCouleur(FenetrePrincipale.this.btn_Remplissage.getBackground());
 				forme.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
 				FenetrePrincipale.this.m_Modele.ajouter(forme);
 			}
@@ -279,9 +296,6 @@ public class FenetrePrincipale extends JFrame {
 	}
 
 	private class EcouteurDrag extends MouseMotionAdapter {
-		/**
-		 * {@inheritDoc}
-		 */
 		@Override
 		public void mouseDragged(MouseEvent p_e) {
 			ElementGraphique selection = FenetrePrincipale.this.m_Modele.getSelection();
