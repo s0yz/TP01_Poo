@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.2.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="ca.csf.ui.FenetrePrincipale" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/ui/FenetrePrincipale.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="587" y="787"/>    
+    <position height="-1" width="-1" x="559" y="787"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <interface id="2" language="java" name="ca.csf.formes.ElementGraphique" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/formes/ElementGraphique.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="188" y="935"/>    
+    <position height="-1" width="-1" x="185" y="935"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="ca.csf.io.GestionnaireFichier" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/io/GestionnaireFichier.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1278" y="383"/>    
+    <position height="-1" width="-1" x="1275" y="383"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <interface id="6" language="java" name="ca.csf.io.GestionnaireIO" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/io/GestionnaireIO.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1277" y="136"/>    
+    <position height="-1" width="-1" x="1311" y="136"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </interface>  
   <interface id="7" language="java" name="ca.csf.modele.EcouteurModeleGraphique" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/modele/EcouteurModeleGraphique.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="557" y="454"/>    
+    <position height="-1" width="-1" x="559" y="454"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </interface>  
   <interface id="8" language="java" name="ca.csf.modele.ModeleElementGraphique" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/modele/ModeleElementGraphique.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="557" y="202"/>    
+    <position height="-1" width="-1" x="559" y="202"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,32 +75,14 @@
   </interface>  
   <interface id="9" language="java" name="ca.csf.ui.BarreOutil" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/ui/BarreOutil.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="972" y="159"/>    
+    <position height="-1" width="-1" x="964" y="125"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="10" language="java" name="ca.csf.formes.Rectangle" project="TP01_Poo" 
-    file="/TP01_Poo/src/ca/csf/formes/Rectangle.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="416" y="1457"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="11" language="java" name="ca.csf.formes.Forme" project="TP01_Poo" 
-    file="/TP01_Poo/src/ca/csf/formes/Forme.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="189" y="1363"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <interface id="12" language="java" name="ca.csf.io.FormatFichier" project="TP01_Poo" 
+  <interface id="10" language="java" name="ca.csf.io.FormatFichier" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/io/FormatFichier.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1277" y="591"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -109,16 +91,16 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="13" language="java" name="ca.csf.io.ControleurFichier" project="TP01_Poo" 
+  <class id="11" language="java" name="ca.csf.io.ControleurFichier" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/io/ControleurFichier.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="968" y="742"/>    
+    <position height="-1" width="-1" x="971" y="862"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="ca.csf.io.FormatXml" project="TP01_Poo" 
+  <class id="12" language="java" name="ca.csf.io.FormatXml" project="TP01_Poo" 
     file="/TP01_Poo/src/ca/csf/io/FormatXml.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1277" y="862"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -127,116 +109,182 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="java.awt.Rectangle" project="TP01_Poo" 
-    file="C:/Program Files/Java/jdk1.8.0_171/jre/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
-    <position height="53" width="103" x="362" y="1163"/>    
-    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+  <class id="13" language="java" name="ca.csf.formes.Ellipse" project="TP01_Poo" 
+    file="/TP01_Poo/src/ca/csf/formes/Ellipse.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="403" y="1293"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <realization id="16">    
-    <end type="SOURCE" refId="11"/>    
+  <class id="14" language="java" name="ca.csf.formes.Forme" project="TP01_Poo" 
+    file="/TP01_Poo/src/ca/csf/formes/Forme.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="185" y="1490"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="ca.csf.formes.Ligne" project="TP01_Poo" 
+    file="/TP01_Poo/src/ca/csf/formes/Ligne.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="403" y="1687"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="ca.csf.formes.Rectangle" project="TP01_Poo" 
+    file="/TP01_Poo/src/ca/csf/formes/Rectangle.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="403" y="1490"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="17" language="java" name="ca.csf.formes.Forme2DFactory" project="TP01_Poo" 
+    file="/TP01_Poo/src/ca/csf/formes/Forme2DFactory.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="844" y="1175"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="18" language="java" name="ca.csf.formes.FormeFactory" project="TP01_Poo" 
+    file="/TP01_Poo/src/ca/csf/formes/FormeFactory.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="840" y="1484"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="19">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="20" name="m_ModeleGraphique">        
+        <position height="0" width="0" x="-247" y="-109"/>      
+      </attribute>      
+      <multiplicity id="21" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-247" y="-109"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="22">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <dependency id="23">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <association id="24">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="25" name="m_Espace">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="26" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="27">    
+    <end type="SOURCE" refId="14"/>    
     <end type="TARGET" refId="2"/>  
   </realization>  
-  <association id="17">    
+  <association id="28">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="29" name="m_format">        
+        <position height="18" width="53" x="1120" y="661"/>      
+      </attribute>      
+      <multiplicity id="30" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1117" y="640"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="31">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="10"/>  
+  </realization>  
+  <association id="32">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="33" name="m_Liste">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="34" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="35">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <realization id="36">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="17"/>  
+  </realization>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="14"/>  
+  </generalization>  
+  <generalization id="38">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="14"/>  
+  </generalization>  
+  <association id="39">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="40" name="m_Ecouteurs">        
+        <position height="0" width="0" x="-246" y="-66"/>      
+      </attribute>      
+      <multiplicity id="41" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="368" y="457"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="42">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="14"/>  
+  </generalization>  
+  <association id="43">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="18" name="m_Modele">        
+      <attribute id="44" name="m_Modele">        
         <position height="0" width="0" x="-218" y="-66"/>      
       </attribute>      
-      <multiplicity id="19" minimum="0" maximum="1">        
+      <multiplicity id="45" minimum="0" maximum="1">        
         <position height="16" width="23" x="324" y="542"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="20">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="21" name="m_Espace"/>      
-      <multiplicity id="22" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="23">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="11"/>  
-  </generalization>  
-  <association id="24">    
-    <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="25" name="m_format">        
-        <position height="18" width="53" x="1120" y="661"/>      
-      </attribute>      
-      <multiplicity id="26" minimum="0" maximum="1">        
-        <position height="16" width="23" x="1117" y="640"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="27">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="28" name="m_Ecouteurs">        
-        <position height="0" width="0" x="-218" y="-66"/>      
-      </attribute>      
-      <multiplicity id="29" minimum="0" maximum="2147483647">        
-        <position height="16" width="21" x="396" y="457"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="30">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="31" name="m_ModeleGraphique">        
-        <position height="0" width="0" x="-219" y="-109"/>      
-      </attribute>      
-      <multiplicity id="32" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-219" y="-109"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="33">    
+  <association id="46">    
+    <bendpoint x="978" y="268"/>    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="34" name="m_Modele">        
-        <position height="0" width="0" x="-219" y="-109"/>      
+      <attribute id="47" name="m_Modele">        
+        <position height="0" width="0" x="-247" y="-109"/>      
       </attribute>      
-      <multiplicity id="35" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-219" y="-109"/>      
+      <multiplicity id="48" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-247" y="-109"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="36">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="15"/>  
-  </dependency>  
-  <realization id="37">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="12"/>  
-  </realization>  
-  <association id="38">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="39" name="m_Liste"/>      
-      <multiplicity id="40" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="41">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <realization id="42">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="43">    
+  <realization id="49">    
     <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  

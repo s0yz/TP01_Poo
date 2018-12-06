@@ -3,28 +3,72 @@ package ca.csf.formes;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
 
+import ca.csf.formes.ElementGraphique;
+
 /**
- * 
+ * Classe abstraite définissant des méthodes permettant de manipuler des formes 2D.
  * 
  * @author Cedric Mariage
  */
 public abstract class Forme implements ElementGraphique {
 	
-	/**
-	 * Nom de la forme.
-	 */
-	private final String m_Nom;
-	private Color m_Couleur;
-	private Color m_CouleurTrait;
-	private int m_LargeurTrait = 1;
+	public static final int LARGEUR_TRAIT_DEFAUT = 1;
 	
 	/**
-	 * @param p_Nom nom de la forme
+	 * 
 	 */
-	Forme(String p_Nom) {
+	private final String m_Nom;
+	
+	/**
+	 * 
+	 */
+	private int m_X;
+	
+	/**
+	 * 
+	 */
+	private int m_Y;
+	
+	/**
+	 * 
+	 */
+	private int m_Largeur;
+	
+	/**
+	 * 
+	 */
+	private int m_Hauteur;
+	
+	/**
+	 * 
+	 */
+	private int m_LargeurTrait = LARGEUR_TRAIT_DEFAUT;
+	
+	/**
+	 * 
+	 */
+	private Color m_Couleur;
+	
+	/**
+	 * 
+	 */
+	private Color m_CouleurTrait = Color.BLACK;
+		
+	/**
+	 * 
+	 * @param p_Nom
+	 * @param p_X
+	 * @param p_Y
+	 * @param p_Largeur
+	 * @param p_Hauteur
+	 */
+	protected Forme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
 		this.m_Nom = p_Nom;
+		this.setPosition(p_X, p_Y);
+		this.setDimension(p_Largeur, p_Hauteur);
 	}
 	
 	/**
@@ -42,7 +86,7 @@ public abstract class Forme implements ElementGraphique {
 			p_Graphic.fill(this.getShape());
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -66,13 +110,55 @@ public abstract class Forme implements ElementGraphique {
 	public Color getCouleurTrait() {
 		return this.m_CouleurTrait;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean contient(int x, int y) {
+		return this.getShape().contains(x, y);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String getNom() {
 		return this.m_Nom;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setPosition(int p_X, int p_Y) {
+		this.m_X = p_X;
+		this.m_Y = p_Y;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setLargeur(int p_Largeur) {
+		this.setDimension(p_Largeur, this.m_Hauteur);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setHauteur(int p_Hauteur) {
+		this.setDimension(this.m_Largeur, p_Hauteur);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setDimension(int p_Largeur, int p_Hauteur) {
+		this.m_Largeur = p_Largeur;
+		this.m_Hauteur = p_Hauteur;
 	}
 
 	/**
@@ -100,9 +186,35 @@ public abstract class Forme implements ElementGraphique {
 	}
 	
 	/**
-	 * Pour obtenir la Shape représentant la Forme.
+	 * Pour obtenir la Shape correspondant à la Forme.
 	 * 
 	 * @return
 	 */
 	protected abstract Shape getShape();
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Deprecated
+	public final Point getPosition() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Deprecated
+	public final boolean contient(Point p_Point) {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Deprecated
+	public final void setPosition(Point p_Position) {
+	}
 }

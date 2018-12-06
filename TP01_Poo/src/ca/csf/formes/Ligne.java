@@ -1,4 +1,4 @@
-package ca.csf.formes.essai;
+package ca.csf.formes;
 
 import java.awt.Shape;
 import java.awt.geom.Line2D;
@@ -10,6 +10,10 @@ import java.awt.geom.Line2D;
  */
 public class Ligne extends Forme {
 
+	Ligne() {
+		this(0, 0);
+	}
+	
 	/**
 	 * @param p_Nom
 	 */
@@ -18,6 +22,13 @@ public class Ligne extends Forme {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * 
+	 * @param p_X1
+	 * @param p_Y1
+	 * @param p_X2
+	 * @param p_Y2
+	 */
 	Ligne(int p_X1, int p_Y1, int p_X2, int p_Y2) {
 		super("Ligne", p_X1, p_Y1, p_X2 - p_X1, p_Y2 - p_Y1);
 	}
@@ -33,5 +44,4 @@ public class Ligne extends Forme {
 				this.getX() + this.getLargeur(),
 				this.getY() + this.getHauteur());
 	}
-
 }
