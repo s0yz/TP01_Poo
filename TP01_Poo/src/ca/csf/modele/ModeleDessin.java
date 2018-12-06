@@ -17,6 +17,10 @@ import ca.csf.formes.ElementGraphique;
  */
 public class ModeleDessin implements ModeleElementGraphique {
 
+	public static final int LARGEUR_DEFAULT = 640;
+	
+	public static final int HAUTEUR_DEFAULT = 360;
+	
 	/**
 	 * 
 	 */
@@ -30,7 +34,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	/**
 	 * 
 	 */
-	private Color m_Couleur;
+	private Color m_Couleur = Color.WHITE;
 
 	/**
 	 * 
@@ -40,19 +44,22 @@ public class ModeleDessin implements ModeleElementGraphique {
 	/**
 	 * 
 	 */
-	private LinkedList<ElementGraphique> m_Elements;
+	private LinkedList<ElementGraphique> m_Elements = new LinkedList<ElementGraphique>();
 
 	/**
 	 * 
 	 */
-	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs;
+	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
 
-	/**
-	 * 
-	 */
 	public ModeleDessin() {
+		this(LARGEUR_DEFAULT, HAUTEUR_DEFAULT);
+	}
+	
+	public ModeleDessin(int p_Largeur, int p_Hauteur) {
 		this.m_Elements = new LinkedList<ElementGraphique>();
 		this.m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
+		this.setLargeur(p_Largeur);
+		this.setHauteur(p_Hauteur);
 	}
 
 	/**
@@ -72,7 +79,9 @@ public class ModeleDessin implements ModeleElementGraphique {
 	@Override
 	public void ajouter(Iterable<ElementGraphique> p_Elements) {
 		p_Elements.forEach(this.m_Elements::add);
-		this.m_Selection = this.m_Elements.getLast();
+		if (!this.m_Elements.isEmpty()) {
+			this.m_Selection = this.m_Elements.getLast();
+		}
 		this.avertirModifications();
 	}
 
@@ -82,8 +91,10 @@ public class ModeleDessin implements ModeleElementGraphique {
 	@Override
 	public void remplir(Iterable<ElementGraphique> p_Elements) {
 		this.m_Elements.clear();
-		this.m_Selection = this.m_Elements.getLast();
 		this.ajouter(p_Elements);
+		if (!this.m_Elements.isEmpty()) {
+			this.m_Selection = this.m_Elements.getLast();
+		}
 	}
 
 	/**
@@ -96,11 +107,12 @@ public class ModeleDessin implements ModeleElementGraphique {
 	}
 
 	/**
-	 * 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void vider() {
 		this.m_Elements.clear();
+		this.avertirModifications();
 	}
 
 	/**

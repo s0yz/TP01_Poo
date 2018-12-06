@@ -3,7 +3,6 @@ package ca.csf.formes;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Shape;
 
 import ca.csf.formes.ElementGraphique;
@@ -144,8 +143,8 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contient(int x, int y) {
-		return this.getShape().contains(x, y);
+	public boolean contient(int p_X, int p_Y) {
+		return this.getShape().contains(p_X, p_Y);
 	}
 
 	/**

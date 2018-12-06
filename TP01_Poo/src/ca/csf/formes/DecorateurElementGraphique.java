@@ -3,6 +3,11 @@ package ca.csf.formes;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+/**
+ * 
+ * @author Cedric Mariage
+ *
+ */
 public class DecorateurElementGraphique implements ElementGraphique {
 
 	ElementGraphique m_Element;

@@ -5,23 +5,20 @@ import java.awt.geom.Line2D;
 
 /**
  * 
- * 
- * @author Cedric Mariage
  */
 public class Ligne extends Forme {
 
 	Ligne() {
 		this(0, 0);
 	}
-	
+
 	/**
 	 * @param p_Nom
 	 */
 	Ligne(int p_X, int p_Y) {
 		this(p_X, p_Y, p_X, p_Y);
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
 	 * 
 	 * @param p_X1
@@ -38,10 +35,16 @@ public class Ligne extends Forme {
 	 */
 	@Override
 	protected Shape getShape() {
-		return new Line2D.Float(
-				this.getX(),
-				this.getY(),
-				this.getX() + this.getLargeur(),
+		return new Line2D.Float(this.getX(), this.getY(), this.getX() + this.getLargeur(),
 				this.getY() + this.getHauteur());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean contient(int p_X, int p_Y) {
+		Rectangle r = new Rectangle(this.getX(), this.getY(), this.getLargeur(), this.getHauteur());
+		return r.contient(p_X, p_Y);
 	}
 }

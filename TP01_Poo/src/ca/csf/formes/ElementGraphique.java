@@ -2,7 +2,6 @@ package ca.csf.formes;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 
 /**
  * L'interface ElementGraphique fournit des opérations pour manipuler des formes

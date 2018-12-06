@@ -10,24 +10,23 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.net.URL;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import ca.csf.formes.ElementGraphique;
 import ca.csf.formes.FormeFactory;
-import ca.csf.io.ControleurFichier;
-import ca.csf.io.FormatFichier;
-import ca.csf.io.FormatXml;
+import ca.csf.io.FormatXML;
+import ca.csf.io.GestionnaireFichier;
 import ca.csf.modele.ModeleDessin;
 
 /**
@@ -44,8 +43,12 @@ public class FenetrePrincipale extends JFrame {
 	private EspaceTravail m_Espace;
 
 	private String m_Forme;
+	
+	private GestionnaireFichier m_GestionnaireFichier;
 
 	private JButton btn_Selection;
+
+	private JSpinner spin_trait;
 
 	public FenetrePrincipale() {
 		super("TP01 - Poo");
@@ -69,16 +72,19 @@ public class FenetrePrincipale extends JFrame {
 	private void initialiserComposants() {
 		this.m_Modele = new ModeleDessin();
 		this.m_Espace = new EspaceTravail(this.m_Modele);
+		this.m_GestionnaireFichier = new GestionnaireFichier(this, this.m_Modele);
 		JPanel panel_Centre = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel panel_Outils = new JPanel();
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu_Fichier = new JMenu("Fichier");
 		JMenu menu_Selection = new JMenu("Selection");
 		JMenu menu_Formes = new JMenu("Formes");
+		JMenuItem item_Nouveau = new JMenuItem("Nouveau");
 		JMenuItem item_Ouvrir = new JMenuItem("Ouvrir");
 		JMenuItem item_Enregistrer = new JMenuItem("Enregistrer");
 		JMenuItem item_EnregistrerSous = new JMenuItem("Enregistrer sous");
 		JMenuItem item_Exporter = new JMenuItem("Exporter");
+		JMenuItem item_Page = new JMenuItem("Taille de l'image...");
 		JMenuItem item_Quitter = new JMenuItem("Quitter");
 		JMenuItem item_Couleur = new JMenuItem("Couleur");
 		JMenuItem item_CouleurTrait = new JMenuItem("Couleur de Trait");
@@ -120,10 +126,13 @@ public class FenetrePrincipale extends JFrame {
 		menuBar.add(menu_Formes);
 		//
 		// menu_Fichier
+		menu_Fichier.add(item_Nouveau);
 		menu_Fichier.add(item_Ouvrir);
 		menu_Fichier.add(item_Enregistrer);
 		menu_Fichier.add(item_EnregistrerSous);
 		menu_Fichier.add(item_Exporter);
+		menu_Fichier.addSeparator();
+		menu_Fichier.add(item_Page);
 		menu_Fichier.addSeparator();
 		menu_Fichier.add(item_Quitter);
 		//
@@ -134,36 +143,43 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// menu_Formes
 		menu_Formes.add("JMenuItems...");
+		this.spin_trait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
+		JSpinner.NumberEditor comp = (JSpinner.NumberEditor) this.spin_trait.getEditor();
+		comp.getTextField().setColumns(2);
+		menu_Formes.add(this.spin_trait);
+		//
+		// item_Nouveau
+		item_Nouveau.addActionListener(e -> {
+			if (this.m_GestionnaireFichier.verifierSauvegarde()) {
+				this.m_Modele.vider();
+				this.m_GestionnaireFichier.reagirNouveau();
+			}
+		});
 		//
 		// item_Ouvrir
 		item_Ouvrir.addActionListener(e -> {
-			final JFileChooser fc = new JFileChooser();
-			int returnVal = fc.showOpenDialog(this);
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				File file = fc.getSelectedFile();
-				ControleurFichier cont = new ControleurFichier(m_Modele);
-				FormatFichier x = new FormatXml(FormeFactory.getInstance());
-				cont.ouvrir(x, file);
-			}
+			this.m_GestionnaireFichier.ouvrir(new FormatXML(FormeFactory.getInstance()));
 		});
 		//
 		// item_Enregistrer
 		item_Enregistrer.addActionListener(e -> {
+			this.m_GestionnaireFichier.enregistrer(new FormatXML(FormeFactory.getInstance()));
 		});
 		//
 		// item_EnregistrerSous
 		item_EnregistrerSous.addActionListener(e -> {
-			final JFileChooser fc = new JFileChooser();
-			if (fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
-				File file = fc.getSelectedFile();
-				ControleurFichier cont = new ControleurFichier(m_Modele);
-				FormatFichier x = new FormatXml();
-				cont.enregistrer(x, file);
-			}
+			this.m_GestionnaireFichier.enregistrerSous(new FormatXML(FormeFactory.getInstance()));
 		});
 		//
 		// item_Exporter
 		item_Exporter.addActionListener(e -> {
+			this.m_GestionnaireFichier.enregistrerSous(null/*new FormatSVG(FormeFactory.getInstance())*/);
+		});
+		//
+		// item_Quitter
+		item_Page.addActionListener(e -> {
+			this.m_Modele.setLargeur(700);
+			this.m_Modele.setHauteur(700);
 		});
 		//
 		// item_Quitter
@@ -209,7 +225,9 @@ public class FenetrePrincipale extends JFrame {
 		super.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent p_e) {
-				FenetrePrincipale.this.dispose();
+				if (FenetrePrincipale.this.m_GestionnaireFichier.verifierSauvegarde()) {
+					FenetrePrincipale.this.dispose();
+				}
 			}
 		});
 	}
@@ -222,16 +240,22 @@ public class FenetrePrincipale extends JFrame {
 
 	private void finaliserForme(MouseEvent p_e) {
 		ElementGraphique selection = this.m_Modele.getSelection();
-		if (selection != null && selection.getLargeur() == 0 && selection.getHauteur() == 0) {
-			selection.setLargeur(50);
-			selection.setHauteur(50);
-			selection.deplacer(-25, -25);
+		if (selection != null) {
+			if (selection.getLargeur() == 0 && selection.getHauteur() == 0) {
+				selection.setLargeur(50);
+				selection.setHauteur(50);
+				selection.deplacer(-25, -25);
+			} else {
+				if (selection.getLargeur() < 0) {
+					selection.deplacer(selection.getLargeur(), 0);
+					selection.setLargeur(Math.abs(selection.getLargeur()));
+				}
+				if (selection.getHauteur() < 0) {
+					selection.deplacer(0, selection.getHauteur());
+					selection.setHauteur(Math.abs(selection.getHauteur()));
+				}
+			}
 		}
-		this.btn_Selection.requestFocusInWindow();
-	}
-
-	private void drag(MouseEvent p_e) {
-
 	}
 
 	private void gererClic(MouseEvent p_e) {
@@ -245,8 +269,7 @@ public class FenetrePrincipale extends JFrame {
 	private void gererDrag(MouseEvent p_e) {
 		ElementGraphique selection = this.m_Modele.getSelection();
 		if (selection != null) {
-			if (this.btn_Selection.hasFocus() && selection != null &&
-					selection.contient(p_e.getX(), p_e.getY())) {
+			if (this.btn_Selection.hasFocus() && selection != null && selection.contient(p_e.getX(), p_e.getY())) {
 				int milieuX = selection.getLargeur() >> 1;
 				int milieuY = selection.getHauteur() >> 1;
 				selection.setPosition(p_e.getX() - milieuX, p_e.getY() - milieuY);
