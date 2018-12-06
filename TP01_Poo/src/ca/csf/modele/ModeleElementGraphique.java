@@ -5,19 +5,21 @@ import java.awt.Color;
 import ca.csf.formes.ElementGraphique;
 
 /**
+ * Interface définissant les méthodes que l'{@code EspaceTravail} vas utiliser
+ * pour réaliser un affichage.
  * 
- * 
- * @author Cedric Mariage
+ * L'espace de travail peur-être configuré pour afficher les données de tout modèle
+ * implémentant {@code ModeleElementGraphique}.
  */
 public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
-	
+
 	/**
 	 * Ajoute un élément.
 	 * 
 	 * @param p_Element l'élément à ajouter.
 	 */
 	void ajouter(ElementGraphique p_Element);
-	
+
 	/**
 	 * Ajoute les formes.
 	 * 
@@ -31,18 +33,27 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * @param p_Element l'élément à retirer.
 	 */
 	void retirer(ElementGraphique p_Element);
-	
+
 	/**
 	 * Retire toute les formes.
 	 */
 	void vider();
-	
+
 	/**
 	 * Ecrase les formes du modèle par celles contenues dans l'iterable.
 	 * 
 	 * @param p_Elements
 	 */
 	void remplir(Iterable<ElementGraphique> p_Elements);
+
+	/**
+	 * Selectionne le premier élément contenant le point spécifié.
+	 * 
+	 * @param p_x coodonnée en x devant être contenue par l'élément à selectionner.
+	 * @param p_y coodonnée en y devant être contenue par l'élément à selectionner.
+	 * @return l'élément selectionné.
+	 */
+	public ElementGraphique selectionner(int p_x, int p_y);
 
 	/**
 	 * Ajoute un écouteur.
@@ -57,40 +68,47 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * @param p_Ecouteur l'écouteur à retirer.
 	 */
 	void removeEcouteur(EcouteurModeleGraphique p_Ecouteur);
-	
+
 	/**
+	 * Pour obtenir l'élément selectionné.
 	 * 
-	 * @param p_Largeur
+	 * @return le selection.
 	 */
-	void setLargeur(int p_Largeur);
-	
-	/**
-	 * 
-	 * @param p_Hauteur
-	 */
-	void setHauteur(int p_Hauteur);
-	
-	/**
-	 * 
-	 * @param p_Color
-	 */
-	void setCouleurArrierePlan(Color p_Color);
-	
+	public ElementGraphique getSelection();
+
 	/**
 	 * 
 	 * @return
 	 */
 	int getLargeur();
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	int getHauteur();
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	Color getCouleurArrierePlan();
+
+	/**
+	 * 
+	 * @param p_Largeur
+	 */
+	void setLargeur(int p_Largeur);
+
+	/**
+	 * 
+	 * @param p_Hauteur
+	 */
+	void setHauteur(int p_Hauteur);
+
+	/**
+	 * 
+	 * @param p_Color
+	 */
+	void setCouleurArrierePlan(Color p_Couleur);
 }

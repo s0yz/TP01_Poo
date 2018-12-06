@@ -3,7 +3,6 @@ package ca.csf.formes;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Shape;
 
 import ca.csf.formes.ElementGraphique;
@@ -87,6 +86,35 @@ public abstract class Forme implements ElementGraphique {
 		}
 	}
 
+	@Override
+	public int getX() {
+		return this.m_X;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getY() {
+		return this.m_Y;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getLargeur() {
+		return this.m_Largeur;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getHauteur() {
+		return this.m_Hauteur;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -115,8 +143,8 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contient(int x, int y) {
-		return this.getShape().contains(x, y);
+	public boolean contient(int p_X, int p_Y) {
+		return this.getShape().contains(p_X, p_Y);
 	}
 
 	/**
@@ -160,6 +188,14 @@ public abstract class Forme implements ElementGraphique {
 		this.m_Largeur = p_Largeur;
 		this.m_Hauteur = p_Hauteur;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deplacer(int p_X, int p_Y) {
+		this.setPosition(this.getX() + p_X, this.getY() + p_Y);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -191,24 +227,4 @@ public abstract class Forme implements ElementGraphique {
 	 * @return
 	 */
 	protected abstract Shape getShape();
-	
-	@Override
-	public int getX() {
-		return this.m_X;
-	}
-
-	@Override
-	public int getY() {
-		return this.m_Y;
-	}
-
-	@Override
-	public int getLargeur() {
-		return this.m_Largeur;
-	}
-
-	@Override
-	public int getHauteur() {
-		return this.m_Hauteur;
-	}
 }
