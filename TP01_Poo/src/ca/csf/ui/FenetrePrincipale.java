@@ -15,11 +15,14 @@ import java.net.URL;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
@@ -49,6 +52,8 @@ public class FenetrePrincipale extends JFrame {
 	private JButton btn_Selection;
 
 	private JSpinner spin_trait;
+	
+	private JButton btn_couleurTrait = new JButton();
 
 	public FenetrePrincipale() {
 		super("TP01 - Poo");
@@ -93,6 +98,7 @@ public class FenetrePrincipale extends JFrame {
 		JButton btn_Ellipse = new JButton();
 		JButton btn_Rectangle = new JButton();
 		JButton btn_Ligne = new JButton();
+
 		//
 		// panel_Centre
 		panel_Centre.setOpaque(true);
@@ -135,7 +141,42 @@ public class FenetrePrincipale extends JFrame {
 				element.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
 			}
 		});
-		menu_Formes.add(this.spin_trait);
+		
+		//
+		//Grosseur trait
+		JPanel jPanelSpinner = new JPanel(new FlowLayout());
+		JLabel lbl_spinnerTrait = new JLabel("Epaisseur du trait");
+		jPanelSpinner.add(lbl_spinnerTrait);
+		jPanelSpinner.add(spin_trait);
+
+		menu_Formes.add(jPanelSpinner);
+
+		//
+		//Couleur Trait
+		JPanel jPanelCouleur = new JPanel(new FlowLayout());
+		JLabel lbl_couleur = new JLabel("Couleur Trait");
+		
+		btn_couleurTrait.setBackground(Color.BLACK);
+		jPanelCouleur.add(lbl_couleur);
+		jPanelCouleur.add(btn_couleurTrait);
+		menu_Formes.add(jPanelCouleur);
+		
+		btn_couleurTrait.addActionListener(e -> {
+			ElementGraphique elementGraphique = FenetrePrincipale.this.m_Modele.getSelection();
+			Color couleurInitiale = null;
+			
+			if (elementGraphique != null) {
+				couleurInitiale = elementGraphique.getCouleurTrait();
+			}
+			Color c = JColorChooser.showDialog(null, "Choisir Couleur", couleurInitiale);
+			if (elementGraphique != null) {
+				elementGraphique.setCouleurTrait(c);
+			}
+			btn_couleurTrait.setBackground(c);
+
+		});
+		
+
 		//
 		// item_Nouveau
 		item_Nouveau.addActionListener(e -> {
@@ -181,6 +222,7 @@ public class FenetrePrincipale extends JFrame {
 		panel_Outils.add(btn_Ellipse);
 		panel_Outils.add(btn_Rectangle);
 		panel_Outils.add(btn_Ligne);
+
 		super.add(panel_Outils, BorderLayout.WEST);
 		//
 		// btn_Selection
@@ -249,6 +291,7 @@ public class FenetrePrincipale extends JFrame {
 				ElementGraphique forme = FormeFactory.getInstance().getForme(FenetrePrincipale.this.m_Forme);
 				forme.setPosition(p_e.getX(), p_e.getY());
 				forme.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
+				forme.setCouleurTrait(FenetrePrincipale.this.btn_couleurTrait.getBackground());
 				FenetrePrincipale.this.m_Modele.ajouter(forme);
 			}
 		}
