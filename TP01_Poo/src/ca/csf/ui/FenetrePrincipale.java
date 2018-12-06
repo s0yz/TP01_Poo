@@ -25,6 +25,7 @@ import javax.swing.SpinnerNumberModel;
 
 import ca.csf.formes.ElementGraphique;
 import ca.csf.formes.FormeFactory;
+import ca.csf.io.FormatSVG;
 import ca.csf.io.FormatXML;
 import ca.csf.io.GestionnaireFichier;
 import ca.csf.modele.ModeleDessin;
@@ -156,7 +157,7 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// item_Exporter
 		item_Exporter.addActionListener(e -> {
-			this.m_GestionnaireFichier.enregistrerSous(null/* new FormatSVG(FormeFactory.getInstance()) */);
+			this.m_GestionnaireFichier.enregistrerSous(new FormatSVG(FormeFactory.getInstance()));
 		});
 		//
 		// item_Quitter
