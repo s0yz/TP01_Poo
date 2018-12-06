@@ -9,20 +9,30 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.security.cert.Extension;
 import java.util.function.Consumer;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.stream.XMLStreamException;
 
 import ca.csf.formes.ElementGraphique;
 import ca.csf.formes.FormeFactory;
+import ca.csf.io.ControleurFichier;
+import ca.csf.io.FormatFichier;
+import ca.csf.io.FormatXml;
 import ca.csf.modele.ModeleGraphiques;
 
 /**
@@ -35,11 +45,11 @@ public class FenetrePrincipale extends JFrame {
 	private static final Dimension BTN_TAILLE = new Dimension(32, 32);
 
 	private ModeleGraphiques m_Modele;
-	
-  private EspaceTravail m_Espace;
-	
+
+	private EspaceTravail m_Espace;
+
 	private Consumer<MouseEvent> m_action;
-	
+
 	public FenetrePrincipale() {
 		super("TP01 - Poo");
 		this.parametrer();
@@ -70,7 +80,7 @@ public class FenetrePrincipale extends JFrame {
 		JMenu menu_Formes = new JMenu("Formes");
 		JMenuItem item_Ouvrir = new JMenuItem("Ouvrir");
 		JMenuItem item_Enregistrer = new JMenuItem("Enregistrer");
-		JMenuItem item_EnregistrerSous = new JMenuItem("Enregistrer");
+		JMenuItem item_EnregistrerSous = new JMenuItem("Enregistrer sous");
 		JMenuItem item_Exporter = new JMenuItem("Exporter");
 		JMenuItem item_Quitter = new JMenuItem("Quitter");
 		JMenuItem item_Couleur = new JMenuItem("Couleur");
@@ -105,6 +115,7 @@ public class FenetrePrincipale extends JFrame {
 		// menu_Fichier
 		menu_Fichier.add(item_Ouvrir);
 		menu_Fichier.add(item_Enregistrer);
+		menu_Fichier.add(item_EnregistrerSous);
 		menu_Fichier.add(item_Exporter);
 		menu_Fichier.addSeparator();
 		menu_Fichier.add(item_Quitter);
@@ -119,6 +130,19 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// item_Ouvrir
 		item_Ouvrir.addActionListener(e -> {
+
+			final JFileChooser fc = new JFileChooser();
+			int returnVal = fc.showOpenDialog(this);
+
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				ControleurFichier cont = new ControleurFichier(m_Modele);
+				FormatFichier x = new FormatXml(FormeFactory.getInstance());
+				
+				cont.ouvrir(x,file);
+
+			}
+
 		});
 		//
 		// item_Enregistrer
@@ -127,6 +151,19 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// item_EnregistrerSous
 		item_EnregistrerSous.addActionListener(e -> {
+
+			final JFileChooser fc = new JFileChooser();
+			int returnVal = fc.showSaveDialog(this);
+
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fc.getSelectedFile();
+				ControleurFichier cont = new ControleurFichier(m_Modele);
+				FormatFichier x = new FormatXml();
+
+				cont.enregistrer(x, file);
+
+			}
+
 		});
 		//
 		// item_Exporter
@@ -181,7 +218,7 @@ public class FenetrePrincipale extends JFrame {
 		btn_Ligne.addActionListener(e -> {
 			this.m_action = me -> {
 				ElementGraphique ligne = FormeFactory.getInstance().getForme("Ligne");
-				ligne.setPosition(me.getX() - 25, me.getY() -25);
+				ligne.setPosition(me.getX() - 25, me.getY() - 25);
 				ligne.setDimension(50, 50);
 				this.m_Modele.ajouter(ligne);
 			};
@@ -197,14 +234,14 @@ public class FenetrePrincipale extends JFrame {
 	}
 
 	/**
-	 * Pour obtenir une ImageIcon à partir du nom de l'image spécifié.
-	 * Le fichier doit être situé dans le dossier "src/res".
+	 * Pour obtenir une ImageIcon à partir du nom de l'image spécifié. Le fichier
+	 * doit être situé dans le dossier "src/res".
 	 * 
 	 * @param p_Image le nom de l'image, avec l'extension.
 	 * @return un nouvel ImageIcon ou null.
 	 */
 	public static ImageIcon chargerIcone(String p_Image) {
-		ImageIcon icone = null; 
+		ImageIcon icone = null;
 		String chemin = "/res/" + p_Image;
 		URL url = FenetrePrincipale.class.getResource(chemin);
 		try {

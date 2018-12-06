@@ -7,18 +7,34 @@ import javax.xml.stream.*;
 
 
 import ca.csf.formes.ElementGraphique;
+import ca.csf.formes.Forme;
+import ca.csf.formes.Forme2DFactory;
+import ca.csf.formes.FormeFactory;
+import ca.csf.modele.ModeleGraphiques;
 
 public class FormatXml implements FormatFichier {
 
+	private Forme2DFactory m_factory;
+	
+	public FormatXml() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public FormatXml(Forme2DFactory p_factory) {
+		
+		// TODO Auto-generated constructor stub
+		this.m_factory = p_factory;
+	}
+	
 	@Override
-	public void enregistrer(Iterable<ElementGraphique> p_Elements) {
+	public void enregistrer(ModeleGraphiques p_Elements, File p_file) {
 		// TODO Auto-generated method stub
 		// Declare ici pour le fermer dans le finally
 		XMLStreamWriter doc = null;
 
 		try {
 			// Mettre en paramètre le chemin et le nom du fichier.
-			FileWriter output = new FileWriter(new File("data2.xml"));
+			FileWriter output = new FileWriter(p_file);
 
 			doc = XMLOutputFactory.newInstance().createXMLStreamWriter(output);
 
@@ -73,40 +89,54 @@ public class FormatXml implements FormatFichier {
 	}
 
 	@Override
-	public String ouvrir() throws XMLStreamException, FileNotFoundException {
+	public void ouvrir(ModeleGraphiques p_graph,File p_file) throws XMLStreamException, FileNotFoundException {
 		// TODO Auto-generated method stub
 		// Declare ici pour le fermer dans le finally
 		XMLStreamReader doc = null;
-		String cool = "";
+		ModeleGraphiques temp = new ModeleGraphiques();
+		
 		// Mettre en paramètre le chemin et le nom du fichier.
-		FileReader input = new FileReader("data2.xml");
+		FileReader input = new FileReader(p_file);
 
 		doc = XMLInputFactory.newInstance().createXMLStreamReader(input);
 
 		// Pour passer par-dessus le Start Document
 		doc.next();
 
-		// Le document doit commencer par un <examen>
+		// Le document doit commencer par un <forme>
 		if (!doc.getLocalName().equals("forme")) {
 			throw new XMLStreamException("Pas le bon element racine : " + doc.getLocalName());
 		}
 
-		// Pour passer par-dessus <examen>
+		// Pour passer par-dessus <forme>
 		doc.next();
 
+		
 		while (doc.isStartElement()) {
+			
+			ElementGraphique EG = m_factory.getForme(doc.getLocalName());
 			
 			String X = doc.getAttributeValue("", "X");
 			String Y = doc.getAttributeValue("", "Y");
+			EG.setPosition(Integer.parseInt(X), Integer.parseInt(Y));
 			String hauteur = doc.getAttributeValue("", "hauteur");
 			String largeur = doc.getAttributeValue("", "largeur");
+			EG.setDimension(Integer.parseInt(largeur), Integer.parseInt(hauteur));
 			
 			doc.next();
+			doc.next();
 			
-			cool = X +" "+ Y+" " + hauteur+" " + largeur+" ";
-		}
+			temp.ajouter(EG);
+			
+				
+			
+			
+			}
 
+		p_graph.vider();
+		p_graph.ajouter(temp);;
 		
-		return cool;
+		
+		
 	}
 }
