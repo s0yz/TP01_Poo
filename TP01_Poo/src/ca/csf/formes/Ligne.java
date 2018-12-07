@@ -44,7 +44,11 @@ public class Ligne extends Forme {
 	 */
 	@Override
 	public boolean contient(int p_X, int p_Y) {
-		Rectangle r = new Rectangle(this.getX(), this.getY(), this.getLargeur(), this.getHauteur());
-		return r.contient(p_X, p_Y);
+		int x = Math.min(this.getX(), this.getX() + this.getLargeur());
+		int y = Math.min(this.getY(),this.getY() + this.getHauteur());
+		int hauteur = Math.abs(this.getLargeur());
+		int largeur = Math.abs(this.getHauteur());
+		Rectangle rect = new Rectangle(x, y, hauteur, largeur);
+		return rect.contient(p_X, p_Y);
 	}
 }
