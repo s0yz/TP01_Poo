@@ -17,10 +17,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
@@ -52,6 +54,8 @@ public class FenetrePrincipale extends JFrame {
 	private JButton btn_Remplissage;
 	
 	private JSpinner spin_trait;
+	
+	private JButton btn_couleurTrait = new JButton();
 
 	public FenetrePrincipale() {
 		super("TP01 - Poo");
@@ -132,8 +136,48 @@ public class FenetrePrincipale extends JFrame {
 		menu_Selection.add(item_LargeurTrait);
 		//
 		// menu_Formes
-		menu_Formes.add("JMenuItems...");		
-		menu_Formes.add(this.spin_trait);
+		menu_Formes.add("JMenuItems...");
+		this.spin_trait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
+		this.spin_trait.addChangeListener(e -> {
+			ElementGraphique element = FenetrePrincipale.this.m_Modele.getSelection();
+			if (element != null) {
+				element.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
+			}
+		});
+		
+		//
+		//Grosseur trait
+		JPanel jPanelSpinner = new JPanel(new FlowLayout());
+		JLabel lbl_spinnerTrait = new JLabel("Epaisseur du trait");
+		jPanelSpinner.add(lbl_spinnerTrait);
+		jPanelSpinner.add(spin_trait);
+
+		menu_Formes.add(jPanelSpinner);
+
+		//
+		//Couleur Trait
+		JPanel jPanelCouleur = new JPanel(new FlowLayout());
+		JLabel lbl_couleur = new JLabel("Couleur Trait");
+		
+		btn_couleurTrait.setBackground(Color.BLACK);
+		jPanelCouleur.add(lbl_couleur);
+		jPanelCouleur.add(btn_couleurTrait);
+		menu_Formes.add(jPanelCouleur);
+		
+		btn_couleurTrait.addActionListener(e -> {
+			ElementGraphique elementGraphique = FenetrePrincipale.this.m_Modele.getSelection();
+			Color couleurInitiale = null;
+			
+			if (elementGraphique != null) {
+				couleurInitiale = elementGraphique.getCouleurTrait();
+			}
+			Color c = JColorChooser.showDialog(null, "Choisir Couleur", couleurInitiale);
+			if (elementGraphique != null) {
+				elementGraphique.setCouleurTrait(c);
+			}
+			btn_couleurTrait.setBackground(c);
+
+		});
 		//
 		// item_Nouveau
 		item_Nouveau.addActionListener(e -> {
@@ -269,6 +313,7 @@ public class FenetrePrincipale extends JFrame {
 				forme.setPosition(p_e.getX(), p_e.getY());
 				forme.setCouleur(FenetrePrincipale.this.btn_Remplissage.getBackground());
 				forme.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
+				forme.setCouleurTrait(FenetrePrincipale.this.btn_couleurTrait.getBackground());
 				FenetrePrincipale.this.m_Modele.ajouter(forme);
 			}
 		}
