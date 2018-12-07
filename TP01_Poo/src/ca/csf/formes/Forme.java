@@ -24,22 +24,22 @@ public abstract class Forme implements ElementGraphique {
 	/**
 	 * 
 	 */
-	private int m_X;
+	private double m_X;
 	
 	/**
 	 * 
 	 */
-	private int m_Y;
+	private double m_Y;
 	
 	/**
 	 * 
 	 */
-	private int m_Largeur;
+	private double m_Largeur;
 	
 	/**
 	 * 
 	 */
-	private int m_Hauteur;
+	private double m_Hauteur;
 	
 	/**
 	 * 
@@ -64,7 +64,7 @@ public abstract class Forme implements ElementGraphique {
 	 * @param p_Largeur
 	 * @param p_Hauteur
 	 */
-	protected Forme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
+	protected Forme(String p_Nom, double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
 		this.m_Nom = p_Nom;
 		this.setPosition(p_X, p_Y);
 		this.setDimension(p_Largeur, p_Hauteur);
@@ -75,19 +75,19 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void dessiner(Graphics2D p_Graphic) {
-		if (this.getLargeurTrait() > 0 && this.getCouleurTrait() != null) {
-			p_Graphic.setStroke(new BasicStroke(this.getLargeurTrait()));
-			p_Graphic.setColor(this.getCouleurTrait());
-			p_Graphic.draw(this.getShape());
-		}
 		if (this.getCouleur() != null) {
 			p_Graphic.setColor(this.getCouleur());
 			p_Graphic.fill(this.getShape());
 		}
+		if (this.getLargeurTrait() > 0 && this.getCouleurTrait() != null) {
+			p_Graphic.setStroke(new BasicStroke(this.getLargeurTrait()));
+			p_Graphic.setColor(this.getCouleurTrait());
+			p_Graphic.draw(this.getShape());
+		}		
 	}
 
 	@Override
-	public int getX() {
+	public double getX() {
 		return this.m_X;
 	}
 
@@ -95,7 +95,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getY() {
+	public double getY() {
 		return this.m_Y;
 	}
 
@@ -103,7 +103,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getLargeur() {
+	public double getLargeur() {
 		return this.m_Largeur;
 	}
 
@@ -111,7 +111,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getHauteur() {
+	public double getHauteur() {
 		return this.m_Hauteur;
 	}
 	
@@ -143,7 +143,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contient(int p_X, int p_Y) {
+	public boolean contient(double p_X, double p_Y) {
 		return this.getShape().contains(p_X, p_Y);
 	}
 
@@ -159,7 +159,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setPosition(int p_X, int p_Y) {
+	public void setPosition(double p_X, double p_Y) {
 		this.m_X = p_X;
 		this.m_Y = p_Y;
 	}
@@ -168,7 +168,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setLargeur(int p_Largeur) {
+	public void setLargeur(double p_Largeur) {
 		this.setDimension(p_Largeur, this.m_Hauteur);
 	}
 
@@ -176,7 +176,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setHauteur(int p_Hauteur) {
+	public void setHauteur(double p_Hauteur) {
 		this.setDimension(this.m_Largeur, p_Hauteur);
 	}
 	
@@ -184,7 +184,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setDimension(int p_Largeur, int p_Hauteur) {
+	public void setDimension(double p_Largeur, double p_Hauteur) {
 		this.m_Largeur = p_Largeur;
 		this.m_Hauteur = p_Hauteur;
 	}
@@ -193,7 +193,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deplacer(int p_X, int p_Y) {
+	public void deplacer(double p_X, double p_Y) {
 		this.setPosition(this.getX() + p_X, this.getY() + p_Y);
 	}
 

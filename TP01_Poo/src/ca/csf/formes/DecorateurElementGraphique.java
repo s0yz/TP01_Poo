@@ -28,7 +28,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getX() {
+	public double getX() {
 		return this.m_Element.getX();
 	}
 
@@ -36,7 +36,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getY() {
+	public double getY() {
 		return this.m_Element.getY();
 	}
 
@@ -44,7 +44,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getLargeur() {
+	public double getLargeur() {
 		return this.m_Element.getLargeur();
 	}
 
@@ -52,7 +52,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getHauteur() {
+	public double getHauteur() {
 		return this.m_Element.getHauteur();
 	}
 
@@ -84,7 +84,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contient(int p_X, int p_Y) {
+	public boolean contient(double p_X, double p_Y) {
 		return this.m_Element.contient(p_X, p_Y);
 	}
 
@@ -100,7 +100,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setPosition(int p_X, int p_Y) {
+	public void setPosition(double p_X, double p_Y) {
 		this.m_Element.setPosition(p_X, p_Y);
 	}
 	
@@ -108,7 +108,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deplacer(int p_X, int p_Y) {
+	public void deplacer(double p_X, double p_Y) {
 		this.setPosition(this.getX() + p_X, this.getY() + p_Y);
 	}
 
@@ -116,7 +116,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setLargeur(int p_Largeur) {
+	public void setLargeur(double p_Largeur) {
 		this.m_Element.setLargeur(p_Largeur);
 	}
 
@@ -124,7 +124,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setHauteur(int p_Hauteur) {
+	public void setHauteur(double p_Hauteur) {
 		this.m_Element.setHauteur(p_Hauteur);
 	}
 
@@ -132,7 +132,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setDimension(int p_Largeur, int p_Hauteur) {
+	public void setDimension(double p_Largeur, double p_Hauteur) {
 		this.m_Element.setDimension(p_Largeur, p_Hauteur);
 	}
 

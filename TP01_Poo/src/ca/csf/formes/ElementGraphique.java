@@ -23,28 +23,28 @@ public interface ElementGraphique {
 	 * 
 	 * @return la coordonne en x.
 	 */
-	int getX();
+	double getX();
 
 	/**
 	 * Pour obtenir la coordonne en y.
 	 * 
 	 * @return la coordonne en y.
 	 */
-	int getY();
+	double getY();
 
 	/**
 	 * Pour obtenir la largeur en pixel.
 	 * 
 	 * @return la largeur en pixel.
 	 */
-	int getLargeur();
+	double getLargeur();
 
 	/**
 	 * Pour obtenir la hauteur en pixel.
 	 * 
 	 * @return la hauteur en pixel.
 	 */
-	int getHauteur();
+	double getHauteur();
 
 	/**
 	 * Pour obtenir la couleur de remplissage.
@@ -74,7 +74,7 @@ public interface ElementGraphique {
 	 * @param p_Y la coordonnée du point en y.
 	 * @return vrai si l'élément contient le point.
 	 */
-	boolean contient(int p_X, int p_Y);
+	boolean contient(double p_X, double p_Y);
 
 	/**
 	 * @return le nom de l'element ou de la forme représentée.
@@ -87,7 +87,7 @@ public interface ElementGraphique {
 	 * @param p_X la nouvelle coordonnée en x.
 	 * @param p_Y la nouvelle coordonnée en y.
 	 */
-	void setPosition(int p_X, int p_Y);
+	void setPosition(double p_X, double p_Y);
 	
 	/**
 	 * Pour déplacer la forme.
@@ -95,21 +95,21 @@ public interface ElementGraphique {
 	 * @param p_X déplacement en x.
 	 * @param p_Y déplacement en y.
 	 */
-	void deplacer(int p_X, int p_Y);
+	void deplacer(double p_X, double p_Y);
 
 	/**
 	 * Pour modifier la largeur.
 	 * 
 	 * @param p_Largeur la nouvelle largeur.
 	 */
-	void setLargeur(int p_Largeur);
+	void setLargeur(double p_Largeur);
 
 	/**
 	 * Pour modifier la hauteur.
 	 * 
 	 * @param p_Largeur la nouvelle hauteur.
 	 */
-	void setHauteur(int p_Hauteur);
+	void setHauteur(double p_Hauteur);
 
 	/**
 	 * Pour modifier les dimensions de la formes.
@@ -117,7 +117,7 @@ public interface ElementGraphique {
 	 * @param p_Largeur largeur.
 	 * @param p_Hauteur hauteur
 	 */
-	void setDimension(int p_Largeur, int p_Hauteur);
+	void setDimension(double p_Largeur, double p_Hauteur);
 	
 	/**
 	 * Pour modifier la couleur.

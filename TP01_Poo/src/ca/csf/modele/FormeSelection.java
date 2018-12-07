@@ -15,32 +15,18 @@ public class FormeSelection extends DecorateurElementGraphique {
 	 */
 	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs;
 	
-	/**
-	 * 
-	 */
-	int differenceX;
-
-	/**
-	 * 
-	 */
-	int differenceY;
 	
 	public FormeSelection(ArrayList<EcouteurModeleGraphique> p_Ecouteurs, ElementGraphique p_Element) {
 		super(p_Element);
 		this.m_Ecouteurs = p_Ecouteurs;
 	}
 	
-	public void setPoigne(int p_X, int p_Y) {
-		this.differenceX = p_X - this.getX();
-		this.differenceY = p_Y - this.getY();
-	}
-	
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setPosition(int p_X, int p_Y) {		
-		super.setPosition(p_X - this.differenceX, p_Y - this.differenceY);
+	public void setPosition(double p_X, double p_Y) {		
+		super.setPosition(p_X, p_Y);
 		this.m_Ecouteurs.forEach(e -> e.reagirModifications());
 	}
 
@@ -48,7 +34,7 @@ public class FormeSelection extends DecorateurElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setLargeur(int p_Largeur) {
+	public void setLargeur(double p_Largeur) {
 		super.setLargeur(p_Largeur);
 		this.avertirModifications(this);
 	}
@@ -57,7 +43,7 @@ public class FormeSelection extends DecorateurElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setHauteur(int p_Hauteur) {
+	public void setHauteur(double p_Hauteur) {
 		super.setHauteur(p_Hauteur);
 		this.avertirModifications(this);
 	}
@@ -66,7 +52,7 @@ public class FormeSelection extends DecorateurElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setDimension(int p_Largeur, int p_Hauteur) {
+	public void setDimension(double p_Largeur, double p_Hauteur) {
 		this.avertirModifications(this);
 		super.setDimension(p_Largeur, p_Hauteur);
 		this.avertirModifications(this);
@@ -98,19 +84,7 @@ public class FormeSelection extends DecorateurElementGraphique {
 		super.setCouleurTrait(p_Couleur);
 		this.avertirModifications(this);
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void dessiner(Graphics2D p_Graphic) {
-		super.dessiner(p_Graphic);
-		p_Graphic.setColor(Color.CYAN);
-		p_Graphic.setStroke(new BasicStroke(1));
-		p_Graphic.drawRect(super.getX(), super.getY(),
-				super.getLargeur(), super.getHauteur());
-	}
-	
+			
 	private void avertirModifications(ElementGraphique p_Element) {
 		this.m_Ecouteurs.forEach(e-> e.reagirModifications(p_Element));
 	}

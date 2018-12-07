@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
@@ -22,7 +21,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
@@ -40,7 +38,7 @@ public class FenetrePrincipale extends JFrame {
 
 	private static final long serialVersionUID = -4586998190495167383L;
 
-	private static final Dimension BTN_TAILLE = new Dimension(32, 32);
+	public static final int TAILLE_DEFAUT = 50;
 
 	private ModeleDessin m_Modele;
 
@@ -51,12 +49,9 @@ public class FenetrePrincipale extends JFrame {
 	private GestionnaireFichier m_GestionnaireFichier;
 
 	private JButton btn_Selection;
-	
 	private JButton btn_Remplissage;
-	
-	private JSpinner spin_trait;
-	
-	private JButton btn_couleurTrait = new JButton();
+	private JSpinner spin_LargeurTrait;
+	private JButton btn_CouleurTrait;
 
 	public FenetrePrincipale() {
 		super("TP01 - Poo");
@@ -86,7 +81,7 @@ public class FenetrePrincipale extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu_Fichier = new JMenu("Fichier");
 		JMenu menu_Selection = new JMenu("Selection");
-		JMenu menu_Formes = new JMenu("Formes");
+		JMenu menu_Trait = new JMenu("Trait");
 		JMenuItem item_Nouveau = new JMenuItem("Nouveau");
 		JMenuItem item_Ouvrir = new JMenuItem("Ouvrir");
 		JMenuItem item_Enregistrer = new JMenuItem("Enregistrer");
@@ -102,7 +97,10 @@ public class FenetrePrincipale extends JFrame {
 		JButton btn_Rectangle = new JButton();
 		JButton btn_Ligne = new JButton();
 		this.btn_Remplissage = new JButton();
-		this.spin_trait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
+		JPanel panel_LargeurTrait = new JPanel(new FlowLayout());
+		this.spin_LargeurTrait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
+		JPanel panel_CouleurTrait = new JPanel(new FlowLayout());
+		this.btn_CouleurTrait = new JButton();
 		//
 		// panel_Centre
 		panel_Centre.setOpaque(true);
@@ -110,15 +108,16 @@ public class FenetrePrincipale extends JFrame {
 		super.add(panel_Centre, BorderLayout.CENTER);
 		//
 		// m_Espace
-		this.m_Espace.addMouseListener(new EouteurSouris());
-		this.m_Espace.addMouseMotionListener(new EcouteurDrag());
+		EouteurSouris eouteurSouris = new EouteurSouris();
+		this.m_Espace.addMouseListener(eouteurSouris);
+		this.m_Espace.addMouseMotionListener(eouteurSouris);
 		panel_Centre.add(this.m_Espace);
 		//
 		// menuBar
 		super.setJMenuBar(menuBar);
 		menuBar.add(menu_Fichier);
 		menuBar.add(menu_Selection);
-		menuBar.add(menu_Formes);
+		menuBar.add(menu_Trait);
 		//
 		// menu_Fichier
 		menu_Fichier.add(item_Nouveau);
@@ -137,48 +136,8 @@ public class FenetrePrincipale extends JFrame {
 		menu_Selection.add(item_LargeurTrait);
 		//
 		// menu_Formes
-		menu_Formes.add("JMenuItems...");
-		this.spin_trait = new JSpinner(new SpinnerNumberModel(1, 0, 24, 1));
-		this.spin_trait.addChangeListener(e -> {
-			ElementGraphique element = FenetrePrincipale.this.m_Modele.getSelection();
-			if (element != null) {
-				element.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
-			}
-		});
-		
-		//
-		//Grosseur trait
-		JPanel jPanelSpinner = new JPanel(new FlowLayout());
-		JLabel lbl_spinnerTrait = new JLabel("Epaisseur du trait");
-		jPanelSpinner.add(lbl_spinnerTrait);
-		jPanelSpinner.add(spin_trait);
-
-		menu_Formes.add(jPanelSpinner);
-
-		//
-		//Couleur Trait
-		JPanel jPanelCouleur = new JPanel(new FlowLayout());
-		JLabel lbl_couleur = new JLabel("Couleur Trait");
-		
-		btn_couleurTrait.setBackground(Color.BLACK);
-		jPanelCouleur.add(lbl_couleur);
-		jPanelCouleur.add(btn_couleurTrait);
-		menu_Formes.add(jPanelCouleur);
-		
-		btn_couleurTrait.addActionListener(e -> {
-			ElementGraphique elementGraphique = FenetrePrincipale.this.m_Modele.getSelection();
-			Color couleurInitiale = null;
-			
-			if (elementGraphique != null) {
-				couleurInitiale = elementGraphique.getCouleurTrait();
-			}
-			Color c = JColorChooser.showDialog(null, "Choisir Couleur", couleurInitiale);
-			if (elementGraphique != null) {
-				elementGraphique.setCouleurTrait(c);
-			}
-			btn_couleurTrait.setBackground(c);
-
-		});
+		menu_Trait.add(panel_LargeurTrait);
+		menu_Trait.add(panel_CouleurTrait);		
 		//
 		// item_Nouveau
 		item_Nouveau.addActionListener(e -> {
@@ -208,21 +167,46 @@ public class FenetrePrincipale extends JFrame {
 			this.m_GestionnaireFichier.enregistrerSous(new FormatSVG(FormeFactory.getInstance()));
 		});
 		//
-		// item_Quitter
+		// item_Page
 		item_Page.addActionListener(e -> {
-			this.m_Modele.setLargeur(700);
-			this.m_Modele.setHauteur(700);
+			this.m_Modele.setLargeur(1000);
+			this.m_Modele.setHauteur(1000);
 		});
 		//
 		// item_Quitter
 		item_Quitter.addActionListener(e -> {
+			if (FenetrePrincipale.this.m_GestionnaireFichier.verifierSauvegarde()) {
+				FenetrePrincipale.this.dispose();
+			}
 		});
 		//
-		// spin_trait
-		this.spin_trait.addChangeListener(e -> {
+		// panel_LargeurTrait
+		panel_LargeurTrait.add(new JLabel("Epaisseur : "));
+		panel_LargeurTrait.add(spin_LargeurTrait);
+		//
+		// panel_CouleurTrait
+		panel_CouleurTrait.add(new JLabel("Couleur : "));
+		panel_CouleurTrait.add(btn_CouleurTrait);
+		//
+		// spin_LargeurTrait
+		this.spin_LargeurTrait.addChangeListener(e -> {
 			ElementGraphique element = FenetrePrincipale.this.m_Modele.getSelection();
 			if (element != null) {
-				element.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
+				element.setLargeurTrait((int) this.spin_LargeurTrait.getValue());
+			}
+		});
+		//
+		// btn_couleurTrait
+		this.btn_CouleurTrait.setBackground(Color.BLACK);
+		this.btn_CouleurTrait.addActionListener(e -> {
+			ElementGraphique selection = FenetrePrincipale.this.m_Modele.getSelection();
+			Color couleurInitiale = this.btn_CouleurTrait.getBackground();
+			Color couleur = JColorChooser.showDialog(FenetrePrincipale.this, "Choisissez une couleur", couleurInitiale);
+			if (couleur != null) {
+				if (selection != null) {
+					selection.setCouleurTrait(couleur);
+				}
+				this.btn_CouleurTrait.setBackground(couleur);
 			}
 		});
 		//
@@ -237,27 +221,23 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// btn_Selection
 		btn_Selection.setIcon(FenetrePrincipale.chargerIcone("24_Souris.png"));
-		btn_Selection.setSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Selection.addActionListener(e -> {
 		});
 		//
 		// btn_Ellipse
 		btn_Ellipse.setIcon(FenetrePrincipale.chargerIcone("24_Ellipse.png"));
-		btn_Selection.setSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Ellipse.addActionListener(e -> {
 			this.m_Forme = "Ellipse";
 		});
 		//
 		// btn_Rectangle
 		btn_Rectangle.setIcon(FenetrePrincipale.chargerIcone("24_Rectangle.png"));
-		btn_Selection.setSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Rectangle.addActionListener(e -> {
 			this.m_Forme = "Rectangle";
 		});
 		//
 		// btn_Ligne
 		btn_Ligne.setIcon(FenetrePrincipale.chargerIcone("24_Ligne.png"));
-		btn_Selection.setPreferredSize(FenetrePrincipale.BTN_TAILLE);
 		btn_Ligne.addActionListener(e -> {
 			this.m_Forme = "Ligne";
 		});
@@ -303,18 +283,23 @@ public class FenetrePrincipale extends JFrame {
 		return icone;
 	}
 
-	private class EouteurSouris extends MouseAdapter {		
+	/**
+	 * 
+	 */
+	private class EouteurSouris extends MouseAdapter {
+		private double differenceX;
+		private double differenceY;
 		
 		@Override
 		public void mousePressed(MouseEvent p_e) {
 			if (FenetrePrincipale.this.btn_Selection.hasFocus()) {
-				FenetrePrincipale.this.m_Modele.selectionner(p_e.getX(), p_e.getY());
+				this.selectionner(p_e);
 			} else if (FenetrePrincipale.this.m_Forme != null) {
 				ElementGraphique forme = FormeFactory.getInstance().getForme(FenetrePrincipale.this.m_Forme);
 				forme.setPosition(p_e.getX(), p_e.getY());
 				forme.setCouleur(FenetrePrincipale.this.btn_Remplissage.getBackground());
-				forme.setLargeurTrait((int) FenetrePrincipale.this.spin_trait.getValue());
-				forme.setCouleurTrait(FenetrePrincipale.this.btn_couleurTrait.getBackground());
+				forme.setLargeurTrait((int) FenetrePrincipale.this.spin_LargeurTrait.getValue());
+				forme.setCouleurTrait(FenetrePrincipale.this.btn_CouleurTrait.getBackground());
 				FenetrePrincipale.this.m_Modele.ajouter(forme);
 			}
 		}
@@ -324,9 +309,10 @@ public class FenetrePrincipale extends JFrame {
 			ElementGraphique selection = FenetrePrincipale.this.m_Modele.getSelection();
 			if (selection != null) {
 				if (selection.getLargeur() == 0 && selection.getHauteur() == 0) {
-					selection.setLargeur(50);
-					selection.setHauteur(50);
-					selection.deplacer(-25, -25);
+					int deplacement = -1 * (FenetrePrincipale.TAILLE_DEFAUT >> 1);
+					selection.setLargeur(FenetrePrincipale.TAILLE_DEFAUT);
+					selection.setHauteur(FenetrePrincipale.TAILLE_DEFAUT);
+					selection.deplacer(deplacement, deplacement);
 				} else if (selection.getNom() != "Ligne") {
 					if (selection.getLargeur() < 0) {
 						selection.deplacer(selection.getLargeur(), 0);
@@ -339,23 +325,27 @@ public class FenetrePrincipale extends JFrame {
 				}
 			}
 		}
-	}
-
-	private class EcouteurDrag extends MouseMotionAdapter {
+		
 		@Override
 		public void mouseDragged(MouseEvent p_e) {
 			ElementGraphique selection = FenetrePrincipale.this.m_Modele.getSelection();
 			if (selection != null) {
-				if (FenetrePrincipale.this.btn_Selection.hasFocus()
-						&& selection.contient(p_e.getX(), p_e.getY())) {
-					int milieuX = selection.getLargeur() >> 1;
-					int milieuY = selection.getHauteur() >> 1;
-					selection.setPosition(p_e.getX() - milieuX, p_e.getY() - milieuY);
+				if (FenetrePrincipale.this.btn_Selection.hasFocus()) {
+					selection.setPosition(p_e.getX() - this.differenceX, p_e.getY() - this.differenceY);
 				} else {
-					int largeur = p_e.getX() - selection.getX();
-					int hauteur = p_e.getY() - selection.getY();
+					double largeur = p_e.getX() - selection.getX();
+					double hauteur = p_e.getY() - selection.getY();
 					selection.setDimension(largeur, hauteur);
 				}
+			}
+		}
+		
+		private void selectionner(MouseEvent p_e) {
+			ElementGraphique selection = FenetrePrincipale.this.m_Modele.selectionner(p_e.getX(), p_e.getY());
+			if (selection != null) {
+				this.differenceX = p_e.getX() - selection.getX();
+				this.differenceY = p_e.getY() - selection.getY();
+				FenetrePrincipale.this.spin_LargeurTrait.setValue(selection.getLargeurTrait());
 			}
 		}
 	}

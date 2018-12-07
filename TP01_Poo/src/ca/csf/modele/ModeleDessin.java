@@ -68,8 +68,8 @@ public class ModeleDessin implements ModeleElementGraphique {
 	@Override
 	public void ajouter(ElementGraphique p_Element) {
 		this.deselectionner();
-		this.m_Elements.add(p_Element);
-		this.m_Selection = p_Element;
+		this.m_Selection = new FormeSelection(this.m_Ecouteurs, p_Element);
+		this.m_Elements.add(this.m_Selection);
 		this.avertirModifications(p_Element);
 	}
 
@@ -78,7 +78,9 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void ajouter(Iterable<ElementGraphique> p_Elements) {
-		p_Elements.forEach(this.m_Elements::add);
+		p_Elements.forEach(e -> {
+			this.m_Elements.add(new FormeSelection(this.m_Ecouteurs, e));
+		});
 		if (!this.m_Elements.isEmpty()) {
 			this.m_Selection = this.m_Elements.getLast();
 		}
@@ -92,9 +94,6 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public void remplir(Iterable<ElementGraphique> p_Elements) {
 		this.m_Elements.clear();
 		this.ajouter(p_Elements);
-		if (!this.m_Elements.isEmpty()) {
-			this.m_Selection = this.m_Elements.getLast();
-		}
 	}
 
 	/**
@@ -102,6 +101,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void retirer(ElementGraphique p_Element) {
+		this.m_Selection = null;
 		this.m_Elements.remove(p_Element);
 		this.avertirModifications(p_Element);
 	}
@@ -206,7 +206,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public ElementGraphique getSelection() {
-		return this.m_Selection == null ? null : new FormeSelection(this.m_Ecouteurs, this.m_Selection);
+		return this.m_Selection;
 	}
 
 	/**

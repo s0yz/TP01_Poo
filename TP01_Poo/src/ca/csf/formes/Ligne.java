@@ -15,7 +15,7 @@ public class Ligne extends Forme {
 	/**
 	 * @param p_Nom
 	 */
-	Ligne(int p_X, int p_Y) {
+	Ligne(double p_X, double p_Y) {
 		this(p_X, p_Y, p_X, p_Y);
 	}
 
@@ -26,7 +26,7 @@ public class Ligne extends Forme {
 	 * @param p_X2
 	 * @param p_Y2
 	 */
-	Ligne(int p_X1, int p_Y1, int p_X2, int p_Y2) {
+	Ligne(double p_X1, double p_Y1, double p_X2, double p_Y2) {
 		super("Ligne", p_X1, p_Y1, p_X2 - p_X1, p_Y2 - p_Y1);
 	}
 
@@ -35,7 +35,7 @@ public class Ligne extends Forme {
 	 */
 	@Override
 	protected Shape getShape() {
-		return new Line2D.Float(this.getX(), this.getY(), this.getX() + this.getLargeur(),
+		return new Line2D.Double(this.getX(), this.getY(), this.getX() + this.getLargeur(),
 				this.getY() + this.getHauteur());
 	}
 
@@ -43,11 +43,11 @@ public class Ligne extends Forme {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contient(int p_X, int p_Y) {
-		int x = Math.min(this.getX(), this.getX() + this.getLargeur());
-		int y = Math.min(this.getY(),this.getY() + this.getHauteur());
-		int hauteur = Math.abs(this.getLargeur());
-		int largeur = Math.abs(this.getHauteur());
+	public boolean contient(double p_X, double p_Y) {
+		double x = Math.min(this.getX(), this.getX() + this.getLargeur());
+		double y = Math.min(this.getY(),this.getY() + this.getHauteur());
+		double hauteur = Math.abs(this.getLargeur());
+		double largeur = Math.abs(this.getHauteur());
 		Rectangle rect = new Rectangle(x, y, hauteur, largeur);
 		return rect.contient(p_X, p_Y);
 	}

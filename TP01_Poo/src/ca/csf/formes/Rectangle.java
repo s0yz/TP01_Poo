@@ -18,7 +18,7 @@ public class Rectangle extends Forme {
 	 * @param p_X
 	 * @param p_Y
 	 */
-	public Rectangle(int p_X, int p_Y) {
+	public Rectangle(double p_X, double p_Y) {
 		this(p_X, p_Y, 0, 0);
 	}
 	
@@ -29,7 +29,7 @@ public class Rectangle extends Forme {
 	 * @param p_Largeur
 	 * @param p_Hauteur
 	 */
-	public Rectangle(int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
+	public Rectangle(double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
 		super("Rectangle", p_X, p_Y, p_Largeur, p_Hauteur);
 	}
 
@@ -38,7 +38,10 @@ public class Rectangle extends Forme {
 	 */
 	@Override
 	protected Shape getShape() {
-		return new java.awt.Rectangle(
-				this.getX(), this.getY(), this.getLargeur(), this.getHauteur());
+		double x = Math.min(this.getX(), this.getX() + this.getLargeur());
+		double y = Math.min(this.getY(), this.getY() + this.getHauteur());
+		double largeur = Math.abs(this.getLargeur());
+		double hauteur = Math.abs(this.getHauteur());
+		return new java.awt.Rectangle.Double(x, y, largeur, hauteur);
 	}
 }
