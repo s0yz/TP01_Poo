@@ -1,5 +1,6 @@
 package ca.csf.io;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -34,6 +35,11 @@ public class FormatXML implements FormatFichier {
 		FileWriter output = new FileWriter(p_Fichier);
 		doc = XMLOutputFactory.newInstance().createXMLStreamWriter(output);
 		doc.writeStartDocument();
+		doc.writeStartElement("fond");
+		doc.writeAttribute("hauteur", Integer.toString(p_Modele.getHauteur()));
+		doc.writeAttribute("largeur", Integer.toString(p_Modele.getLargeur()));
+		doc.writeAttribute("couleur", Integer.toString(p_Modele.getCouleurArrierePlan().getRGB()));
+
 		doc.writeStartElement("forme");
 		for (ElementGraphique elementGraphique : p_Modele) {
 			doc.writeStartElement(elementGraphique.getNom());
@@ -41,11 +47,13 @@ public class FormatXML implements FormatFichier {
 			doc.writeAttribute("Y", Integer.toString(elementGraphique.getY()));
 			doc.writeAttribute("hauteur", Integer.toString(elementGraphique.getHauteur()));
 			doc.writeAttribute("largeur", Integer.toString(elementGraphique.getLargeur()));
+			doc.writeAttribute("trait", Integer.toString(elementGraphique.getLargeurTrait()));
+			doc.writeAttribute("traitcolor", Integer.toString(elementGraphique.getCouleurTrait().getRGB()));
 			if (elementGraphique.getCouleur() != null) {
-				doc.writeAttribute("couleur", elementGraphique.getCouleur().toString());
-			}
-			doc.writeEndElement();
-		}
+				doc.writeAttribute("couleur", Integer.toString(elementGraphique.getCouleur().getRGB()));
+			} else {doc.writeAttribute("couleur", "null");}
+			doc.writeEndElement();}
+		doc.writeEndElement();
 		doc.writeEndElement();
 		doc.writeEndDocument();
 		if (doc != null) {
@@ -55,18 +63,24 @@ public class FormatXML implements FormatFichier {
 	}
 
 	@Override
-	public void ouvrir(ModeleElementGraphique p_Modele, File p_Fichier) throws XMLStreamException, FileNotFoundException {
+	public void ouvrir(ModeleElementGraphique p_Modele, File p_Fichier)
+			throws XMLStreamException, FileNotFoundException {
 		XMLStreamReader doc = null;
 		ArrayList<ElementGraphique> temp = new ArrayList<>();
 		FileReader input = new FileReader(p_Fichier);
 		doc = XMLInputFactory.newInstance().createXMLStreamReader(input);
 		// Pour passer par-dessus le Start Document
 		doc.next();
-		// Le document doit commencer par un <forme>
-		if (!doc.getLocalName().equals("forme")) {
+		// Le document doit commencer par un <fond>
+		if (!doc.getLocalName().equals("fond")) {
 			throw new XMLStreamException("Pas le bon element racine : " + doc.getLocalName());
 		}
+
+		int haut = Integer.parseInt(doc.getAttributeValue("", "hauteur"));
+		int larg = Integer.parseInt(doc.getAttributeValue("", "largeur"));
+		Color c = new Color(Integer.parseInt(doc.getAttributeValue("", "couleur")));
 		// Pour passer par-dessus <forme>
+		doc.next();
 		doc.next();
 		while (doc.isStartElement()) {
 			ElementGraphique EG = m_factory.getForme(doc.getLocalName());
@@ -76,10 +90,20 @@ public class FormatXML implements FormatFichier {
 			String hauteur = doc.getAttributeValue("", "hauteur");
 			String largeur = doc.getAttributeValue("", "largeur");
 			EG.setDimension(Integer.parseInt(largeur), Integer.parseInt(hauteur));
+			String trait = doc.getAttributeValue("", "trait" );
+			Color col = new Color(Integer.parseInt(doc.getAttributeValue("", "traitcolor")));
+			EG.setLargeurTrait(Integer.parseInt(trait));
+			EG.setCouleurTrait(col);
+			if (doc.getAttributeValue("", "couleur").compareTo("null") != 0) {
+				Color co = new Color(Integer.parseInt(doc.getAttributeValue("", "couleur")));
+				EG.setCouleur(co);}
 			doc.next();
 			doc.next();
 			temp.add(EG);
 		}
 		p_Modele.remplir(temp);
+		p_Modele.setHauteur(haut);
+		p_Modele.setLargeur(larg);
+		p_Modele.setCouleurArrierePlan(c);
 	}
 }
