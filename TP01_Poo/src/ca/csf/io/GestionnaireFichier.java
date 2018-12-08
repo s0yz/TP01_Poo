@@ -140,7 +140,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleTaille(int p_Hauteur, int p_Largeur) {
+	public void reagirNouvelleTaille(double p_Hauteur, double p_Largeur) {
 		this.reagirModifications();
 	}
 

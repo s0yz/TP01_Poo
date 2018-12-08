@@ -24,12 +24,12 @@ public class ModeleDessin implements ModeleElementGraphique {
 	/**
 	 * 
 	 */
-	private int m_Hauteur;
+	private double m_Hauteur;
 
 	/**
 	 * 
 	 */
-	private int m_Largeur;
+	private double m_Largeur;
 
 	/**
 	 * 
@@ -154,7 +154,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getLargeur() {
+	public double getLargeur() {
 		return this.m_Largeur;
 	}
 
@@ -162,7 +162,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getHauteur() {
+	public double getHauteur() {
 		return this.m_Hauteur;
 	}
 
@@ -170,7 +170,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Color getCouleurArrierePlan() {
+	public Color getArrierePlan() {
 		return this.m_Couleur;
 	}
 
@@ -178,7 +178,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setLargeur(int p_Largeur) {
+	public void setLargeur(double p_Largeur) {
 		this.m_Largeur = p_Largeur;
 		this.avertirNouvelleTaille();
 	}
@@ -187,7 +187,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setHauteur(int p_Hauteur) {
+	public void setHauteur(double p_Hauteur) {
 		this.m_Hauteur = p_Hauteur;
 		this.avertirNouvelleTaille();
 	}
@@ -196,7 +196,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setCouleurArrierePlan(Color p_Couleur) {
+	public void setArrierePlan(Color p_Couleur) {
 		this.m_Couleur = p_Couleur;
 		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleCouleurDeFond(p_Couleur));
 	}

@@ -80,35 +80,35 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * 
 	 * @return
 	 */
-	int getLargeur();
+	double getLargeur();
 
 	/**
 	 * 
 	 * @return
 	 */
-	int getHauteur();
+	double getHauteur();
 
 	/**
 	 * 
 	 * @return
 	 */
-	Color getCouleurArrierePlan();
+	Color getArrierePlan();
 
 	/**
 	 * 
 	 * @param p_Largeur
 	 */
-	void setLargeur(int p_Largeur);
+	void setLargeur(double p_Largeur);
 
 	/**
 	 * 
 	 * @param p_Hauteur
 	 */
-	void setHauteur(int p_Hauteur);
+	void setHauteur(double p_Hauteur);
 
 	/**
 	 * 
 	 * @param p_Color
 	 */
-	void setCouleurArrierePlan(Color p_Couleur);
+	void setArrierePlan(Color p_Couleur);
 }
