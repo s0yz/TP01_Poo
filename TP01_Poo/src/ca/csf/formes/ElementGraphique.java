@@ -33,16 +33,16 @@ public interface ElementGraphique {
 	double getY();
 
 	/**
-	 * Pour obtenir la largeur en pixel.
+	 * Pour obtenir la largeur.
 	 * 
-	 * @return la largeur en pixel.
+	 * @return la largeur.
 	 */
 	double getLargeur();
 
 	/**
-	 * Pour obtenir la hauteur en pixel.
+	 * Pour obtenir la hauteur.
 	 * 
-	 * @return la hauteur en pixel.
+	 * @return la hauteur.
 	 */
 	double getHauteur();
 
@@ -56,7 +56,7 @@ public interface ElementGraphique {
 	/**
 	 * Pour obtenir la largeur du trait.
 	 * 
-	 * @return l'épaisseur du trait en pixel.
+	 * @return l'épaisseur du trait.
 	 */
 	int getLargeurTrait();
 
@@ -139,4 +139,10 @@ public interface ElementGraphique {
 	 * @param p_Couleur la nouvelle largeur du trait.
 	 */
 	void setCouleurTrait(Color p_Couleur);
+	
+	/**
+	 * Spécifie si l'élément supporte des dimensions négatives.
+	 * @return
+	 */
+	boolean supporteDimensionsNegatives();
 }

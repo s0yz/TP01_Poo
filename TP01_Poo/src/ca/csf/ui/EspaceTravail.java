@@ -1,11 +1,11 @@
 package ca.csf.ui;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.util.function.Consumer;
 
 import javax.swing.AbstractAction;
@@ -18,6 +18,7 @@ import javax.swing.KeyStroke;
 import com.sun.glass.events.KeyEvent;
 
 import ca.csf.formes.ElementGraphique;
+import ca.csf.formes.ElementManipulable;
 import ca.csf.modele.EcouteurModeleGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 
@@ -25,14 +26,9 @@ import ca.csf.modele.ModeleElementGraphique;
  * 
  */
 public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
-
-	private static final long serialVersionUID = -7570189304007187337L;
 	
-	/**
-	 * Trait utilisé pour dessiner la sélection.
-	 */
-	private BasicStroke m_Trait;
-
+	private static final long serialVersionUID = -7570189304007187337L;
+		
 	/*
 	 * Actions
 	 */
@@ -42,22 +38,29 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	private static final String vkBas = "vkBas";
 	private static final String vkDelete = "vkDelete";
 
-	private ModeleElementGraphique m_ModeleGraphique;
+	private BufferedImage m_Dessin; // To be continued...
+		
+	/** 
+	 * Modèle
+	 */
+	private ModeleElementGraphique m_Modele;
+	
+	/**
+	 * Element sélectionnéé
+	 */
+	private ElementManipulable m_Selection = new ElementManipulable(null, 0, 0);
+
+	public String m_Forme = "";
 
 	public EspaceTravail(ModeleElementGraphique p_Modele) {
-		float[] tirets = { 1.0f };
-		this.m_Trait = new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, tirets, 0.0f);
-		this.m_ModeleGraphique = p_Modele;
-		this.m_ModeleGraphique.ajouterEcouteur(this);		
-		this.setBackground(this.m_ModeleGraphique.getArrierePlan());
-		this.setPreferredSize(new Dimension((int) p_Modele.getLargeur(), (int) p_Modele.getHauteur()));
+		this.setModeleGraphique(p_Modele);		
 		this.parametrerActionsTouche();
 		this.setOpaque(true);
 	}
 
 	private void deplacerSelection(int p_X, int p_Y) {
-		if (this.m_ModeleGraphique.getSelection() != null) {
-			this.m_ModeleGraphique.getSelection().deplacer(p_X, p_Y);
+		if (!this.m_Selection.estVide()) {
+			this.m_Selection.deplacer(p_X, p_Y);
 		}
 	}
 
@@ -82,10 +85,51 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 			this.deplacerSelection(0, 10);
 		}));
 		actionMap.put(vkDelete, new ActionTouche(e -> {
-			if (this.m_ModeleGraphique.getSelection() != null) {
-				this.m_ModeleGraphique.retirer(this.m_ModeleGraphique.getSelection());
+			if (this.m_Modele.getSelection() != null) {
+				this.m_Selection.set(null, 0, 0);
+				this.m_Modele.retirer(this.m_Modele.getSelection());
+				this.redessinerElement(m_Selection.getCarre());
 			}
 		}));
+	}
+	
+	public ModeleElementGraphique getModele() {
+		return this.m_Modele;
+	}
+
+	public void setModeleGraphique(ModeleElementGraphique p_Modele) {
+		if (p_Modele == null) {
+			throw new IllegalArgumentException("p_modeleGraphique est null");
+		}
+		if (this.m_Modele != null) {
+			this.m_Modele.retirerEcouteur(this);
+		}
+		this.m_Modele = p_Modele;
+		this.m_Modele.ajouterEcouteur(this);
+		this.setBackground(this.m_Modele.getArrierePlan());
+		this.setPreferredSize(new Dimension(
+				(int) Math.round(this.m_Modele.getLargeur()),
+				(int) Math.round(this.m_Modele.getHauteur())));		
+	}
+	
+	/**
+	 * Pour obtenir le selection.
+	 * @return le selection.
+	 */
+	public ElementManipulable getSelection() {
+		return m_Selection.estVide() ? null : this.m_Selection;
+	}
+
+	/**
+	 * Pour modifier le selection.
+	 * @param p_selection La nouvelle valeur.
+	 */
+	public void setSelection(ElementManipulable p_selection) {
+		//ElementGraphique element = this.m_Selection.getElement();
+		this.m_Selection = p_selection;
+		//this.redessinerElement(element);
+		//this.redessinerElement(p_selection.getElement());
+		this.repaint();
 	}
 
 	/**
@@ -94,18 +138,10 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	@Override
 	protected void paintComponent(Graphics p_Graphics) {
 		Graphics2D graphics2d = (Graphics2D) p_Graphics;
-		ElementGraphique element = this.m_ModeleGraphique.getSelection();
 		super.paintComponent(p_Graphics);
-		this.m_ModeleGraphique.forEach(e -> e.dessiner(graphics2d));
-		// Selection
-		if (element != null) {
-			int x = (int) Math.min(element.getX(), element.getX() + element.getLargeur());
-			int y = (int) Math.min(element.getY(), element.getY() + element.getHauteur());
-			int largeur = (int) Math.abs(element.getLargeur());
-			int hauteur = (int) Math.abs(element.getHauteur());
-			graphics2d.setColor(Color.CYAN);
-			graphics2d.setStroke(m_Trait);
-			graphics2d.drawRect(x, y, largeur, hauteur);
+		this.m_Modele.forEach(e -> e.dessiner(graphics2d));
+		if (!this.m_Selection.estVide()) {
+			this.m_Selection.dessiner(graphics2d);
 		}
 	}
 
@@ -145,32 +181,26 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 
 	/**
 	 * Redessine la zone contenant l'élément spécifié en tenant compte de la largeur
-	 * du trait.
+	 * du trait et des dimensions négatives.
 	 * 
 	 * @param p_Element
 	 */
 	private void redessinerElement(ElementGraphique p_Element) {
-		int x = (int) p_Element.getX();
-		int y = (int) p_Element.getY();
-		int largeur = (int) p_Element.getLargeur();
-		int hauteur = (int) p_Element.getHauteur();
-		if (largeur < 0) {
-			x += largeur;
-			largeur *= -1;
+		if (p_Element != null) {
+			int x = (int) Math.round(Math.min(p_Element.getX(), p_Element.getX() + p_Element.getLargeur()));
+			int y = (int) Math.round(Math.min(p_Element.getY(), p_Element.getY() + p_Element.getHauteur()));
+			int largeur = (int) Math.round(Math.abs(p_Element.getLargeur()));
+			int hauteur = (int) Math.round(Math.abs(p_Element.getHauteur()));
+			x -= p_Element.getLargeurTrait();
+			y -= p_Element.getLargeurTrait();
+			largeur += 2 * p_Element.getLargeurTrait();
+			hauteur += 2 * p_Element.getLargeurTrait();
+			this.repaint(x, y, largeur, hauteur);
 		}
-		if (hauteur < 0) {
-			y += hauteur;
-			hauteur *= -1;
-		}
-		x -= p_Element.getLargeurTrait();
-		y -= p_Element.getLargeurTrait();
-		largeur += 2 * p_Element.getLargeurTrait();
-		hauteur += 2 * p_Element.getLargeurTrait();
-		this.repaint(x, y, largeur, hauteur);
 	}
 
 	/**
-	 * Simplement pour créer des AbstractAction plu
+	 * Simplement pour créer des AbstractAction plus facilement
 	 */
 	private class ActionTouche extends AbstractAction {
 
@@ -186,5 +216,5 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		public void actionPerformed(ActionEvent p_e) {
 			this.m_Action.accept(p_e);
 		}
-	}
+	}	
 }

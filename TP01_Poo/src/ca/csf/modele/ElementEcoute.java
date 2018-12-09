@@ -6,14 +6,25 @@ import java.util.ArrayList;
 import ca.csf.formes.DecorateurElementGraphique;
 import ca.csf.formes.ElementGraphique;
 
+/**
+ * Élément écouté. Décorateur concret d'{@code ElementGraphiqe}.
+ * <br>
+ * <br>
+ * ElementGraphiqe signalant toutes modifications à une liste d'{@code EcouteurModeleGraphique}s.
+ */
 public class ElementEcoute extends DecorateurElementGraphique {
 
 	/**
-	 * 
+	 * Liste d'écouteurs
 	 */
 	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs;
 	
-	
+	/**
+	 * Construit un ElementEcouté
+	 * 
+	 * @param p_Element
+	 * @param p_Ecouteurs
+	 */
 	public ElementEcoute(ElementGraphique p_Element, ArrayList<EcouteurModeleGraphique> p_Ecouteurs) {
 		super(p_Element);
 		this.m_Ecouteurs = p_Ecouteurs;

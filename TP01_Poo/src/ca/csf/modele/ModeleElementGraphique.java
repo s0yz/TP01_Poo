@@ -45,15 +45,22 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * @param p_Elements
 	 */
 	void remplir(Iterable<ElementGraphique> p_Elements);
-
+	
 	/**
-	 * Selectionne le premier élément contenant le point spécifié.
+	 * 
+	 * @param p_Indice
+	 * @return
+	 */
+	public ElementGraphique get(int p_Indice);
+	
+	/**
+	 * Retourne le dernier élément contenant le point spécifié.
 	 * 
 	 * @param p_x coodonnée en x devant être contenue par l'élément à selectionner.
 	 * @param p_y coodonnée en y devant être contenue par l'élément à selectionner.
 	 * @return l'élément selectionné.
 	 */
-	public ElementGraphique selectionner(int p_x, int p_y);
+	public ElementGraphique get(double p_x, double p_y);
 
 	/**
 	 * Ajoute un écouteur.
@@ -67,7 +74,7 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * 
 	 * @param p_Ecouteur l'écouteur à retirer.
 	 */
-	void removeEcouteur(EcouteurModeleGraphique p_Ecouteur);
+	void retirerEcouteur(EcouteurModeleGraphique p_Ecouteur);
 
 	/**
 	 * Pour obtenir l'élément selectionné.
@@ -95,16 +102,10 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	Color getArrierePlan();
 
 	/**
-	 * 
 	 * @param p_Largeur
-	 */
-	void setLargeur(double p_Largeur);
-
-	/**
-	 * 
 	 * @param p_Hauteur
 	 */
-	void setHauteur(double p_Hauteur);
+	void setDimension(double p_Largeur, double p_Hauteur);
 
 	/**
 	 * 

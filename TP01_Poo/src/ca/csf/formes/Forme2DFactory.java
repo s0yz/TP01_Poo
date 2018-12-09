@@ -11,7 +11,7 @@ public interface Forme2DFactory {
 	 * Retourne une instance de la forme demandée.
 	 * 
 	 * @param p_Nom le nom de la forme désirée.
-	 * @return La forme demandée ou null
+	 * @return la forme demandée ou null
 	 */
 	ElementGraphique getForme(String p_Nom);
 
@@ -22,7 +22,7 @@ public interface Forme2DFactory {
 	 * @param p_Y
 	 * @return
 	 */
-	ElementGraphique getForme(String p_Nom, int p_X, int p_Y);
+	ElementGraphique getForme(String p_Nom, double p_X, double p_Y);
 
 	/**
 	 * @param p_Nom
@@ -32,5 +32,5 @@ public interface Forme2DFactory {
 	 * @param p_Hauteur
 	 * @return
 	 */
-	ElementGraphique getForme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur);
+	ElementGraphique getForme(String p_Nom, double p_X, double p_Y, double p_Largeur, double p_Hauteur);
 }

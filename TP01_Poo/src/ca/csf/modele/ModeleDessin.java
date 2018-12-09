@@ -58,8 +58,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public ModeleDessin(int p_Largeur, int p_Hauteur) {
 		this.m_Elements = new LinkedList<ElementGraphique>();
 		this.m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
-		this.setLargeur(p_Largeur);
-		this.setHauteur(p_Hauteur);
+		this.setDimension(p_Largeur, p_Hauteur);
 	}
 
 	/**
@@ -67,7 +66,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void ajouter(ElementGraphique p_Element) {
-		this.deselectionner();
+		this.m_Selection = null;
 		this.m_Selection = new ElementEcoute(p_Element, this.m_Ecouteurs);
 		this.m_Elements.add(this.m_Selection);
 		this.avertirModifications(p_Element);
@@ -120,15 +119,20 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ElementGraphique selectionner(int p_X, int p_Y) {
-		this.deselectionner();
+	public ElementGraphique get(int p_Indice) {
+		return this.m_Elements.get(p_Indice);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ElementGraphique get(double p_X, double p_Y) {
+		this.m_Selection = null;
 		for (int i = this.m_Elements.size(); --i >= 0 && this.m_Selection == null;) {
 			if (this.m_Elements.get(i).contient(p_X, p_Y)) {
 				this.m_Selection = this.m_Elements.get(i);
 			}
-		}
-		if (this.m_Selection != null) {
-			this.avertirModifications(this.m_Selection);
 		}
 		return this.m_Selection;
 	}
@@ -146,7 +150,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void removeEcouteur(EcouteurModeleGraphique p_Ecouteur) {
+	public void retirerEcouteur(EcouteurModeleGraphique p_Ecouteur) {
 		this.m_Ecouteurs.remove(p_Ecouteur);
 	}
 
@@ -178,16 +182,8 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setLargeur(double p_Largeur) {
+	public void setDimension(double p_Largeur, double p_Hauteur) {
 		this.m_Largeur = p_Largeur;
-		this.avertirNouvelleTaille();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setHauteur(double p_Hauteur) {
 		this.m_Hauteur = p_Hauteur;
 		this.avertirNouvelleTaille();
 	}
@@ -237,16 +233,5 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	private void avertirNouvelleTaille() {
 		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille(this.m_Largeur, this.m_Hauteur));
-	}
-
-	/**
-	 * 
-	 */
-	private void deselectionner() {
-		ElementGraphique selection = this.m_Selection;
-		this.m_Selection = null;
-		if (selection != null) {
-			this.avertirModifications(selection);
-		}
 	}
 }

@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
- * 
- * @author Cedric Mariage
- *
+ * Décorateur d'{@code ElementGraphiqe}.
  */
 public class DecorateurElementGraphique implements ElementGraphique {
 
@@ -16,11 +14,11 @@ public class DecorateurElementGraphique implements ElementGraphique {
 		this.m_Element = p_Element;
 	}
 	
-	protected ElementGraphique getElement() {
+	public ElementGraphique getElement() {
 		return this.m_Element;
 	}
 
-	protected void setElement(ElementGraphique p_Element) {
+	public void setElement(ElementGraphique p_Element) {
 		this.m_Element = p_Element;
 	}
 	
@@ -166,5 +164,13 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	@Override
 	public void setCouleurTrait(Color p_Couleur) {
 		this.m_Element.setCouleurTrait(p_Couleur);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean supporteDimensionsNegatives() {
+		return this.m_Element.supporteDimensionsNegatives();
 	}
 }

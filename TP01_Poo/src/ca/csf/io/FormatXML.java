@@ -106,8 +106,7 @@ public class FormatXML implements FormatFichier {
 			temp.add(EG);
 		}
 		p_Modele.remplir(temp);
-		p_Modele.setHauteur(haut);
-		p_Modele.setLargeur(larg);
+		p_Modele.setDimension(haut, larg);
 		p_Modele.setArrierePlan(c);
 	}
 }

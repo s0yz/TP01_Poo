@@ -27,7 +27,7 @@ public class FormeFactory implements Forme2DFactory {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ElementGraphique getForme(String p_Nom, int p_X, int p_Y) {
+	public ElementGraphique getForme(String p_Nom, double p_X, double p_Y) {
 		return this.getForme(p_Nom, p_X, p_Y, 0, 0);
 	}
 
@@ -35,7 +35,7 @@ public class FormeFactory implements Forme2DFactory {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ElementGraphique getForme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
+	public ElementGraphique getForme(String p_Nom, double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
 		switch (p_Nom.toLowerCase()) {
 		case "ligne":
 			return new Ligne(p_X, p_Y, p_Largeur, p_Hauteur);

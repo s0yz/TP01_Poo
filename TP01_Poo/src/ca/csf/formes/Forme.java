@@ -42,27 +42,28 @@ public abstract class Forme implements ElementGraphique {
 	private double m_Hauteur;
 	
 	/**
-	 * 
+	 * Largeur du trait.
 	 */
 	private int m_LargeurTrait = Forme.LARGEUR_TRAIT_DEFAUT;
 	
 	/**
-	 * 
+	 * Couleur.
 	 */
 	private Color m_Couleur;
 	
 	/**
-	 * 
+	 * Couleur du trait.
 	 */
 	private Color m_CouleurTrait = Color.BLACK;
 		
 	/**
+	 * Construit une forme.
 	 * 
-	 * @param p_Nom
-	 * @param p_X
-	 * @param p_Y
-	 * @param p_Largeur
-	 * @param p_Hauteur
+	 * @param p_Nom nom de la forme.
+	 * @param p_X coordonnée en x.
+	 * @param p_Y coordonnée en y.
+	 * @param p_Largeur largeur.
+	 * @param p_Hauteur hauteur.
 	 */
 	protected Forme(String p_Nom, double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
 		this.m_Nom = p_Nom;
@@ -75,14 +76,15 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void dessiner(Graphics2D p_Graphic) {
+		Shape forme = this.getShape();
 		if (this.getCouleur() != null) {
 			p_Graphic.setColor(this.getCouleur());
-			p_Graphic.fill(this.getShape());
+			p_Graphic.fill(forme);
 		}
 		if (this.getLargeurTrait() > 0 && this.getCouleurTrait() != null) {
 			p_Graphic.setStroke(new BasicStroke(this.getLargeurTrait()));
 			p_Graphic.setColor(this.getCouleurTrait());
-			p_Graphic.draw(this.getShape());
+			p_Graphic.draw(forme);
 		}		
 	}
 
@@ -170,7 +172,7 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void setLargeur(double p_Largeur) {
-		if (p_Largeur < 0) {
+		if (p_Largeur < 0 && !supporteDimensionsNegatives()) {
 			throw new IllegalArgumentException("Largeur invalide : " + p_Largeur);
 		}
 		this.m_Largeur = p_Largeur;
@@ -182,7 +184,7 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void setHauteur(double p_Hauteur) {
-		if (p_Hauteur < 0) {
+		if (p_Hauteur < 0 && !supporteDimensionsNegatives()) {
 			throw new IllegalArgumentException("Hauteur invalide : " + p_Hauteur);
 		}
 		this.m_Hauteur = p_Hauteur;
@@ -227,6 +229,14 @@ public abstract class Forme implements ElementGraphique {
 	@Override
 	public void setCouleurTrait(Color p_Couleur) {
 		this.m_CouleurTrait = p_Couleur;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean supporteDimensionsNegatives() {
+		return false;
 	}
 	
 	/**

@@ -3,7 +3,7 @@ package ca.csf.formes;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 
-import com.sun.javafx.scene.paint.GradientUtils.Point;
+import java.awt.Point;
 
 /**
  * 
@@ -54,12 +54,12 @@ public class Ligne extends Forme {
 		return rect.contient(p_X, p_Y);
 	}
 	
-	public void setPoint1() {
-		
-	}
-	
-	public void setPoint2() {
-		
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean supporteDimensionsNegatives() {
+		return true;
 	}
 	
 	public Point getPoint1() {
