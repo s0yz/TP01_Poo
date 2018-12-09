@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import ca.csf.formes.DecorateurElementGraphique;
 import ca.csf.formes.ElementGraphique;
 
-public class FormeSelection extends DecorateurElementGraphique {
+public class ElementEcoute extends DecorateurElementGraphique {
 
 	/**
 	 * 
@@ -14,7 +14,7 @@ public class FormeSelection extends DecorateurElementGraphique {
 	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs;
 	
 	
-	public FormeSelection(ArrayList<EcouteurModeleGraphique> p_Ecouteurs, ElementGraphique p_Element) {
+	public ElementEcoute(ElementGraphique p_Element, ArrayList<EcouteurModeleGraphique> p_Ecouteurs) {
 		super(p_Element);
 		this.m_Ecouteurs = p_Ecouteurs;
 	}

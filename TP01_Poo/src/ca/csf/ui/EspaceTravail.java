@@ -27,6 +27,11 @@ import ca.csf.modele.ModeleElementGraphique;
 public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 
 	private static final long serialVersionUID = -7570189304007187337L;
+	
+	/**
+	 * Trait utilisé pour dessiner la sélection.
+	 */
+	private BasicStroke m_Trait;
 
 	/*
 	 * Actions
@@ -40,12 +45,14 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	private ModeleElementGraphique m_ModeleGraphique;
 
 	public EspaceTravail(ModeleElementGraphique p_Modele) {
+		float[] tirets = { 1.0f };
+		this.m_Trait = new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, tirets, 0.0f);
 		this.m_ModeleGraphique = p_Modele;
-		this.m_ModeleGraphique.ajouterEcouteur(this);
-		this.setOpaque(true);
+		this.m_ModeleGraphique.ajouterEcouteur(this);		
 		this.setBackground(this.m_ModeleGraphique.getArrierePlan());
 		this.setPreferredSize(new Dimension((int) p_Modele.getLargeur(), (int) p_Modele.getHauteur()));
 		this.parametrerActionsTouche();
+		this.setOpaque(true);
 	}
 
 	private void deplacerSelection(int p_X, int p_Y) {
@@ -75,7 +82,9 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 			this.deplacerSelection(0, 10);
 		}));
 		actionMap.put(vkDelete, new ActionTouche(e -> {
-			this.m_ModeleGraphique.retirer(this.m_ModeleGraphique.getSelection());
+			if (this.m_ModeleGraphique.getSelection() != null) {
+				this.m_ModeleGraphique.retirer(this.m_ModeleGraphique.getSelection());
+			}
 		}));
 	}
 
@@ -88,13 +97,14 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		ElementGraphique element = this.m_ModeleGraphique.getSelection();
 		super.paintComponent(p_Graphics);
 		this.m_ModeleGraphique.forEach(e -> e.dessiner(graphics2d));
+		// Selection
 		if (element != null) {
 			int x = (int) Math.min(element.getX(), element.getX() + element.getLargeur());
 			int y = (int) Math.min(element.getY(), element.getY() + element.getHauteur());
 			int largeur = (int) Math.abs(element.getLargeur());
 			int hauteur = (int) Math.abs(element.getHauteur());
 			graphics2d.setColor(Color.CYAN);
-			graphics2d.setStroke(new BasicStroke(1));
+			graphics2d.setStroke(m_Trait);
 			graphics2d.drawRect(x, y, largeur, hauteur);
 		}
 	}

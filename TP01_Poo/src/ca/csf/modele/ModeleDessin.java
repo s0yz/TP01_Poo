@@ -68,7 +68,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	@Override
 	public void ajouter(ElementGraphique p_Element) {
 		this.deselectionner();
-		this.m_Selection = new FormeSelection(this.m_Ecouteurs, p_Element);
+		this.m_Selection = new ElementEcoute(p_Element, this.m_Ecouteurs);
 		this.m_Elements.add(this.m_Selection);
 		this.avertirModifications(p_Element);
 	}
@@ -79,7 +79,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	@Override
 	public void ajouter(Iterable<ElementGraphique> p_Elements) {
 		p_Elements.forEach(e -> {
-			this.m_Elements.add(new FormeSelection(this.m_Ecouteurs, e));
+			this.m_Elements.add(new ElementEcoute(e, this.m_Ecouteurs));
 		});
 		if (!this.m_Elements.isEmpty()) {
 			this.m_Selection = this.m_Elements.getLast();
@@ -239,6 +239,9 @@ public class ModeleDessin implements ModeleElementGraphique {
 		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille(this.m_Largeur, this.m_Hauteur));
 	}
 
+	/**
+	 * 
+	 */
 	private void deselectionner() {
 		ElementGraphique selection = this.m_Selection;
 		this.m_Selection = null;

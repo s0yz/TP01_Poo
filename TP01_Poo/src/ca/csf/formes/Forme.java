@@ -22,29 +22,29 @@ public abstract class Forme implements ElementGraphique {
 	private final String m_Nom;
 	
 	/**
-	 * 
+	 * Coordonnée en x du point suppérieure gauche.
 	 */
 	private double m_X;
 	
 	/**
-	 * 
+	 * Coordonnée en y du point suppérieure gauche.
 	 */
 	private double m_Y;
 	
 	/**
-	 * 
+	 * Largeur.
 	 */
 	private double m_Largeur;
 	
 	/**
-	 * 
+	 * Hauteur.
 	 */
 	private double m_Hauteur;
 	
 	/**
 	 * 
 	 */
-	private int m_LargeurTrait = LARGEUR_TRAIT_DEFAUT;
+	private int m_LargeurTrait = Forme.LARGEUR_TRAIT_DEFAUT;
 	
 	/**
 	 * 
@@ -166,18 +166,26 @@ public abstract class Forme implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws IllegalArgumentException si p_Largeur < 0.
 	 */
 	@Override
 	public void setLargeur(double p_Largeur) {
-		this.setDimension(p_Largeur, this.m_Hauteur);
+		if (p_Largeur < 0) {
+			throw new IllegalArgumentException("Largeur invalide : " + p_Largeur);
+		}
+		this.m_Largeur = p_Largeur;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * @throws IllegalArgumentException si p_Hauteur < 0.
 	 */
 	@Override
 	public void setHauteur(double p_Hauteur) {
-		this.setDimension(this.m_Largeur, p_Hauteur);
+		if (p_Hauteur < 0) {
+			throw new IllegalArgumentException("Hauteur invalide : " + p_Hauteur);
+		}
+		this.m_Hauteur = p_Hauteur;
 	}
 	
 	/**
@@ -185,8 +193,8 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void setDimension(double p_Largeur, double p_Hauteur) {
-		this.m_Largeur = p_Largeur;
-		this.m_Hauteur = p_Hauteur;
+		this.setLargeur(p_Largeur);
+		this.setHauteur(p_Hauteur);
 	}
 	
 	/**

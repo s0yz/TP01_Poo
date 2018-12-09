@@ -10,9 +10,17 @@ import java.awt.Graphics2D;
  */
 public class DecorateurElementGraphique implements ElementGraphique {
 
-	ElementGraphique m_Element;
-	
+	private ElementGraphique m_Element;
+		
 	public DecorateurElementGraphique(ElementGraphique p_Element) {
+		this.m_Element = p_Element;
+	}
+	
+	protected ElementGraphique getElement() {
+		return this.m_Element;
+	}
+
+	protected void setElement(ElementGraphique p_Element) {
 		this.m_Element = p_Element;
 	}
 	
