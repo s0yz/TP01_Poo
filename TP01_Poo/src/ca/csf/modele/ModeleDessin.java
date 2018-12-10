@@ -18,28 +18,23 @@ import ca.csf.formes.ElementGraphique;
 public class ModeleDessin implements ModeleElementGraphique {
 
 	public static final int LARGEUR_DEFAULT = 640;
-	
+
 	public static final int HAUTEUR_DEFAULT = 360;
-	
-	/**
-	 * 
-	 */
-	private int m_Hauteur;
 
 	/**
 	 * 
 	 */
-	private int m_Largeur;
+	private double m_Hauteur;
+
+	/**
+	 * 
+	 */
+	private double m_Largeur;
 
 	/**
 	 * 
 	 */
 	private Color m_Couleur = Color.WHITE;
-
-	/**
-	 * 
-	 */
-	private ElementGraphique m_Selection;
 
 	/**
 	 * 
@@ -54,12 +49,14 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public ModeleDessin() {
 		this(LARGEUR_DEFAULT, HAUTEUR_DEFAULT);
 	}
-	
+
 	public ModeleDessin(int p_Largeur, int p_Hauteur) {
+		if (p_Largeur < 0 || p_Hauteur < 0) {
+			throw new IllegalArgumentException("Dimensions négatives non-supportées");
+		}
 		this.m_Elements = new LinkedList<ElementGraphique>();
 		this.m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
-		this.setLargeur(p_Largeur);
-		this.setHauteur(p_Hauteur);
+		this.setDimension(p_Largeur, p_Hauteur);
 	}
 
 	/**
@@ -67,10 +64,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void ajouter(ElementGraphique p_Element) {
-		this.deselectionner();
-		this.m_Elements.add(p_Element);
-		this.m_Selection = p_Element;
-		this.avertirModifications(p_Element);
+		this.inserer(this.getCompte(), p_Element);
 	}
 
 	/**
@@ -78,11 +72,24 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void ajouter(Iterable<ElementGraphique> p_Elements) {
-		p_Elements.forEach(this.m_Elements::add);
-		if (!this.m_Elements.isEmpty()) {
-			this.m_Selection = this.m_Elements.getLast();
+		if (p_Elements == null) {
+			throw new IllegalArgumentException("p_Elements est null");
 		}
+		p_Elements.forEach(this.m_Elements::add);
 		this.avertirModifications();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void inserer(int p_Indice, ElementGraphique p_Element) {
+		if (p_Indice < 0 || p_Indice > this.getCompte()) {
+			throw new IllegalArgumentException("Indice invalide : " + p_Indice);
+		} else if (p_Element == null) {
+			throw new IllegalArgumentException("p_Elements est null");
+		}
+		this.m_Elements.add(p_Indice, p_Element);
 	}
 
 	/**
@@ -92,9 +99,6 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public void remplir(Iterable<ElementGraphique> p_Elements) {
 		this.m_Elements.clear();
 		this.ajouter(p_Elements);
-		if (!this.m_Elements.isEmpty()) {
-			this.m_Selection = this.m_Elements.getLast();
-		}
 	}
 
 	/**
@@ -111,7 +115,6 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void vider() {
-		this.m_Selection = null;
 		this.m_Elements.clear();
 		this.avertirModifications();
 	}
@@ -120,17 +123,46 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ElementGraphique selectionner(int p_X, int p_Y) {
-		this.deselectionner();
-		for (int i = this.m_Elements.size(); --i >= 0 && this.m_Selection == null;) {
+	public ElementGraphique get(int p_Indice) {
+		return this.convertir(this.m_Elements.get(p_Indice));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ElementGraphique get(double p_X, double p_Y) {
+		ElementGraphique element = null;
+		for (int i = this.m_Elements.size(); --i >= 0 && element == null;) {
 			if (this.m_Elements.get(i).contient(p_X, p_Y)) {
-				this.m_Selection = this.m_Elements.get(i);
+				element = this.m_Elements.get(i);
 			}
 		}
-		if (this.m_Selection != null) {
-			this.avertirModifications(this.m_Selection);
-		}
-		return this.m_Selection;
+		return element == null ? null : this.convertir(element);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ElementGraphique getDernier() {
+		return this.convertir(this.m_Elements.getLast());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getCompte() {
+		return this.m_Elements.size();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getIndiceDe(ElementGraphique p_Element) {
+		return this.m_Elements.indexOf(p_Element);
 	}
 
 	/**
@@ -146,7 +178,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void removeEcouteur(EcouteurModeleGraphique p_Ecouteur) {
+	public void retirerEcouteur(EcouteurModeleGraphique p_Ecouteur) {
 		this.m_Ecouteurs.remove(p_Ecouteur);
 	}
 
@@ -154,7 +186,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getLargeur() {
+	public double getLargeur() {
 		return this.m_Largeur;
 	}
 
@@ -162,7 +194,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getHauteur() {
+	public double getHauteur() {
 		return this.m_Hauteur;
 	}
 
@@ -170,7 +202,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Color getCouleurArrierePlan() {
+	public Color getArrierePlan() {
 		return this.m_Couleur;
 	}
 
@@ -178,35 +210,19 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setLargeur(int p_Largeur) {
+	public void setDimension(double p_Largeur, double p_Hauteur) {
 		this.m_Largeur = p_Largeur;
-		this.avertirNouvelleTaille();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setHauteur(int p_Hauteur) {
 		this.m_Hauteur = p_Hauteur;
-		this.avertirNouvelleTaille();
+		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille());
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setCouleurArrierePlan(Color p_Couleur) {
+	public void setArrierePlan(Color p_Couleur) {
 		this.m_Couleur = p_Couleur;
-		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleCouleurDeFond(p_Couleur));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ElementGraphique getSelection() {
-		return this.m_Selection == null ? null : new FormeSelection(this.m_Ecouteurs, this.m_Selection);
+		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleCouleurDeFond());
 	}
 
 	/**
@@ -214,17 +230,19 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public Iterator<ElementGraphique> iterator() {
-		return m_Elements.iterator();
+		return new ModeleDessiniterator();
 	}
 
 	/**
-	 * 
+	 * Appelle {@link EcouteurModeleGraphique#reagirModifications()}.
 	 */
 	private void avertirModifications() {
 		this.m_Ecouteurs.forEach(e -> e.reagirModifications());
 	}
 
 	/**
+	 * Appelle
+	 * {@link EcouteurModeleGraphique#reagirModifications(ElementGraphique)}.
 	 * 
 	 * @param p_Element
 	 */
@@ -233,17 +251,43 @@ public class ModeleDessin implements ModeleElementGraphique {
 	}
 
 	/**
+	 * Retourne un {@code ElementEcoute} à partir de p_Element. Assure que les
+	 * écouteurs du modèle seront notifiés de toute modification effectuée sur l'élément
+	 * retourné.
 	 * 
+	 * @param p_Element l'élément à décorer.
+	 * @return un élément "écouté".
 	 */
-	private void avertirNouvelleTaille() {
-		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille(this.m_Largeur, this.m_Hauteur));
+	private ElementGraphique convertir(ElementGraphique p_Element) {
+		assert (!(p_Element instanceof ElementEcoute)) : "Élément déjà décoré.";
+		return new ElementEcoute(p_Element, this.m_Ecouteurs);
 	}
 
-	private void deselectionner() {
-		ElementGraphique selection = this.m_Selection;
-		this.m_Selection = null;
-		if (selection != null) {
-			this.avertirModifications(selection);
+	/**
+	 * Itérateur de {@code ModeleDessin}.
+	 */
+	private class ModeleDessiniterator implements Iterator<ElementGraphique> {
+
+		private int m_Indice;
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean hasNext() {
+			return this.m_Indice < ModeleDessin.this.getCompte();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public ElementGraphique next() {
+			if (this.hasNext()) {
+				ElementGraphique element = ModeleDessin.this.m_Elements.get(this.m_Indice++);
+				return element instanceof ElementEcoute ? element : convertir(element);
+			}
+			return null;
 		}
 	}
 }
