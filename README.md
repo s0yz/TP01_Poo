@@ -62,7 +62,7 @@ io :
 
 modèle :
 - [ ] ElementEcoute (?)
-- [ ] ModeleDessin (?)
+- [ ] ModeleDessin
 
 ui :
 - [ ] ActionTouche (?)
