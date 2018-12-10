@@ -4,24 +4,40 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
- * Décorateur d'{@code ElementGraphiqe}.
+ * Décorateur d'{@code ElementGraphiqe}. Les classes intéressées à décorer un
+ * ÉlémentGraphique hériterons de cette classe.
  */
 public class DecorateurElementGraphique implements ElementGraphique {
 
 	private ElementGraphique m_Element;
-		
+
+	/**
+	 * Construit un décorateur d'{@code ElementGraphiqe}.
+	 * 
+	 * @param p_Element l'élément décoré.
+	 */
 	public DecorateurElementGraphique(ElementGraphique p_Element) {
 		this.m_Element = p_Element;
 	}
-	
+
+	/**
+	 * Pour obtenir l'élément décoré.
+	 * 
+	 * @return
+	 */
 	public ElementGraphique getElement() {
 		return this.m_Element;
 	}
 
-	public void setElement(ElementGraphique p_Element) {
+	/**
+	 * Pour changer l'élément décoré.
+	 * 
+	 * @param p_Element le nouvel élément décoré.
+	 */
+	protected void setElement(ElementGraphique p_Element) {
 		this.m_Element = p_Element;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -109,7 +125,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	public void setPosition(double p_X, double p_Y) {
 		this.m_Element.setPosition(p_X, p_Y);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -157,7 +173,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	public void setLargeurTrait(int p_PX) {
 		this.m_Element.setLargeurTrait(p_PX);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

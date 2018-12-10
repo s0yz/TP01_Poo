@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
-import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -39,16 +38,6 @@ public class FenetrePrincipale extends JFrame {
 	private static final long serialVersionUID = -4586998190495167383L;
 
 	/**
-	 * Largeur par défaut de l'espcae de travail.
-	 */
-	public static final int LARGEUR_DEFAULT = 640;
-
-	/**
-	 * Hauteur par défaut de l'espace de travail.
-	 */
-	public static final int HAUTEUR_DEFAULT = 360;
-
-	/**
 	 * Taille par défaut des éléments.
 	 */
 	public static final int TAILLE_DEFAUT = 50;
@@ -73,18 +62,13 @@ public class FenetrePrincipale extends JFrame {
 	 */
 	private EspaceTravail m_Espace;
 
-	/**
-	 * Détermine la prochaine forme dessiner.
-	 */
-	private String m_Forme = "";
-
 	private GestionnaireFichier m_GestionnaireFichier;
 
 	private JButton btn_Selection;
 	private JButton btn_Remplissage;
 	private JSpinner spin_LargeurTrait;
 	private JButton btn_CouleurTrait;
-	private HashMap<String, JButton> m_BtnOutils;
+	//private HashMap<String, JButton> m_BtnOutils;
 
 	/**
 	 * Construit la fenêtre.
@@ -112,7 +96,6 @@ public class FenetrePrincipale extends JFrame {
 		this.m_Modele = new ModeleDessin();
 		this.m_Espace = new EspaceTravail(this.m_Modele);
 		this.m_GestionnaireFichier = new GestionnaireFichier(this, this.m_Modele);
-		this.m_BtnOutils = new HashMap<>();
 		JPanel panel_Centre = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JPanel panel_Outils = new JPanel();
 		JMenuBar menuBar = new JMenuBar();
@@ -138,7 +121,7 @@ public class FenetrePrincipale extends JFrame {
 		this.spin_LargeurTrait = new JSpinner(new SpinnerNumberModel(2, 0, 24, 1));
 		JPanel panel_CouleurTrait = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		this.btn_CouleurTrait = new JButton();
-		ManipulateurElement ecouteurSouris = new ManipulateurElement(m_Espace);
+		EcouteurSourisEG ecouteurSouris = new EcouteurSourisEG(m_Espace);
 		//
 		// panel_Centre
 		panel_Centre.setOpaque(true);
@@ -192,7 +175,7 @@ public class FenetrePrincipale extends JFrame {
 		item_Nouveau.addActionListener(e -> {
 			if (this.m_GestionnaireFichier.verifierSauvegarde()) {
 				this.m_Modele.vider();
-				this.m_Modele.setDimension(LARGEUR_DEFAULT, HAUTEUR_DEFAULT);
+				this.m_Modele.setDimension(ModeleDessin.LARGEUR_DEFAULT, ModeleDessin.HAUTEUR_DEFAULT);
 				this.m_Modele.setArrierePlan(Color.WHITE);
 				this.m_GestionnaireFichier.reagirNouveau();
 			}
@@ -221,11 +204,17 @@ public class FenetrePrincipale extends JFrame {
 		// item_Page
 		item_Page.addActionListener(e -> {
 			DialoguePage dialogueParametre = new DialoguePage(this);
-			dialogueParametre.montrer((int) Math.round(this.m_Modele.getLargeur()),
-					(int) Math.round(this.m_Modele.getHauteur()), this.m_Modele.getArrierePlan());
+			dialogueParametre.montrer(
+					(int) Math.round(this.m_Modele.getLargeur()),
+					(int) Math.round(this.m_Modele.getHauteur()),
+					this.m_Modele.getArrierePlan()
+			);
 			if (dialogueParametre.getResultat()) {
-				this.m_Modele.setDimension(dialogueParametre.getHauteur(), dialogueParametre.getLargeur());
+				this.m_Modele.setDimension(dialogueParametre.getLargeur(), dialogueParametre.getHauteur());
 				this.m_Modele.setArrierePlan(dialogueParametre.getCouleur());
+				if (this.getExtendedState() != JFrame.MAXIMIZED_BOTH) {
+					this.pack();
+				}
 			}
 		});
 		//
@@ -268,12 +257,6 @@ public class FenetrePrincipale extends JFrame {
 			}
 		});
 		//
-		// m_BtnOutils
-		this.m_BtnOutils.put("", this.btn_Selection);
-		this.m_BtnOutils.put("Rectangle", btn_Rectangle);
-		this.m_BtnOutils.put("Ellipse", btn_Ellipse);
-		this.m_BtnOutils.put("Ligne", btn_Ligne);
-		//
 		// panel_Outils
 		panel_Outils.setLayout(new BoxLayout(panel_Outils, BoxLayout.Y_AXIS));
 		panel_Outils.add(this.btn_Selection);
@@ -286,21 +269,18 @@ public class FenetrePrincipale extends JFrame {
 		// btn_Selection
 		this.btn_Selection.setIcon(FenetrePrincipale.chargerIcone("24_Souris.png"));
 		this.btn_Selection.addActionListener(e -> {
-			this.m_Forme = "";
 			ecouteurSouris.setNom("");
 		});
 		//
 		// btn_Ellipse
 		btn_Ellipse.setIcon(FenetrePrincipale.chargerIcone("24_Ellipse.png"));
 		btn_Ellipse.addActionListener(e -> {
-			this.m_Forme = "Ellipse";
 			ecouteurSouris.setNom("Ellipse");
 		});
 		//
 		// btn_Rectangle
 		btn_Rectangle.setIcon(FenetrePrincipale.chargerIcone("24_Rectangle.png"));
 		btn_Rectangle.addActionListener(e -> {
-			this.m_Forme = "Rectangle";
 			ecouteurSouris.setNom("Rectangle");
 		});
 		//
@@ -308,7 +288,6 @@ public class FenetrePrincipale extends JFrame {
 		btn_Ligne.setIcon(FenetrePrincipale.chargerIcone("24_Ligne.png"));
 		btn_Ligne.setPressedIcon(FenetrePrincipale.chargerIcone("24_Ligne.png"));
 		btn_Ligne.addActionListener(e -> {
-			this.m_Forme = "Ligne";
 			ecouteurSouris.setNom("Ligne");
 		});
 
@@ -324,7 +303,7 @@ public class FenetrePrincipale extends JFrame {
 			if (this.m_Espace.getSelection() != null) {
 				this.m_Espace.getSelection().setCouleur(couleur);
 			}
-			FenetrePrincipale.this.focusserOutil();
+			FenetrePrincipale.this.btn_Selection.requestFocus();
 		});
 		//
 		// windowClosing
@@ -336,13 +315,6 @@ public class FenetrePrincipale extends JFrame {
 				}
 			}
 		});
-	}
-
-	/**
-	 * Focusse l'outil {@code (JButton)} associé à {@code this.m_Forme}.
-	 */
-	private void focusserOutil() {
-		this.m_BtnOutils.get(this.m_Forme).requestFocus();
 	}
 
 	/**

@@ -42,18 +42,19 @@ public class Ligne extends Forme {
 	}
 
 	/**
+	 * Approximation généreuse.
+	 * 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean contient(double p_X, double p_Y) {
-		double x = Math.min(this.getX(), this.getX() + this.getLargeur());
-		double y = Math.min(this.getY(),this.getY() + this.getHauteur());
-		double hauteur = Math.abs(this.getLargeur());
-		double largeur = Math.abs(this.getHauteur());
-		Rectangle rect = new Rectangle(x - 2, y - 2, hauteur + 2, largeur + 2);
-		return rect.contient(p_X, p_Y);
+		double distAB = Math.hypot(this.getX1() - this.getX2(), this.getY1() - this.getY2());
+		double distAC = Math.hypot(this.getX1() - p_X, this.getY1() - p_Y);
+		double distBC = Math.hypot(this.getX2() - p_X, this.getY2() - p_Y);
+		distAB -= distAC + distBC;
+		return Math.abs(distAB) <= this.getLargeurTrait() >> 1;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -61,12 +62,20 @@ public class Ligne extends Forme {
 	public boolean supporteDimensionsNegatives() {
 		return true;
 	}
-	
-	public Point getPoint1() {
-		return null;
+
+	public double getX1() {
+		return this.getX();
 	}
-	
-	public Point getPoint2() {
-		return null;
+
+	public double getX2() {
+		return this.getX() + this.getLargeur();
+	}
+
+	public double getY1() {
+		return this.getY();
+	}
+
+	public double getY2() {
+		return this.getY() + this.getHauteur();
 	}
 }

@@ -5,11 +5,12 @@ import java.awt.Color;
 import ca.csf.formes.ElementGraphique;
 
 /**
- * Interface définissant les méthodes que l'{@code EspaceTravail} vas utiliser
- * pour réaliser un affichage.
+ * Interface utilisée par un {@code EspaceTravail} pour en réaliser l'affichage
+ * et définissant des méthodes pour manipuler une collection
+ * d'{@code ElementGraphiqe}
  * 
- * L'espace de travail peur-être configuré pour afficher les données de tout modèle
- * implémentant {@code ModeleElementGraphique}.
+ * L'espace de travail peut être configuré pour afficher les données de tout
+ * modèle implémentant {@code ModeleElementGraphique}.
  */
 public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 
@@ -45,14 +46,22 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * @param p_Elements
 	 */
 	void remplir(Iterable<ElementGraphique> p_Elements);
-	
+
 	/**
+	 * Pour obtenir l'élément à l'indice spécifié.
 	 * 
-	 * @param p_Indice
-	 * @return
+	 * @param p_Indice l'indice de l'élément désiré.
+	 * @return l'élément à l'indice spécifié.
 	 */
 	public ElementGraphique get(int p_Indice);
-	
+
+	/**
+	 * Pour obtenir le dernier élément.
+	 * 
+	 * @return le dernier élément.
+	 */
+	public ElementGraphique getDernier();
+
 	/**
 	 * Retourne le dernier élément contenant le point spécifié.
 	 * 
@@ -61,6 +70,14 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * @return l'élément selectionné.
 	 */
 	public ElementGraphique get(double p_x, double p_y);
+
+	/**
+	 * Pour obtenir l'indice de l'élément spécifié.
+	 * 
+	 * @param p_Element l'élément dont l'indice sera retourné.
+	 * @return l'indice de l'élément ou -1 s'il n'est pas trouvé.
+	 */
+	int getIndiceDe(ElementGraphique p_Element);
 
 	/**
 	 * Ajoute un écouteur.

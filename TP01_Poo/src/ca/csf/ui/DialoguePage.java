@@ -26,11 +26,15 @@ public class DialoguePage extends JDialog {
 
 	public static final boolean OK = true;
 
-	public static final boolean ANNULER = true;
+	public static final boolean ANNULER = false;
 	
 	private JSpinner spin_Hauteur;
 	private JSpinner spin_Largeur;
 	private JButton btn_Couleur;
+	
+	/**
+	 * Résultat du dialogue.
+	 */
 	private boolean m_Resultat;
 
 	public DialoguePage(JFrame parent) {
@@ -66,8 +70,8 @@ public class DialoguePage extends JDialog {
 		//
 		// panel_Centre
 		panel_Centre.setLayout(new BoxLayout(panel_Centre, BoxLayout.PAGE_AXIS));
-		panel_Centre.add(panel_Hauteur);
 		panel_Centre.add(panel_Largeur);
+		panel_Centre.add(panel_Hauteur);
 		panel_Centre.add(panel_Couleur);
 		this.add(panel_Centre, BorderLayout.CENTER);
 		//
@@ -78,15 +82,15 @@ public class DialoguePage extends JDialog {
 		// panel_Hauteur
 		this.add(panel_Sud, BorderLayout.SOUTH);
 		panel_Hauteur.add(new JLabel("Hauteur : "));
-		panel_Hauteur.add(spin_Hauteur);
+		panel_Hauteur.add(this.spin_Hauteur);
 		//
 		// panel_Largeur
 		panel_Largeur.add(new JLabel("Largeur : "));
-		panel_Largeur.add(spin_Largeur);
+		panel_Largeur.add(this.spin_Largeur);
 		//
 		// panel_Couleur
 		panel_Couleur.add(new JLabel("Couleur : "));
-		panel_Couleur.add(btn_Couleur);
+		panel_Couleur.add(this.btn_Couleur);
 		//
 		// btn_Couleur
 		this.btn_Couleur.setOpaque(true);
@@ -101,6 +105,7 @@ public class DialoguePage extends JDialog {
 		});
 		//
 		// btn_terminer
+		btn_terminer.requestFocus();
 		btn_terminer.addActionListener(e -> {
 			this.m_Resultat = true;
 			this.setVisible(false);

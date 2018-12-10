@@ -127,6 +127,14 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public ElementGraphique getDernier() {
+		return this.m_Elements.getLast();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public ElementGraphique get(double p_X, double p_Y) {
 		this.m_Selection = null;
 		for (int i = this.m_Elements.size(); --i >= 0 && this.m_Selection == null;) {
@@ -135,6 +143,14 @@ public class ModeleDessin implements ModeleElementGraphique {
 			}
 		}
 		return this.m_Selection;
+	}	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getIndiceDe(ElementGraphique p_Element) {
+		return this.m_Elements.indexOf(p_Element);
 	}
 
 	/**
@@ -194,7 +210,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	@Override
 	public void setArrierePlan(Color p_Couleur) {
 		this.m_Couleur = p_Couleur;
-		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleCouleurDeFond(p_Couleur));
+		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleCouleurDeFond());
 	}
 
 	/**
@@ -232,6 +248,6 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * 
 	 */
 	private void avertirNouvelleTaille() {
-		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille(this.m_Largeur, this.m_Hauteur));
+		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille());
 	}
 }

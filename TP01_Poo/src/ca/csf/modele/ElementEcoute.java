@@ -7,9 +7,8 @@ import ca.csf.formes.DecorateurElementGraphique;
 import ca.csf.formes.ElementGraphique;
 
 /**
- * Élément écouté. Décorateur concret d'{@code ElementGraphiqe}.
- * <br>
- * <br>
+ * Décorateur concret d'{@code ElementGraphiqe}.
+ * 
  * ElementGraphiqe signalant toutes modifications à une liste d'{@code EcouteurModeleGraphique}s.
  */
 public class ElementEcoute extends DecorateurElementGraphique {

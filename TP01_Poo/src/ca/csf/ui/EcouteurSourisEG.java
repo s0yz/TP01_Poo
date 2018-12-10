@@ -5,31 +5,42 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import ca.csf.formes.ElementGraphique;
-import ca.csf.formes.ElementManipulable;
 import ca.csf.formes.FormeFactory;
 import ca.csf.modele.ModeleElementGraphique;
 
 /**
- * Listener de MouseEvent permettant de manipuler les {@code ElementGraphique}.
+ * Listener de MouseEvent. Permet de manipuler des {@code ElementGraphique} avec
+ * la souris.
  */
-class ManipulateurElement extends MouseAdapter {
+class EcouteurSourisEG extends MouseAdapter {
+
+	private ModeleElementGraphique m_Modele;
+
+	private EspaceTravail m_Espace;
+	
+	/**
+	 * 
+	 */
+	private boolean m_Deplacement = false;
+	
+	/**
+	 * 
+	 */
+	private boolean m_Redimension = false;
 
 	/*
 	 * Propriétés de la forme qui sera ajouter lors de l'évènement mousePressed.
 	 */
 	private String m_Nom = "";
-	private int m_LargeurTrait = 2;
 	private Color m_Couleur = Color.RED;
 	private Color m_CouleurTrait = Color.BLACK;
+	private int m_LargeurTrait = 2;
 	
-	private ModeleElementGraphique m_Modele;
-	private EspaceTravail m_Espace;
-	
-	public ManipulateurElement(EspaceTravail p_Espace) {
+	public EcouteurSourisEG(EspaceTravail p_Espace) {
 		this.m_Espace = p_Espace;
 		this.m_Modele = p_Espace.getModele();
 	}
-					
+
 	public void setNom(String p_Nom) {
 		this.m_Nom = p_Nom;
 	}
@@ -53,10 +64,16 @@ class ManipulateurElement extends MouseAdapter {
 	 */
 	@Override
 	public void mousePressed(MouseEvent p_e) {
-		if (this.m_Nom  == "") {
+		if (this.m_Nom == "") {
 			ElementManipulable element = this.m_Espace.getSelection();
-			if(element == null || !element.estDansLeCoin(p_e.getX(), p_e.getY())) {
+			if (element != null && element.estDansLeCoin(p_e.getX(), p_e.getY())) {
+				this.m_Redimension = true;
+			} else {
 				this.selectionner(p_e);
+				element = this.m_Espace.getSelection();
+				if (element != null && element.contient(p_e.getX(), p_e.getY())) {
+					this.m_Deplacement = true;
+				}
 			}
 		} else {
 			this.ajouter(p_e);
@@ -70,7 +87,7 @@ class ManipulateurElement extends MouseAdapter {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent p_e) {
-		ElementManipulable selection = this.m_Espace.getSelection();
+		ElementGraphique selection = this.m_Espace.getSelection();
 		if (selection != null) {
 			if (selection.getLargeur() == 0 && selection.getHauteur() == 0) {
 				int deplacement = -1 * (FenetrePrincipale.TAILLE_DEFAUT >> 1);
@@ -79,6 +96,7 @@ class ManipulateurElement extends MouseAdapter {
 				selection.deplacer(deplacement, deplacement);
 			}
 		}
+		this.m_Deplacement = this.m_Redimension = false;
 	}
 
 	/**
@@ -88,34 +106,32 @@ class ManipulateurElement extends MouseAdapter {
 	 */
 	@Override
 	public void mouseDragged(MouseEvent p_e) {
-		ElementManipulable selection = this.m_Espace.getSelection();
+		ElementGraphique selection = this.m_Espace.getSelection();
 		if (selection != null) {
 			// Redimension
-			if (this.m_Nom != "" || selection.estDansLeCoin(p_e.getX(), p_e.getY())) {
+			if (this.m_Redimension) {
 				double largeur = p_e.getX() - selection.getX();
 				double hauteur = p_e.getY() - selection.getY();
 				selection.setDimension(largeur, hauteur);
-			// Déplacement
-			} else if (selection.contient(p_e.getX(), p_e.getY())) {
-				selection.setPosition(p_e.getX(), p_e.getY());					
+				// Déplacement
+			} else if (this.m_Deplacement) {
+				selection.setPosition(p_e.getX(), p_e.getY());
 			}
 		}
 	}
 
 	/**
-	 * 
+	 * Sélection la première forme sous le clic de la souris.
 	 */
 	private void selectionner(MouseEvent p_e) {
 		ElementGraphique element = this.m_Modele.get(p_e.getX(), p_e.getY());
 		ElementManipulable selection = new ElementManipulable(element, p_e.getX(), p_e.getY());
 		this.m_Espace.setSelection(selection);
-		if (selection != null) {
-			//FenetrePrincipale.this.spin_LargeurTrait.setValue(selection.getLargeurTrait());
-		}
+		this.m_Deplacement = selection != null;
 	}
 
 	/**
-	 * 
+	 * Ajoute une forme à la position de la souris selon les propriété actuelles.
 	 */
 	private void ajouter(MouseEvent p_e) {
 		FormeFactory factory = FormeFactory.getInstance();
@@ -127,5 +143,6 @@ class ManipulateurElement extends MouseAdapter {
 		this.m_Modele.ajouter(forme);
 		forme = this.m_Modele.getSelection();
 		this.m_Espace.setSelection(new ElementManipulable(forme));
+		this.m_Redimension = true;
 	}
 }

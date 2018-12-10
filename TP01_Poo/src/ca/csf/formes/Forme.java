@@ -17,7 +17,7 @@ public abstract class Forme implements ElementGraphique {
 	public static final int LARGEUR_TRAIT_DEFAUT = 1;
 	
 	/**
-	 * 
+	 * Nom de la forme.
 	 */
 	private final String m_Nom;
 	
@@ -238,11 +238,78 @@ public abstract class Forme implements ElementGraphique {
 	public boolean supporteDimensionsNegatives() {
 		return false;
 	}
-	
+		
 	/**
 	 * Pour obtenir la Shape correspondant à la Forme.
 	 * 
 	 * @return
 	 */
 	protected abstract Shape getShape();
+	
+	/**
+	 * Code généré.
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.m_Couleur == null) ? 0 : this.m_Couleur.hashCode());
+		result = prime * result + ((this.m_CouleurTrait == null) ? 0 : this.m_CouleurTrait.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(this.m_Hauteur);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(this.m_Largeur);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + this.m_LargeurTrait;
+		result = prime * result + ((this.m_Nom == null) ? 0 : this.m_Nom.hashCode());
+		temp = Double.doubleToLongBits(this.m_X);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(this.m_Y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	/**
+	 * Code généré.
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Forme other = (Forme) obj;
+		if (this.m_Couleur == null) {
+			if (other.m_Couleur != null)
+				return false;
+		} else if (!this.m_Couleur.equals(other.m_Couleur))
+			return false;
+		if (this.m_CouleurTrait == null) {
+			if (other.m_CouleurTrait != null)
+				return false;
+		} else if (!this.m_CouleurTrait.equals(other.m_CouleurTrait))
+			return false;
+		if (Double.doubleToLongBits(this.m_Hauteur) != Double.doubleToLongBits(other.m_Hauteur))
+			return false;
+		if (Double.doubleToLongBits(this.m_Largeur) != Double.doubleToLongBits(other.m_Largeur))
+			return false;
+		if (this.m_LargeurTrait != other.m_LargeurTrait)
+			return false;
+		if (this.m_Nom == null) {
+			if (other.m_Nom != null)
+				return false;
+		} else if (!this.m_Nom.equals(other.m_Nom))
+			return false;
+		if (Double.doubleToLongBits(this.m_X) != Double.doubleToLongBits(other.m_X))
+			return false;
+		if (Double.doubleToLongBits(this.m_Y) != Double.doubleToLongBits(other.m_Y))
+			return false;
+		return true;
+	}
 }

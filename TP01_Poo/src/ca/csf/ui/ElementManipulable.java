@@ -1,8 +1,12 @@
-package ca.csf.formes;
+package ca.csf.ui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import ca.csf.formes.DecorateurElementGraphique;
+import ca.csf.formes.ElementGraphique;
+import ca.csf.formes.FormeFactory;
 
 /**
  * Décorateur concret d'{@code ElementGraphiqe}.
@@ -91,8 +95,8 @@ public class ElementManipulable extends DecorateurElementGraphique {
 		this.getCarre().setCouleurTrait(ElementManipulable.COULEUR_CARRE_TRAIT);
 		this.getCarre().setDimension(ElementManipulable.TAILLE_CARRE, ElementManipulable.TAILLE_CARRE);
 		this.set(p_Element, p_X, p_Y);
-		float[] tirets = { 1.0f };
-		this.m_Trait = new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, tirets, 0.0f);
+		float[] tirets = { 2.0f };
+		this.m_Trait = new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 2.0f, tirets, 0.0f);
 	}
 
 	/**
@@ -125,7 +129,17 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	}
 
 	/**
-	 * Pour savoir si un élément est décoré.
+	 * Pour modifier le point de sélection.
+	 * 
+	 * @param p_X
+	 * @param p_Y
+	 */
+	public void setPointSelection(double p_X, double p_Y) {
+
+	}
+
+	/**
+	 * Pour savoir si un élément est décoré par le décorateur.
 	 * 
 	 * @return vrai si l'élément décoré est null.
 	 */
@@ -134,20 +148,20 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	}
 
 	/**
-	 * Pour savoir si le point spécifié se trouve dans le petit carré permettant la
+	 * Pour savoir si le point spécifié se trouve dans le "petit carré" permettant la
 	 * redimension.
 	 * 
-	 * @param p_X
-	 * @param p_Y
-	 * @return
+	 * @param p_X Coordonnée en x du point à vérifier.
+	 * @param p_Y Coordonnée en y du point à vérifier.
+	 * @return Vrai si le point spécifié se situe dans le "petit carré" de redimension.
 	 */
 	public boolean estDansLeCoin(int p_X, int p_Y) {
 		return this.getCarre().contient(p_X, p_Y);
 	}
 
 	/**
-	 * Ajuste la position et les dimensions de l'élément décoré
-	 * selon les dimensions actuelles 
+	 * Ajuste la position et les dimensions de l'élément décoré selon les dimensions
+	 * actuelles et la position du décorateur.
 	 */
 	private void ajusterElement() {
 		if (!this.estVide()) {
@@ -160,12 +174,15 @@ public class ElementManipulable extends DecorateurElementGraphique {
 				double largeur = Math.abs(this.m_Largeur);
 				double hauteur = Math.abs(this.m_Hauteur);
 				super.setPosition(x, y);
-				super.setDimension(largeur, hauteur);				
+				super.setDimension(largeur, hauteur);
 			}
 			this.ajusterCarre();
 		}
 	}
 
+	/**
+	 * Ajuste la position du "petit carré" de sélection.
+	 */
 	private void ajusterCarre() {
 		int decalage = ElementManipulable.TAILLE_CARRE >> 1;
 		double x = this.m_X + this.m_Largeur - decalage;
@@ -178,10 +195,10 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	 */
 	@Override
 	public void dessiner(Graphics2D p_Graphic) {
-		int x = (int) Math.round(super.getX());
-		int y = (int) Math.round(super.getY());
-		int largeur = (int) Math.round(super.getLargeur());
-		int hauteur = (int) Math.round(super.getHauteur());
+		int x = (int) Math.min(this.getX(), this.getX() + this.m_Largeur);
+		int y = (int) Math.min(this.getY(), this.getY() + this.m_Hauteur);
+		int largeur = (int) Math.abs(this.m_Largeur);
+		int hauteur = (int) Math.abs(this.m_Hauteur);
 		p_Graphic.setColor(ElementManipulable.COULEUR_TRAIT);
 		p_Graphic.setStroke(m_Trait);
 		p_Graphic.drawRect(x, y, largeur, hauteur);
@@ -221,6 +238,8 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	}
 
 	/**
+	 * Pour modifier la position de la forme selon le point de sélection.
+	 * 
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -269,7 +288,7 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	}
 
 	/**
-	 * Pour obtenir le carre.
+	 * Pour obtenir le "petit carre" de redimension.
 	 * 
 	 * @return le carre.
 	 */

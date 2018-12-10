@@ -1,6 +1,5 @@
 package ca.csf.ui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,12 +17,11 @@ import javax.swing.KeyStroke;
 import com.sun.glass.events.KeyEvent;
 
 import ca.csf.formes.ElementGraphique;
-import ca.csf.formes.ElementManipulable;
 import ca.csf.modele.EcouteurModeleGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 
 /**
- * 
+ * Classe représentant l'espace de dessin. 
  */
 public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	
@@ -38,7 +36,10 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	private static final String vkBas = "vkBas";
 	private static final String vkDelete = "vkDelete";
 
-	private BufferedImage m_Dessin; // To be continued...
+	/*
+	 * Test. To be continued...
+	 */
+	private BufferedImage m_Dessin;
 		
 	/** 
 	 * Modèle
@@ -46,58 +47,50 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	private ModeleElementGraphique m_Modele;
 	
 	/**
-	 * Element sélectionnéé
+	 * Element sélectionné.
 	 */
 	private ElementManipulable m_Selection = new ElementManipulable(null, 0, 0);
 
-	public String m_Forme = "";
-
+	/**
+	 * Construit un EspaceTravail
+	 * 
+	 * @param p_Modele
+	 */
 	public EspaceTravail(ModeleElementGraphique p_Modele) {
 		this.setModeleGraphique(p_Modele);		
 		this.parametrerActionsTouche();
 		this.setOpaque(true);
 	}
 
+	/**
+	 * Pour déplacer la sélection.
+	 * 
+	 * @param p_X déplacement en x.
+	 * @param p_Y déplacement en y.
+	 */
 	private void deplacerSelection(int p_X, int p_Y) {
 		if (!this.m_Selection.estVide()) {
 			this.m_Selection.deplacer(p_X, p_Y);
 		}
 	}
-
-	private void parametrerActionsTouche() {
-		ActionMap actionMap = this.getActionMap();
-		InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), vkGauche);
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), vkDroite);
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), vkHaut);
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), vkBas);
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), vkDelete);
-		actionMap.put(vkGauche, new ActionTouche(e -> {
-			this.deplacerSelection(-10, 0);
-		}));
-		actionMap.put(vkDroite, new ActionTouche(e -> {
-			this.deplacerSelection(10, 0);
-		}));
-		actionMap.put(vkHaut, new ActionTouche(e -> {
-			this.deplacerSelection(0, -10);
-		}));
-		actionMap.put(vkBas, new ActionTouche(e -> {
-			this.deplacerSelection(0, 10);
-		}));
-		actionMap.put(vkDelete, new ActionTouche(e -> {
-			if (this.m_Modele.getSelection() != null) {
-				this.m_Selection.set(null, 0, 0);
-				this.m_Modele.retirer(this.m_Modele.getSelection());
-				this.redessinerElement(m_Selection.getCarre());
-			}
-		}));
-	}
 	
+	/**
+	 * Pour obtenir le modèle.
+	 * 
+	 * @return le modèle.
+	 */
 	public ModeleElementGraphique getModele() {
 		return this.m_Modele;
 	}
 
+	/**
+	 * Pour changer le modèle.
+	 * 
+	 * @param p_Modele le nouveau modèle.
+	 */
 	public void setModeleGraphique(ModeleElementGraphique p_Modele) {
+		int largeur;
+		int hauteur;
 		if (p_Modele == null) {
 			throw new IllegalArgumentException("p_modeleGraphique est null");
 		}
@@ -106,32 +99,48 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		}
 		this.m_Modele = p_Modele;
 		this.m_Modele.ajouterEcouteur(this);
+		largeur = (int) Math.round(this.m_Modele.getLargeur());
+		hauteur = (int) Math.round(this.m_Modele.getHauteur());
 		this.setBackground(this.m_Modele.getArrierePlan());
-		this.setPreferredSize(new Dimension(
-				(int) Math.round(this.m_Modele.getLargeur()),
-				(int) Math.round(this.m_Modele.getHauteur())));		
+		this.setPreferredSize(new Dimension(largeur, hauteur));
+		this.m_Dessin = new BufferedImage(largeur, hauteur, 1);
+		this.repaint();
 	}
 	
 	/**
-	 * Pour obtenir le selection.
-	 * @return le selection.
+	 * Pour obtenir la selection.
+	 * 
+	 * @return l'élément sélectionner selection.
 	 */
 	public ElementManipulable getSelection() {
 		return m_Selection.estVide() ? null : this.m_Selection;
 	}
 
 	/**
-	 * Pour modifier le selection.
+	 * Pour modifier la selection.
+	 * 
 	 * @param p_selection La nouvelle valeur.
 	 */
 	public void setSelection(ElementManipulable p_selection) {
-		//ElementGraphique element = this.m_Selection.getElement();
+		if (p_selection == null) {
+			throw new IllegalArgumentException("p_selection est null");
+		}
 		this.m_Selection = p_selection;
-		//this.redessinerElement(element);
-		//this.redessinerElement(p_selection.getElement());
 		this.repaint();
 	}
 
+	/**
+	 * Non-utilisée. À suivre...
+	 */
+	@SuppressWarnings("unused")
+	private void dessiner() {
+		Graphics2D graphics2d = this.m_Dessin.createGraphics();
+		this.m_Modele.forEach(e -> e.dessiner(graphics2d));
+		if (!this.m_Selection.estVide()) {
+			this.m_Selection.dessiner(graphics2d);
+		}
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -165,8 +174,10 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleTaille(double p_Largeur, double p_Hauteur) {
-		this.setPreferredSize(new Dimension((int) p_Largeur, (int) p_Hauteur));
+	public void reagirNouvelleTaille() {
+		int largeur = (int) Math.floor(this.m_Modele.getLargeur());
+		int hauteur = (int) Math.floor(this.m_Modele.getHauteur());
+		this.setPreferredSize(new Dimension(largeur, hauteur));
 		this.updateUI();
 	};
 
@@ -174,8 +185,8 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleCouleurDeFond(Color p_Couleur) {
-		this.setBackground(p_Couleur);
+	public void reagirNouvelleCouleurDeFond() {
+		this.setBackground(this.m_Modele.getArrierePlan());
 		this.updateUI();
 	};
 
@@ -200,13 +211,45 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	}
 
 	/**
-	 * Simplement pour créer des AbstractAction plus facilement
+	 * Associe des touches du clavier à des actions.
+	 */
+	private void parametrerActionsTouche() {
+		ActionMap actionMap = this.getActionMap();
+		InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), vkGauche);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), vkDroite);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), vkHaut);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), vkBas);
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), vkDelete);
+		actionMap.put(vkGauche, new ActionTouche(e -> {
+			this.deplacerSelection(-10, 0);
+		}));
+		actionMap.put(vkDroite, new ActionTouche(e -> {
+			this.deplacerSelection(10, 0);
+		}));
+		actionMap.put(vkHaut, new ActionTouche(e -> {
+			this.deplacerSelection(0, -10);
+		}));
+		actionMap.put(vkBas, new ActionTouche(e -> {
+			this.deplacerSelection(0, 10);
+		}));
+		actionMap.put(vkDelete, new ActionTouche(e -> {
+			if (this.m_Modele.getSelection() != null) {
+				this.m_Selection.set(null, 0, 0);
+				this.m_Modele.retirer(this.m_Modele.getSelection());
+				this.redessinerElement(m_Selection.getCarre());
+			}
+		}));
+	}
+	
+	/**
+	 * Simplement pour créer des {@code AbstractAction} plus facilement.
 	 */
 	private class ActionTouche extends AbstractAction {
 
 		private static final long serialVersionUID = -3281540826837033741L;
 
-		Consumer<ActionEvent> m_Action;
+		private final Consumer<ActionEvent> m_Action;
 
 		public ActionTouche(Consumer<ActionEvent> p_Action) {
 			this.m_Action = p_Action;

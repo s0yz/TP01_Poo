@@ -1,6 +1,5 @@
 package ca.csf.io;
 
-import java.awt.Color;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -145,7 +144,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleTaille(double p_Hauteur, double p_Largeur) {
+	public void reagirNouvelleTaille() {
 		this.reagirModifications();
 	}
 
@@ -153,7 +152,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleCouleurDeFond(Color p_Couleur) {
+	public void reagirNouvelleCouleurDeFond() {
 		this.reagirModifications();
 	}
 
