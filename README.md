@@ -22,20 +22,51 @@ Espace de travail :
 * Dimension modifiable
 
 Dessiner des formes :
-* lignes
-* ellipses
-* rectangles
+- [x] lignes
+- [x] ellipses
+- [x] rectangles
 
 Propriétés des formes :
-* couleur de remplissage
-* couleur du trait
-* épaisseur du trait
+- [x] couleur de remplissage
+- [x] couleur du trait
+- [x] épaisseur du trait
+
+Modifier les formes :
+- [x] modifier leurs propriétés
+- [x] les déplacer
+- [x] les supprimer
+
+Espace de travail:
+- [x] redimensionner
 
 Fichier :
-* nouveau
-* ouvrir (.XML)
-* enregistrer (.XML)
-* exporter (.SVG)
+- [x] nouveau
+- [x] ouvrir (.XML)
+- [x] enregistrer (.XML)
+- [ ] exporter (.SVG)
+
+## Tests
+
+formes :
+- [ ] Decorateur (?)
+- [ ] Ellipse
+- [ ] Rectangle
+- [ ] Ligne
+- [ ] Usine
+
+io :
+- [ ] FormatSVG (?)
+- [ ] FormatXML (?)
+- [ ] GestionnaireFichier (?)
+- [x] SelecteurFichier (?)
+
+modèle :
+- [ ] ElementEcoute (?)
+- [ ] ModeleDessin (?)
+
+ui :
+- [ ] ActionTouche (?)
+- [ ] ElementManipulable (?)
 
 ## Auteurs
   * s0yz
