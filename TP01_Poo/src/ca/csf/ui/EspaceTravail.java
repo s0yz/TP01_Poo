@@ -3,11 +3,8 @@ package ca.csf.ui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import java.util.function.Consumer;
 
-import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -21,12 +18,12 @@ import ca.csf.modele.EcouteurModeleGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 
 /**
- * Classe représentant l'espace de dessin. 
+ * Classe représentant l'espace de dessin.
  */
 public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
-	
+
 	private static final long serialVersionUID = -7570189304007187337L;
-		
+	
 	/*
 	 * Actions
 	 */
@@ -40,12 +37,12 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * Test. To be continued...
 	 */
 	private BufferedImage m_Dessin;
-		
-	/** 
+
+	/**
 	 * Modèle
 	 */
 	private ModeleElementGraphique m_Modele;
-	
+
 	/**
 	 * Element sélectionné.
 	 */
@@ -57,7 +54,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * @param p_Modele
 	 */
 	public EspaceTravail(ModeleElementGraphique p_Modele) {
-		this.setModeleGraphique(p_Modele);		
+		this.setModeleGraphique(p_Modele);
 		this.parametrerActionsTouche();
 		this.setOpaque(true);
 	}
@@ -73,7 +70,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 			this.m_Selection.deplacer(p_X, p_Y);
 		}
 	}
-	
+
 	/**
 	 * Pour obtenir le modèle.
 	 * 
@@ -106,7 +103,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		this.m_Dessin = new BufferedImage(largeur, hauteur, 1);
 		this.repaint();
 	}
-	
+
 	/**
 	 * Pour obtenir la selection.
 	 * 
@@ -140,7 +137,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 			this.m_Selection.dessiner(graphics2d);
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -211,7 +208,8 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	}
 
 	/**
-	 * Associe des touches du clavier à des actions.
+	 * Associe des touches du clavier à des actions, soit les flèches pour déplacer
+	 * les formes et Delete pur les supprimer.
 	 */
 	private void parametrerActionsTouche() {
 		ActionMap actionMap = this.getActionMap();
@@ -241,23 +239,4 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 			}
 		}));
 	}
-	
-	/**
-	 * Simplement pour créer des {@code AbstractAction} plus facilement.
-	 */
-	private class ActionTouche extends AbstractAction {
-
-		private static final long serialVersionUID = -3281540826837033741L;
-
-		private final Consumer<ActionEvent> m_Action;
-
-		public ActionTouche(Consumer<ActionEvent> p_Action) {
-			this.m_Action = p_Action;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent p_e) {
-			this.m_Action.accept(p_e);
-		}
-	}	
 }
