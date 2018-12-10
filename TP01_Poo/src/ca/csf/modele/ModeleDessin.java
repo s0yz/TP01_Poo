@@ -39,11 +39,6 @@ public class ModeleDessin implements ModeleElementGraphique {
 	/**
 	 * 
 	 */
-	private ElementGraphique m_Selection;
-
-	/**
-	 * 
-	 */
 	private LinkedList<ElementGraphique> m_Elements = new LinkedList<ElementGraphique>();
 
 	/**
@@ -56,6 +51,9 @@ public class ModeleDessin implements ModeleElementGraphique {
 	}
 	
 	public ModeleDessin(int p_Largeur, int p_Hauteur) {
+		if (p_Largeur < 0 || p_Hauteur < 0) {
+			throw new IllegalArgumentException("Dimensions négatives non-supportées");
+		}
 		this.m_Elements = new LinkedList<ElementGraphique>();
 		this.m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
 		this.setDimension(p_Largeur, p_Hauteur);
@@ -66,10 +64,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void ajouter(ElementGraphique p_Element) {
-		this.m_Selection = null;
-		this.m_Selection = new ElementEcoute(p_Element, this.m_Ecouteurs);
-		this.m_Elements.add(this.m_Selection);
-		this.avertirModifications(p_Element);
+		this.inserer(this.getCompte(), p_Element);
 	}
 
 	/**
@@ -77,13 +72,24 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void ajouter(Iterable<ElementGraphique> p_Elements) {
-		p_Elements.forEach(e -> {
-			this.m_Elements.add(new ElementEcoute(e, this.m_Ecouteurs));
-		});
-		if (!this.m_Elements.isEmpty()) {
-			this.m_Selection = this.m_Elements.getLast();
+		if (p_Elements == null) {
+			throw new IllegalArgumentException("p_Elements est null");
 		}
+		p_Elements.forEach(this.m_Elements::add);
 		this.avertirModifications();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void inserer(int p_Indice, ElementGraphique p_Element) {
+		if (p_Indice < 0 || p_Indice > this.getCompte()) {
+			throw new IllegalArgumentException("Indice invalide : " + p_Indice);
+		} else if (p_Element == null) {
+			throw new IllegalArgumentException("p_Elements est null");
+		}
+		this.m_Elements.add(p_Indice, p_Element);
 	}
 
 	/**
@@ -100,7 +106,6 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void retirer(ElementGraphique p_Element) {
-		this.m_Selection = null;
 		this.m_Elements.remove(p_Element);
 		this.avertirModifications(p_Element);
 	}
@@ -110,7 +115,6 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public void vider() {
-		this.m_Selection = null;
 		this.m_Elements.clear();
 		this.avertirModifications();
 	}
@@ -120,7 +124,21 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public ElementGraphique get(int p_Indice) {
-		return this.m_Elements.get(p_Indice);
+		return this.convertir(this.m_Elements.get(p_Indice));
+	}	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ElementGraphique get(double p_X, double p_Y) {
+		ElementGraphique element = null;
+		for (int i = this.m_Elements.size(); --i >= 0 && element == null;) {
+			if (this.m_Elements.get(i).contient(p_X, p_Y)) {
+				element = this.m_Elements.get(i);
+			}
+		}
+		return element == null ? null : this.convertir(element);
 	}
 	
 	/**
@@ -128,22 +146,16 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public ElementGraphique getDernier() {
-		return this.m_Elements.getLast();
+		return this.convertir(this.m_Elements.getLast());
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ElementGraphique get(double p_X, double p_Y) {
-		this.m_Selection = null;
-		for (int i = this.m_Elements.size(); --i >= 0 && this.m_Selection == null;) {
-			if (this.m_Elements.get(i).contient(p_X, p_Y)) {
-				this.m_Selection = this.m_Elements.get(i);
-			}
-		}
-		return this.m_Selection;
-	}	
+	public int getCompte() {
+		return this.m_Elements.size();
+	}
 	
 	/**
 	 * {@inheritDoc}
@@ -217,16 +229,8 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ElementGraphique getSelection() {
-		return this.m_Selection;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public Iterator<ElementGraphique> iterator() {
-		return m_Elements.iterator();
+		return new ModeleDessiniterator();
 	}
 
 	/**
@@ -249,5 +253,35 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	private void avertirNouvelleTaille() {
 		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille());
+	}
+	
+	private ElementGraphique convertir(ElementGraphique p_Element) {
+		assert (!(p_Element instanceof ElementEcoute)) : "Élément déjà décoré.";
+		return new ElementEcoute(p_Element, this.m_Ecouteurs);
+	}
+	
+	private class ModeleDessiniterator implements Iterator<ElementGraphique> {
+
+		private int m_Indice;
+		
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean hasNext() {
+			return this.m_Indice < ModeleDessin.this.getCompte();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public ElementGraphique next() {
+			if (this.hasNext()) {
+				ElementGraphique element = ModeleDessin.this.m_Elements.get(this.m_Indice++);
+				return element instanceof ElementEcoute ? element : convertir(element);
+			}
+			return null;
+		}
 	}
 }

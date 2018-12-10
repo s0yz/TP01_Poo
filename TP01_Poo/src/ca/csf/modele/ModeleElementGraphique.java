@@ -15,18 +15,33 @@ import ca.csf.formes.ElementGraphique;
 public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 
 	/**
-	 * Ajoute un élément.
+	 * Ajoute un élément à la suite.
 	 * 
 	 * @param p_Element l'élément à ajouter.
 	 */
 	void ajouter(ElementGraphique p_Element);
 
 	/**
-	 * Ajoute les formes.
+	 * Ajoute les éléments à la suite.
 	 * 
 	 * @param p_Elements
 	 */
 	void ajouter(Iterable<ElementGraphique> p_Elements);
+
+	/**
+	 * Insère un élément à l'indice spécifié.
+	 * 
+	 * @param p_Indice  l'indice dminsertion.
+	 * @param p_Element l'élément à insérer.
+	 */
+	void inserer(int p_Indice, ElementGraphique p_Element);
+
+	/**
+	 * Ecrase les formes du modèle par celles contenues dans l'iterable.
+	 * 
+	 * @param p_Elements
+	 */
+	void remplir(Iterable<ElementGraphique> p_Elements);
 
 	/**
 	 * Retire un élément.
@@ -41,13 +56,6 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	void vider();
 
 	/**
-	 * Ecrase les formes du modèle par celles contenues dans l'iterable.
-	 * 
-	 * @param p_Elements
-	 */
-	void remplir(Iterable<ElementGraphique> p_Elements);
-
-	/**
 	 * Pour obtenir l'élément à l'indice spécifié.
 	 * 
 	 * @param p_Indice l'indice de l'élément désiré.
@@ -56,20 +64,21 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	public ElementGraphique get(int p_Indice);
 
 	/**
+	 * Retourne le dernier élément contenant le point spécifié.
+	 * 
+	 * @param p_x coodonnée en x devant être contenue par l'élément à selectionner.
+	 * @param p_y coodonnée en y devant être contenue par l'élément à selectionner.
+	 *            *
+	 * @return l'élément selectionné.
+	 */
+	public ElementGraphique get(double p_x, double p_y);
+
+	/**
 	 * Pour obtenir le dernier élément.
 	 * 
 	 * @return le dernier élément.
 	 */
 	public ElementGraphique getDernier();
-
-	/**
-	 * Retourne le dernier élément contenant le point spécifié.
-	 * 
-	 * @param p_x coodonnée en x devant être contenue par l'élément à selectionner.
-	 * @param p_y coodonnée en y devant être contenue par l'élément à selectionner.
-	 * @return l'élément selectionné.
-	 */
-	public ElementGraphique get(double p_x, double p_y);
 
 	/**
 	 * Pour obtenir l'indice de l'élément spécifié.
@@ -94,39 +103,45 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	void retirerEcouteur(EcouteurModeleGraphique p_Ecouteur);
 
 	/**
-	 * Pour obtenir l'élément selectionné.
+	 * Pour obtenir la largeur de l'arrière-plan.
 	 * 
-	 * @return le selection.
-	 */
-	public ElementGraphique getSelection();
-
-	/**
-	 * 
-	 * @return
+	 * @return la largeur de l'arrière-plan.
 	 */
 	double getLargeur();
 
 	/**
+	 * Pour obtenir la hauteur de l'arrière-plan.
 	 * 
-	 * @return
+	 * @return la hauteur de l'arrière-plan.
 	 */
 	double getHauteur();
 
 	/**
+	 * Pour obtenir la couleur de l'arrière-plan.
 	 * 
-	 * @return
+	 * @return la couleur de l'arrière-plan.
 	 */
 	Color getArrierePlan();
 
 	/**
-	 * @param p_Largeur
-	 * @param p_Hauteur
+	 * Pour modifier les dimension de l'arrière plan.
+	 * 
+	 * @param p_Largeur la nouvelle largeur.
+	 * @param p_Hauteur la nouvelle hauteur.
 	 */
 	void setDimension(double p_Largeur, double p_Hauteur);
 
 	/**
+	 * Pour modifier la couleur de l'arrière plan.
 	 * 
-	 * @param p_Color
+	 * @param p_Color la nouvelle couleur.
 	 */
 	void setArrierePlan(Color p_Couleur);
+
+	/**
+	 * Pour obtenir le nombre d'éléments.
+	 * 
+	 * @return le nombre d'éléments.
+	 */
+	int getCompte();
 }
