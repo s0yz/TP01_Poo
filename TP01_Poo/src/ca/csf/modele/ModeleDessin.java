@@ -18,9 +18,9 @@ import ca.csf.formes.ElementGraphique;
 public class ModeleDessin implements ModeleElementGraphique {
 
 	public static final int LARGEUR_DEFAULT = 640;
-	
+
 	public static final int HAUTEUR_DEFAULT = 360;
-	
+
 	/**
 	 * 
 	 */
@@ -49,7 +49,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public ModeleDessin() {
 		this(LARGEUR_DEFAULT, HAUTEUR_DEFAULT);
 	}
-	
+
 	public ModeleDessin(int p_Largeur, int p_Hauteur) {
 		if (p_Largeur < 0 || p_Hauteur < 0) {
 			throw new IllegalArgumentException("Dimensions négatives non-supportées");
@@ -78,7 +78,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 		p_Elements.forEach(this.m_Elements::add);
 		this.avertirModifications();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -125,8 +125,8 @@ public class ModeleDessin implements ModeleElementGraphique {
 	@Override
 	public ElementGraphique get(int p_Indice) {
 		return this.convertir(this.m_Elements.get(p_Indice));
-	}	
-	
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -140,7 +140,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 		}
 		return element == null ? null : this.convertir(element);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -148,7 +148,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public ElementGraphique getDernier() {
 		return this.convertir(this.m_Elements.getLast());
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -156,7 +156,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public int getCompte() {
 		return this.m_Elements.size();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -213,7 +213,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public void setDimension(double p_Largeur, double p_Hauteur) {
 		this.m_Largeur = p_Largeur;
 		this.m_Hauteur = p_Hauteur;
-		this.avertirNouvelleTaille();
+		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille());
 	}
 
 	/**
@@ -234,13 +234,15 @@ public class ModeleDessin implements ModeleElementGraphique {
 	}
 
 	/**
-	 * 
+	 * Appelle {@link EcouteurModeleGraphique#reagirModifications()}.
 	 */
 	private void avertirModifications() {
 		this.m_Ecouteurs.forEach(e -> e.reagirModifications());
 	}
 
 	/**
+	 * Appelle
+	 * {@link EcouteurModeleGraphique#reagirModifications(ElementGraphique)}.
 	 * 
 	 * @param p_Element
 	 */
@@ -249,21 +251,25 @@ public class ModeleDessin implements ModeleElementGraphique {
 	}
 
 	/**
+	 * Retourne un {@code ElementEcoute} à partir de p_Element. Assure que les
+	 * écouteurs du modèle seront notifiés de toute modification effectuée sur l'élément
+	 * retourné.
 	 * 
+	 * @param p_Element l'élément à décorer.
+	 * @return un élément "écouté".
 	 */
-	private void avertirNouvelleTaille() {
-		this.m_Ecouteurs.forEach(e -> e.reagirNouvelleTaille());
-	}
-	
 	private ElementGraphique convertir(ElementGraphique p_Element) {
 		assert (!(p_Element instanceof ElementEcoute)) : "Élément déjà décoré.";
 		return new ElementEcoute(p_Element, this.m_Ecouteurs);
 	}
-	
+
+	/**
+	 * Itérateur de {@code ModeleDessin}.
+	 */
 	private class ModeleDessiniterator implements Iterator<ElementGraphique> {
 
 		private int m_Indice;
-		
+
 		/**
 		 * {@inheritDoc}
 		 */

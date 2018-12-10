@@ -282,33 +282,30 @@ public abstract class Forme implements ElementGraphique {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof ElementGraphique))
 			return false;
-		Forme other = (Forme) obj;
+		ElementGraphique other = (ElementGraphique) obj;
 		if (this.m_Couleur == null) {
-			if (other.m_Couleur != null)
+			if (other.getCouleur() != null)
 				return false;
-		} else if (!this.m_Couleur.equals(other.m_Couleur))
+		} else if (!this.m_Couleur.equals(other.getCouleur()))
 			return false;
 		if (this.m_CouleurTrait == null) {
-			if (other.m_CouleurTrait != null)
+			if (other.getCouleurTrait() != null)
 				return false;
-		} else if (!this.m_CouleurTrait.equals(other.m_CouleurTrait))
+		} else if (!this.m_CouleurTrait.equals(other.getCouleurTrait()))
 			return false;
-		if (Double.doubleToLongBits(this.m_Hauteur) != Double.doubleToLongBits(other.m_Hauteur))
+		if (this.m_Hauteur != other.getHauteur())
 			return false;
-		if (Double.doubleToLongBits(this.m_Largeur) != Double.doubleToLongBits(other.m_Largeur))
+		if (this.m_Largeur != other.getLargeur())
 			return false;
-		if (this.m_LargeurTrait != other.m_LargeurTrait)
+		if (this.m_LargeurTrait != other.getLargeurTrait())
 			return false;
-		if (this.m_Nom == null) {
-			if (other.m_Nom != null)
-				return false;
-		} else if (!this.m_Nom.equals(other.m_Nom))
+		if (!this.m_Nom.equals(other.getNom()))
 			return false;
-		if (Double.doubleToLongBits(this.m_X) != Double.doubleToLongBits(other.m_X))
+		if (this.m_X != other.getX())
 			return false;
-		if (Double.doubleToLongBits(this.m_Y) != Double.doubleToLongBits(other.m_Y))
+		if (this.m_Y != other.getY())
 			return false;
 		return true;
 	}
