@@ -29,6 +29,7 @@ import ca.csf.io.FormatSVG;
 import ca.csf.io.FormatXML;
 import ca.csf.io.GestionnaireFichier;
 import ca.csf.modele.ModeleDessin;
+import ca.csf.ui.EspaceTravail.EcouteurSourisEG;
 
 /**
  * Fenetre principale
@@ -88,7 +89,7 @@ public class FenetrePrincipale extends JFrame {
 	 * @param p_X   coordonnée en x.
 	 * @param p_Y   coordonnée en y.
 	 * 
-	 * @return		l'élément construit selon l'interface et les propriétés spécifiées.
+	 * @return l'élément construit selon l'interface et les propriétés spécifiées.
 	 */
 	public ElementGraphique construireElementDepuisUI(String p_Nom) {
 		UsineForme usine = UsineForme.getInstance();
@@ -133,6 +134,8 @@ public class FenetrePrincipale extends JFrame {
 		JMenuItem item_Quitter = new JMenuItem("Quitter");
 		JMenuItem item_Avancer = new JMenuItem("Avancer");
 		JMenuItem item_Reculer = new JMenuItem("Reculer");
+		JMenuItem item_PremierPlan = new JMenuItem("Mettre au premier plan");
+		JMenuItem item_ArrierePlan = new JMenuItem("Mette en arrière plan");
 		JMenuItem item_Supprimer = new JMenuItem("Supprimer");
 		this.btn_Selection = new JButton();
 		this.btn_Remplissage = new JButton();
@@ -143,7 +146,7 @@ public class FenetrePrincipale extends JFrame {
 		this.spin_LargeurTrait = new JSpinner(new SpinnerNumberModel(2, 0, 24, 1));
 		JPanel panel_CouleurTrait = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		this.btn_CouleurTrait = new JButton();
-		EcouteurSourisEG ecouteurSouris = new EcouteurSourisEG(m_Espace);
+		EspaceTravail.EcouteurSourisEG ecouteurSouris = m_Espace.new EcouteurSourisEG();
 		//
 		// panel_Centre
 		panel_Centre.setOpaque(true);
@@ -151,7 +154,6 @@ public class FenetrePrincipale extends JFrame {
 		super.add(panel_Centre, BorderLayout.CENTER);
 		//
 		// m_Espace
-		// EouteurSouris eouteurSouris = new EouteurSouris();
 		this.m_Espace.addMouseListener(ecouteurSouris);
 		this.m_Espace.addMouseMotionListener(ecouteurSouris);
 		panel_Centre.add(this.m_Espace);
@@ -176,6 +178,9 @@ public class FenetrePrincipale extends JFrame {
 		// menu_Selection
 		menu_Selection.add(item_Avancer);
 		menu_Selection.add(item_Reculer);
+		menu_Selection.add(item_PremierPlan);
+		menu_Selection.add(item_ArrierePlan);
+		menu_Selection.addSeparator();
 		menu_Selection.add(item_Supprimer);
 		//
 		// menu_Formes
@@ -242,6 +247,49 @@ public class FenetrePrincipale extends JFrame {
 			if (FenetrePrincipale.this.m_GestionnaireFichier.verifierSauvegarde()) {
 				FenetrePrincipale.this.dispose();
 			}
+		});
+		//
+		// item_Avancer
+		item_Avancer.addActionListener(e -> {
+			ElementGraphique element = this.m_Espace.getSelection();
+			int indice = this.m_Modele.getIndiceDe(element) + 1;
+			if (indice != this.m_Modele.getCompte()) {
+				this.m_Modele.retirer(element);
+				this.m_Modele.inserer(indice, element);
+				this.m_Espace.setSelection(this.m_Modele.get(indice));
+			}
+		});
+		//
+		// item_Reculer
+		item_Reculer.addActionListener(e -> {
+			ElementGraphique element = this.m_Espace.getSelection();
+			int indice = this.m_Modele.getIndiceDe(element) - 1;
+			if (indice >= 0) {
+				this.m_Modele.retirer(element);
+				this.m_Modele.inserer(indice, element);
+				this.m_Espace.setSelection(this.m_Modele.get(indice));
+			}			
+		});
+		//
+		// item_PremierPlan
+		item_PremierPlan.addActionListener(e -> {
+			ElementGraphique element = this.m_Espace.getSelection();
+			this.m_Modele.retirer(element);
+			this.m_Modele.ajouter(element);
+			this.m_Espace.setSelection(this.m_Modele.getDernier());
+		});
+		//
+		// item_ArrierePlan
+		item_ArrierePlan.addActionListener(e -> {
+			ElementGraphique element = this.m_Espace.getSelection();
+			this.m_Modele.retirer(element);
+			this.m_Modele.inserer(0, element);
+			this.m_Espace.setSelection(this.m_Modele.get(0));
+		});
+		//
+		// item_Supprimer
+		item_Supprimer.addActionListener(e -> {
+			
 		});
 		//
 		// panel_LargeurTrait

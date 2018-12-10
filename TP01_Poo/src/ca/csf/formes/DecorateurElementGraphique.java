@@ -189,4 +189,12 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	public boolean supporteDimensionsNegatives() {
 		return this.m_Element.supporteDimensionsNegatives();
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object p_obj) {
+		return (this.m_Element == null && p_obj == null) || this.m_Element.equals(p_obj);
+	}
 }
