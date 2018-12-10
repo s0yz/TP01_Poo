@@ -19,7 +19,7 @@ devez utiliser les bibliothèques Swing et Java2d.
 
 ## Fonctionnalités
 Espace de travail :
-* Dimension modifiable
+- [x] Dimension modifiable
 
 Dessiner des formes :
 - [x] lignes
