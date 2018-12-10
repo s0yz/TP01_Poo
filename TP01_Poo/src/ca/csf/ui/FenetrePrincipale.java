@@ -29,7 +29,6 @@ import ca.csf.io.FormatSVG;
 import ca.csf.io.FormatXML;
 import ca.csf.io.GestionnaireFichier;
 import ca.csf.modele.ModeleDessin;
-import ca.csf.ui.EspaceTravail.EcouteurSourisEG;
 
 /**
  * Fenetre principale
@@ -228,7 +227,7 @@ public class FenetrePrincipale extends JFrame {
 			this.m_GestionnaireFichier.enregistrerSous(new FormatSVG(UsineForme.getInstance()));
 		});
 		//
-		// item_Page
+		// item_Page  
 		item_Page.addActionListener(e -> {
 			DialoguePage dialogueParametre = new DialoguePage(this);
 			dialogueParametre.montrer((int) Math.round(this.m_Modele.getLargeur()),
@@ -361,11 +360,13 @@ public class FenetrePrincipale extends JFrame {
 		this.btn_Remplissage.setBackground(FenetrePrincipale.COULEUR_DEFAUT);
 		this.btn_Remplissage.addActionListener(e -> {
 			Color couleur = JColorChooser.showDialog(this, "Choisissez votre couleur", null);
-			this.btn_Remplissage.setBackground(couleur);
-			if (this.m_Espace.getSelection() != null) {
-				this.m_Espace.getSelection().setCouleur(couleur);
+			if (couleur != null) {
+				this.btn_Remplissage.setBackground(couleur);
+				if (this.m_Espace.getSelection() != null) {
+					this.m_Espace.getSelection().setCouleur(couleur);
+				}
+				FenetrePrincipale.this.btn_Selection.requestFocus();
 			}
-			FenetrePrincipale.this.btn_Selection.requestFocus();
 		});
 		//
 		// windowClosing
