@@ -9,17 +9,17 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 
 import ca.csf.formes.ElementGraphique;
-import ca.csf.formes.Forme2DFactory;
+import ca.csf.formes.UsineElementGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 
 public class FormatSVG implements FormatFichier{
 
-	private Forme2DFactory m_factory;
+	private UsineElementGraphique m_factory;
 
 	public FormatSVG() {
 	}
 
-	public FormatSVG(Forme2DFactory p_Factory) {
+	public FormatSVG(UsineElementGraphique p_Factory) {
 		this.m_factory = p_Factory;
 	}
 	

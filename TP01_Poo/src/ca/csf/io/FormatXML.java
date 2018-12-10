@@ -15,17 +15,17 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import ca.csf.formes.ElementGraphique;
-import ca.csf.formes.Forme2DFactory;
+import ca.csf.formes.UsineElementGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 
 public class FormatXML implements FormatFichier {
 
-	private Forme2DFactory m_factory;
+	private UsineElementGraphique m_factory;
 
 	public FormatXML() {
 	}
 
-	public FormatXML(Forme2DFactory p_Factory) {
+	public FormatXML(UsineElementGraphique p_Factory) {
 		this.m_factory = p_Factory;
 	}
 

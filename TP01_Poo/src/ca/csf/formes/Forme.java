@@ -247,7 +247,7 @@ public abstract class Forme implements ElementGraphique {
 	protected abstract Shape getShape();
 	
 	/**
-	 * Code généré.
+	 * Code généré par eclipse.
 	 * 
 	 * {@inheritDoc}
 	 */
@@ -272,7 +272,7 @@ public abstract class Forme implements ElementGraphique {
 	}
 
 	/**
-	 * Code généré.
+	 * Code généré par eclipse.
 	 * 
 	 * {@inheritDoc}
 	 */

@@ -3,8 +3,6 @@ package ca.csf.formes;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 
-import java.awt.Point;
-
 /**
  * 
  */

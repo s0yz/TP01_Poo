@@ -5,7 +5,7 @@ package ca.csf.formes;
  * 
  * @author Cedric Mariage
  */
-public interface Forme2DFactory {
+public interface UsineElementGraphique {
 	
 	/**
 	 * Retourne une instance de la forme demandée.

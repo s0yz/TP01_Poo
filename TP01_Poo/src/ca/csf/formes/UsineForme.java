@@ -4,14 +4,14 @@ package ca.csf.formes;
  * @author Cedric Mariage
  *
  */
-public class FormeFactory implements Forme2DFactory {
+public class UsineForme implements UsineElementGraphique {
 
-	private static FormeFactory m_Instance = new FormeFactory();
+	private static UsineForme m_Instance = new UsineForme();
 
-	private FormeFactory() {
+	private UsineForme() {
 	}
 
-	public static FormeFactory getInstance() {
+	public static UsineForme getInstance() {
 		return m_Instance;
 	}
 

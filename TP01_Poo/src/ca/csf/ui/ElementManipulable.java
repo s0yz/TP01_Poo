@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 import ca.csf.formes.DecorateurElementGraphique;
 import ca.csf.formes.ElementGraphique;
-import ca.csf.formes.FormeFactory;
+import ca.csf.formes.UsineForme;
 
 /**
  * Décorateur concret d'{@code ElementGraphiqe}.
@@ -90,7 +90,7 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	 */
 	public ElementManipulable(ElementGraphique p_Element, double p_X, double p_Y) {
 		super(p_Element);
-		this.m_Carre = FormeFactory.getInstance().getForme("Rectangle");
+		this.m_Carre = UsineForme.getInstance().getForme("Rectangle");
 		this.getCarre().setCouleur(ElementManipulable.COULEUR_CARRE);
 		this.getCarre().setCouleurTrait(ElementManipulable.COULEUR_CARRE_TRAIT);
 		this.getCarre().setDimension(ElementManipulable.TAILLE_CARRE, ElementManipulable.TAILLE_CARRE);
@@ -122,8 +122,7 @@ public class ElementManipulable extends DecorateurElementGraphique {
 			this.m_Y = p_Element.getY();
 			this.m_Largeur = p_Element.getLargeur();
 			this.m_Hauteur = p_Element.getHauteur();
-			this.m_DifferenceX = p_X - this.getElement().getX();
-			this.m_DifferenceY = p_Y - this.getElement().getY();
+			this.setPointSelection(p_X, p_Y);
 			this.ajusterCarre();
 		}
 	}
@@ -135,7 +134,8 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	 * @param p_Y
 	 */
 	public void setPointSelection(double p_X, double p_Y) {
-
+		this.m_DifferenceX = p_X - this.getElement().getX();
+		this.m_DifferenceY = p_Y - this.getElement().getY();
 	}
 
 	/**

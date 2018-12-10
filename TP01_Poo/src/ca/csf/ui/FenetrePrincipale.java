@@ -24,7 +24,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import ca.csf.formes.ElementGraphique;
-import ca.csf.formes.FormeFactory;
+import ca.csf.formes.UsineForme;
 import ca.csf.io.FormatSVG;
 import ca.csf.io.FormatXML;
 import ca.csf.io.GestionnaireFichier;
@@ -38,20 +38,15 @@ public class FenetrePrincipale extends JFrame {
 	private static final long serialVersionUID = -4586998190495167383L;
 
 	/**
-	 * Taille par défaut des éléments.
-	 */
-	public static final int TAILLE_DEFAUT = 50;
-
-	/**
 	 * Couleur par défaut des éléments.
 	 */
 	private static final Color COULEUR_DEFAUT = new Color(175, 200, 225);
-	
+
 	/**
 	 * Couleur par défaut du trait des éléments.
 	 */
 	private static final Color COULEUR_TRAIT_DEFAUT = Color.BLACK;
-	
+
 	/**
 	 * 
 	 */
@@ -62,22 +57,49 @@ public class FenetrePrincipale extends JFrame {
 	 */
 	private EspaceTravail m_Espace;
 
+	/**
+	 * 
+	 */
 	private GestionnaireFichier m_GestionnaireFichier;
 
 	private JButton btn_Selection;
 	private JButton btn_Remplissage;
 	private JSpinner spin_LargeurTrait;
 	private JButton btn_CouleurTrait;
-	//private HashMap<String, JButton> m_BtnOutils;
 
 	/**
-	 * Construit la fenêtre.
+	 * Construit la fenêtre principale sans initialiser les composants.
+	 * 
+	 * 
+	 * @see #initialiserComposants()
 	 */
 	public FenetrePrincipale() {
 		super("TP01 - Poo");
 		this.parametrer();
 		this.initialiserComposants();
 		super.pack();
+	}
+
+	/**
+	 * Construit un {@code ElementGraphique} à partir de l'interface et des
+	 * propriétés spécifiées.
+	 * 
+	 * @param p_Nom nom de la forme.
+	 * @param p_X   coordonnée en x.
+	 * @param p_Y   coordonnée en y.
+	 * 
+	 * @return		l'élément construit selon l'interface et les propriétés spécifiées.
+	 */
+	public ElementGraphique construireElementDepuisUI(String p_Nom) {
+		UsineForme usine = UsineForme.getInstance();
+		ElementGraphique forme = usine.getForme(p_Nom);
+		if (forme == null) {
+			throw new IllegalArgumentException("Nom inconnu");
+		}
+		forme.setCouleur(this.btn_Remplissage.getBackground());
+		forme.setLargeurTrait((int) this.spin_LargeurTrait.getValue());
+		forme.setCouleurTrait(this.btn_CouleurTrait.getBackground());
+		return forme;
 	}
 
 	/**
@@ -92,7 +114,7 @@ public class FenetrePrincipale extends JFrame {
 	/**
 	 * Initialise les composants de la {@code FenetrePrincipale}.
 	 */
-	private void initialiserComposants() {
+	public void initialiserComposants() {
 		this.m_Modele = new ModeleDessin();
 		this.m_Espace = new EspaceTravail(this.m_Modele);
 		this.m_GestionnaireFichier = new GestionnaireFichier(this, this.m_Modele);
@@ -129,7 +151,7 @@ public class FenetrePrincipale extends JFrame {
 		super.add(panel_Centre, BorderLayout.CENTER);
 		//
 		// m_Espace
-		//EouteurSouris eouteurSouris = new EouteurSouris();
+		// EouteurSouris eouteurSouris = new EouteurSouris();
 		this.m_Espace.addMouseListener(ecouteurSouris);
 		this.m_Espace.addMouseMotionListener(ecouteurSouris);
 		panel_Centre.add(this.m_Espace);
@@ -159,14 +181,14 @@ public class FenetrePrincipale extends JFrame {
 		// menu_Formes
 		menu_Trait.add(panel_LargeurTrait);
 		menu_Trait.add(panel_CouleurTrait);
-		menu_Trait.addMenuListener(new MenuListener() {			
+		menu_Trait.addMenuListener(new MenuListener() {
 			@Override
 			public void menuSelected(MenuEvent p_e) {
 				ElementGraphique element = FenetrePrincipale.this.m_Espace.getSelection();
 				if (element != null) {
 					FenetrePrincipale.this.spin_LargeurTrait.setValue(element.getLargeurTrait());
 				}
-			}			
+			}
 			public void menuDeselected(MenuEvent p_e) {}
 			public void menuCanceled(MenuEvent p_e) {}
 		});
@@ -183,32 +205,29 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// item_Ouvrir
 		item_Ouvrir.addActionListener(e -> {
-			this.m_GestionnaireFichier.ouvrir(new FormatXML(FormeFactory.getInstance()));
+			this.m_GestionnaireFichier.ouvrir(new FormatXML(UsineForme.getInstance()));
 		});
 		//
 		// item_Enregistrer
 		item_Enregistrer.addActionListener(e -> {
-			this.m_GestionnaireFichier.enregistrer(new FormatXML(FormeFactory.getInstance()));
+			this.m_GestionnaireFichier.enregistrer(new FormatXML(UsineForme.getInstance()));
 		});
 		//
 		// item_EnregistrerSous
 		item_EnregistrerSous.addActionListener(e -> {
-			this.m_GestionnaireFichier.enregistrerSous(new FormatXML(FormeFactory.getInstance()));
+			this.m_GestionnaireFichier.enregistrerSous(new FormatXML(UsineForme.getInstance()));
 		});
 		//
 		// item_Exporter
 		item_Exporter.addActionListener(e -> {
-			this.m_GestionnaireFichier.enregistrerSous(new FormatSVG(FormeFactory.getInstance()));
+			this.m_GestionnaireFichier.enregistrerSous(new FormatSVG(UsineForme.getInstance()));
 		});
 		//
 		// item_Page
 		item_Page.addActionListener(e -> {
 			DialoguePage dialogueParametre = new DialoguePage(this);
-			dialogueParametre.montrer(
-					(int) Math.round(this.m_Modele.getLargeur()),
-					(int) Math.round(this.m_Modele.getHauteur()),
-					this.m_Modele.getArrierePlan()
-			);
+			dialogueParametre.montrer((int) Math.round(this.m_Modele.getLargeur()),
+					(int) Math.round(this.m_Modele.getHauteur()), this.m_Modele.getArrierePlan());
 			if (dialogueParametre.getResultat()) {
 				this.m_Modele.setDimension(dialogueParametre.getLargeur(), dialogueParametre.getHauteur());
 				this.m_Modele.setArrierePlan(dialogueParametre.getCouleur());
@@ -235,11 +254,9 @@ public class FenetrePrincipale extends JFrame {
 		//
 		// spin_LargeurTrait
 		this.spin_LargeurTrait.addChangeListener(e -> {
-			int epaisseur = (int) this.spin_LargeurTrait.getValue();
-			ecouteurSouris.setLargeurTrait(epaisseur);
 			ElementGraphique element = FenetrePrincipale.this.m_Espace.getSelection();
 			if (element != null) {
-				element.setLargeurTrait(epaisseur);
+				element.setLargeurTrait((int) this.spin_LargeurTrait.getValue());
 			}
 		});
 		//
@@ -269,37 +286,34 @@ public class FenetrePrincipale extends JFrame {
 		// btn_Selection
 		this.btn_Selection.setIcon(FenetrePrincipale.chargerIcone("24_Souris.png"));
 		this.btn_Selection.addActionListener(e -> {
-			ecouteurSouris.setNom("");
+			ecouteurSouris.setFournisseur(null);
 		});
 		//
 		// btn_Ellipse
 		btn_Ellipse.setIcon(FenetrePrincipale.chargerIcone("24_Ellipse.png"));
 		btn_Ellipse.addActionListener(e -> {
-			ecouteurSouris.setNom("Ellipse");
+			ecouteurSouris.setFournisseur(() -> this.construireElementDepuisUI("Ellipse"));
 		});
 		//
 		// btn_Rectangle
 		btn_Rectangle.setIcon(FenetrePrincipale.chargerIcone("24_Rectangle.png"));
 		btn_Rectangle.addActionListener(e -> {
-			ecouteurSouris.setNom("Rectangle");
+			ecouteurSouris.setFournisseur(() -> this.construireElementDepuisUI("Rectangle"));
 		});
 		//
 		// btn_Ligne
 		btn_Ligne.setIcon(FenetrePrincipale.chargerIcone("24_Ligne.png"));
 		btn_Ligne.setPressedIcon(FenetrePrincipale.chargerIcone("24_Ligne.png"));
 		btn_Ligne.addActionListener(e -> {
-			ecouteurSouris.setNom("Ligne");
+			ecouteurSouris.setFournisseur(() -> this.construireElementDepuisUI("Ligne"));
 		});
-
 		//
 		// btn_Remplissage
 		this.btn_Remplissage.setIcon(FenetrePrincipale.chargerIcone("24_Vide.png"));
 		this.btn_Remplissage.setBackground(FenetrePrincipale.COULEUR_DEFAUT);
-		ecouteurSouris.setCouleur(FenetrePrincipale.COULEUR_DEFAUT);
 		this.btn_Remplissage.addActionListener(e -> {
 			Color couleur = JColorChooser.showDialog(this, "Choisissez votre couleur", null);
 			this.btn_Remplissage.setBackground(couleur);
-			ecouteurSouris.setCouleur(couleur);
 			if (this.m_Espace.getSelection() != null) {
 				this.m_Espace.getSelection().setCouleur(couleur);
 			}
