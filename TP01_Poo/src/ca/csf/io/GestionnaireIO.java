@@ -1,7 +1,7 @@
 package ca.csf.io;
 
 /**
- * 
+ * Interface offrant des méthodes de contrôle de fichiers.
  */
 public interface GestionnaireIO {
 	

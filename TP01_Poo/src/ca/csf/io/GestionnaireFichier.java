@@ -1,6 +1,5 @@
 package ca.csf.io;
 
-import java.awt.Color;
 import java.io.File;
 
 import javax.swing.JFileChooser;
@@ -12,7 +11,7 @@ import ca.csf.modele.EcouteurModeleGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 
 /**
- * 
+ * Contrôleur de fichier.
  */
 public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphique {
 
@@ -45,7 +44,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 				p_Format.enregistrer(this.m_Modele, this.m_Fichier);
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.afficherErreur("Erreur d'écriture");
+				this.afficherErreur("Erreur d'écriture.");
 			}
 			this.m_Modifications = false;
 		}
@@ -56,7 +55,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	 */
 	@Override
 	public void enregistrerSous(FormatFichier p_Format) {
-		XMLJFileChooser chooser = new XMLJFileChooser();
+		SelecteurFichierExtensionUnique chooser = new SelecteurFichierExtensionUnique(".xml", "XML");
 		if (chooser.showSaveDialog(this.m_Fenetre) == JFileChooser.APPROVE_OPTION) {
 			try {
 				File fichier = chooser.getSelectedFile();
@@ -65,7 +64,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 				this.m_Modifications = false;
 			} catch (Exception e) {
 				e.printStackTrace();
-				this.afficherErreur("Erreur d'écriture");
+				this.afficherErreur("Erreur d'écriture.");
 			}
 		}
 	}
@@ -76,18 +75,23 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	@Override
 	public void ouvrir(FormatFichier p_Format) {
 		if (this.verifierSauvegarde()) {
-			XMLJFileChooser fc = new XMLJFileChooser();
+			SelecteurFichierExtensionUnique fc = new SelecteurFichierExtensionUnique(".xml", "XML");
 			if (fc.showOpenDialog(this.m_Fenetre) == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
-				try {
-					p_Format.ouvrir(this.m_Modele, file);
-					this.m_Fichier = file;
-					this.m_Modifications = false;
-					this.m_Format = p_Format;
-				} catch (Exception e) {
-					e.printStackTrace();
-					this.afficherErreur("Erreur de lecture");
+				if (!fc.accept(file)) {
+					this.afficherErreur("Type de fichier non-supporté.");
 				}
+				else {
+					try {
+						p_Format.ouvrir(this.m_Modele, file);
+						this.m_Fichier = file;
+						this.m_Modifications = false;
+						this.m_Format = p_Format;
+					} catch (Exception e) {
+						e.printStackTrace();
+						this.afficherErreur("Erreur de lecture.");
+					}
+				}				
 			}
 		}
 	}
@@ -140,7 +144,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleTaille(int p_Hauteur, int p_Largeur) {
+	public void reagirNouvelleTaille() {
 		this.reagirModifications();
 	}
 
@@ -148,7 +152,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void reagirNouvelleCouleurDeFond(Color p_Couleur) {
+	public void reagirNouvelleCouleurDeFond() {
 		this.reagirModifications();
 	}
 

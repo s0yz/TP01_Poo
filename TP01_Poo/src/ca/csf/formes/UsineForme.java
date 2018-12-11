@@ -1,17 +1,16 @@
 package ca.csf.formes;
 
 /**
- * @author Cedric Mariage
  *
  */
-public class FormeFactory implements Forme2DFactory {
+public class UsineForme implements UsineElementGraphique {
 
-	private static FormeFactory m_Instance = new FormeFactory();
+	private static UsineForme m_Instance = new UsineForme();
 
-	private FormeFactory() {
+	private UsineForme() {
 	}
 
-	public static FormeFactory getInstance() {
+	public static UsineForme getInstance() {
 		return m_Instance;
 	}
 
@@ -27,15 +26,7 @@ public class FormeFactory implements Forme2DFactory {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ElementGraphique getForme(String p_Nom, int p_X, int p_Y) {
-		return this.getForme(p_Nom, p_X, p_Y, 0, 0);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ElementGraphique getForme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
+	public ElementGraphique getForme(String p_Nom, double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
 		switch (p_Nom.toLowerCase()) {
 		case "ligne":
 			return new Ligne(p_X, p_Y, p_Largeur, p_Hauteur);

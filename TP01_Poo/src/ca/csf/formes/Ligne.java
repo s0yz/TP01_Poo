@@ -4,29 +4,26 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 
 /**
- * 
+ * Représente une ligne 2D.
  */
 public class Ligne extends Forme {
 
-	Ligne() {
-		this(0, 0);
-	}
-
 	/**
-	 * @param p_Nom
+	 * Instancie une ligne. Les valeurs par défaut en font un point à (0, 0).
 	 */
-	Ligne(int p_X, int p_Y) {
-		this(p_X, p_Y, p_X, p_Y);
+	public Ligne() {
+		this(0, 0, 0 ,0);
 	}
 
 	/**
+	 * Instancie une ligne selon les points spécifié.
 	 * 
-	 * @param p_X1
-	 * @param p_Y1
-	 * @param p_X2
-	 * @param p_Y2
+	 * @param p_X1 coordonnée en x du premier point.
+	 * @param p_Y1 coordonnée en y du premier point.
+	 * @param p_X2 coordonnée en x du second point.
+	 * @param p_Y2 coordonnée en y du second point.
 	 */
-	Ligne(int p_X1, int p_Y1, int p_X2, int p_Y2) {
+	public Ligne(double p_X1, double p_Y1, double p_X2, double p_Y2) {
 		super("Ligne", p_X1, p_Y1, p_X2 - p_X1, p_Y2 - p_Y1);
 	}
 
@@ -35,20 +32,45 @@ public class Ligne extends Forme {
 	 */
 	@Override
 	protected Shape getShape() {
-		return new Line2D.Float(this.getX(), this.getY(), this.getX() + this.getLargeur(),
+		return new Line2D.Double(this.getX(), this.getY(), this.getX() + this.getLargeur(),
 				this.getY() + this.getHauteur());
+	}
+
+	/**
+	 * Approximation généreuse.
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean contient(double p_X, double p_Y) {
+		double distAB = Math.hypot(this.getX1() - this.getX2(), this.getY1() - this.getY2());
+		double distAC = Math.hypot(this.getX1() - p_X, this.getY1() - p_Y);
+		double distBC = Math.hypot(this.getX2() - p_X, this.getY2() - p_Y);
+		distAB -= distAC + distBC;
+		return Math.abs(distAB) <= this.getLargeurTrait() >> 1;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contient(int p_X, int p_Y) {
-		int x = Math.min(this.getX(), this.getX() + this.getLargeur());
-		int y = Math.min(this.getY(),this.getY() + this.getHauteur());
-		int hauteur = Math.abs(this.getLargeur());
-		int largeur = Math.abs(this.getHauteur());
-		Rectangle rect = new Rectangle(x, y, hauteur, largeur);
-		return rect.contient(p_X, p_Y);
+	public boolean supporteDimensionsNegatives() {
+		return true;
+	}
+
+	public double getX1() {
+		return this.getX();
+	}
+
+	public double getX2() {
+		return this.getX() + this.getLargeur();
+	}
+
+	public double getY1() {
+		return this.getY();
+	}
+
+	public double getY2() {
+		return this.getY() + this.getHauteur();
 	}
 }

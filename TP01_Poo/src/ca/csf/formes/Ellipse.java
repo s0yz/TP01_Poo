@@ -8,21 +8,26 @@ import java.awt.Shape;
  */
 public class Ellipse extends Forme {
 
+	Ellipse() {
+		this(0, 0, 0, 0);
+	}
+	
 	/**
 	 * @param p_Nom
 	 */
-	Ellipse(int p_X, int p_Y) {
+	Ellipse(double p_X, double p_Y) {
 		this(p_X, p_Y, 0, 0);
 	}
 	
 	/**
+	 * Construit une ellipse.
 	 * 
-	 * @param p_X
-	 * @param p_Y
-	 * @param p_Largeur
-	 * @param p_Hauteur
+	 * @param p_X coordonnée en x.
+	 * @param p_Y coordonnée en y.
+	 * @param p_Largeur largeur.
+	 * @param p_Hauteur hauteur.
 	 */
-	Ellipse(int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
+	Ellipse(double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
 		super("Ellipse", p_X, p_Y, p_Largeur, p_Hauteur);
 	}
 
@@ -31,7 +36,10 @@ public class Ellipse extends Forme {
 	 */
 	@Override
 	protected Shape getShape() {
-		return new java.awt.geom.Ellipse2D.Float(
-				this.getX(), this.getY(), this.getLargeur(), this.getHauteur());
+		double x = Math.min(this.getX(), this.getX() + this.getLargeur());
+		double y = Math.min(this.getY(), this.getY() + this.getHauteur());
+		double largeur = Math.abs(this.getLargeur());
+		double hauteur = Math.abs(this.getHauteur());
+		return new java.awt.geom.Ellipse2D.Double(x, y, largeur, hauteur);
 	}
 }

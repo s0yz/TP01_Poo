@@ -14,57 +14,60 @@ import ca.csf.formes.ElementGraphique;
  */
 public abstract class Forme implements ElementGraphique {
 	
-	public static final int LARGEUR_TRAIT_DEFAUT = 1;
-	
 	/**
-	 * 
+	 * Nom de la forme.
 	 */
 	private final String m_Nom;
 	
 	/**
-	 * 
+	 * Coordonnée en x du point suppérieure gauche.
 	 */
-	private int m_X;
+	private double m_X;
 	
 	/**
-	 * 
+	 * Coordonnée en y du point suppérieure gauche.
 	 */
-	private int m_Y;
+	private double m_Y;
 	
 	/**
-	 * 
+	 * Largeur.
 	 */
-	private int m_Largeur;
+	private double m_Largeur;
 	
 	/**
-	 * 
+	 * Hauteur.
 	 */
-	private int m_Hauteur;
+	private double m_Hauteur;
 	
 	/**
-	 * 
+	 * Largeur du trait.
 	 */
-	private int m_LargeurTrait = LARGEUR_TRAIT_DEFAUT;
+	private int m_LargeurTrait;
 	
 	/**
-	 * 
+	 * Couleur.
 	 */
 	private Color m_Couleur;
 	
 	/**
-	 * 
+	 * Couleur du trait.
 	 */
-	private Color m_CouleurTrait = Color.BLACK;
+	private Color m_CouleurTrait;
 		
 	/**
+	 * Construit une forme.
 	 * 
-	 * @param p_Nom
-	 * @param p_X
-	 * @param p_Y
-	 * @param p_Largeur
-	 * @param p_Hauteur
+	 * @param p_Nom nom de la forme.
+	 * @param p_X coordonnée en x.
+	 * @param p_Y coordonnée en y.
+	 * @param p_Largeur largeur.
+	 * @param p_Hauteur hauteur.
+	 * @throws IllegalArgumentException si p_Nom est null.
 	 */
-	protected Forme(String p_Nom, int p_X, int p_Y, int p_Largeur, int p_Hauteur) {
+	protected Forme(String p_Nom, double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
+		if (p_Nom == null) {
+			throw new IllegalArgumentException("p_Nom est null.");
+		}
 		this.m_Nom = p_Nom;
 		this.setPosition(p_X, p_Y);
 		this.setDimension(p_Largeur, p_Hauteur);
@@ -75,19 +78,20 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void dessiner(Graphics2D p_Graphic) {
+		Shape forme = this.getShape();
+		if (this.getCouleur() != null) {
+			p_Graphic.setColor(this.getCouleur());
+			p_Graphic.fill(forme);
+		}
 		if (this.getLargeurTrait() > 0 && this.getCouleurTrait() != null) {
 			p_Graphic.setStroke(new BasicStroke(this.getLargeurTrait()));
 			p_Graphic.setColor(this.getCouleurTrait());
-			p_Graphic.draw(this.getShape());
-		}
-		if (this.getCouleur() != null) {
-			p_Graphic.setColor(this.getCouleur());
-			p_Graphic.fill(this.getShape());
+			p_Graphic.draw(forme);
 		}
 	}
 
 	@Override
-	public int getX() {
+	public double getX() {
 		return this.m_X;
 	}
 
@@ -95,7 +99,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getY() {
+	public double getY() {
 		return this.m_Y;
 	}
 
@@ -103,7 +107,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getLargeur() {
+	public double getLargeur() {
 		return this.m_Largeur;
 	}
 
@@ -111,7 +115,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public int getHauteur() {
+	public double getHauteur() {
 		return this.m_Hauteur;
 	}
 	
@@ -143,7 +147,7 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean contient(int p_X, int p_Y) {
+	public boolean contient(double p_X, double p_Y) {
 		return this.getShape().contains(p_X, p_Y);
 	}
 
@@ -159,33 +163,32 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setPosition(int p_X, int p_Y) {
+	public void setPosition(double p_X, double p_Y) {
 		this.m_X = p_X;
 		this.m_Y = p_Y;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * @throws IllegalArgumentException si p_Largeur < 0.
 	 */
 	@Override
-	public void setLargeur(int p_Largeur) {
-		this.setDimension(p_Largeur, this.m_Hauteur);
+	public void setLargeur(double p_Largeur) {
+		if (p_Largeur < 0 && !supporteDimensionsNegatives()) {
+			throw new IllegalArgumentException("Largeur invalide : " + p_Largeur);
+		}
+		this.m_Largeur = p_Largeur;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * @throws IllegalArgumentException si p_Hauteur < 0.
 	 */
 	@Override
-	public void setHauteur(int p_Hauteur) {
-		this.setDimension(this.m_Largeur, p_Hauteur);
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setDimension(int p_Largeur, int p_Hauteur) {
-		this.m_Largeur = p_Largeur;
+	public void setHauteur(double p_Hauteur) {
+		if (p_Hauteur < 0 && !supporteDimensionsNegatives()) {
+			throw new IllegalArgumentException("Hauteur invalide : " + p_Hauteur);
+		}
 		this.m_Hauteur = p_Hauteur;
 	}
 	
@@ -193,7 +196,16 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void deplacer(int p_X, int p_Y) {
+	public void setDimension(double p_Largeur, double p_Hauteur) {
+		this.setLargeur(p_Largeur);
+		this.setHauteur(p_Hauteur);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deplacer(double p_X, double p_Y) {
 		this.setPosition(this.getX() + p_X, this.getY() + p_Y);
 	}
 
@@ -209,8 +221,11 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setLargeurTrait(int p_PX) {
-		this.m_LargeurTrait = p_PX;
+	public void setLargeurTrait(int p_Epaisseur) {
+		if (p_Epaisseur < 0) {
+			throw new IllegalArgumentException("Largeur de trait invalide : " + p_Epaisseur);
+		}
+		this.m_LargeurTrait = p_Epaisseur;
 	}
 	
 	/**
@@ -222,9 +237,81 @@ public abstract class Forme implements ElementGraphique {
 	}
 	
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean supporteDimensionsNegatives() {
+		return false;
+	}
+		
+	/**
 	 * Pour obtenir la Shape correspondant à la Forme.
 	 * 
 	 * @return
 	 */
 	protected abstract Shape getShape();
+	
+	/**
+	 * Code généré par eclipse.
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((this.m_Couleur == null) ? 0 : this.m_Couleur.hashCode());
+		result = prime * result + ((this.m_CouleurTrait == null) ? 0 : this.m_CouleurTrait.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(this.m_Hauteur);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(this.m_Largeur);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + this.m_LargeurTrait;
+		result = prime * result + ((this.m_Nom == null) ? 0 : this.m_Nom.hashCode());
+		temp = Double.doubleToLongBits(this.m_X);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(this.m_Y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	/**
+	 * Code généré par eclipse.
+	 * 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof ElementGraphique))
+			return false;
+		ElementGraphique other = (ElementGraphique) obj;
+		if (this.m_Couleur == null) {
+			if (other.getCouleur() != null)
+				return false;
+		} else if (!this.m_Couleur.equals(other.getCouleur()))
+			return false;
+		if (this.m_CouleurTrait == null) {
+			if (other.getCouleurTrait() != null)
+				return false;
+		} else if (!this.m_CouleurTrait.equals(other.getCouleurTrait()))
+			return false;
+		if (this.m_Hauteur != other.getHauteur())
+			return false;
+		if (this.m_Largeur != other.getLargeur())
+			return false;
+		if (this.m_LargeurTrait != other.getLargeurTrait())
+			return false;
+		if (!this.m_Nom.equals(other.getNom()))
+			return false;
+		if (this.m_X != other.getX())
+			return false;
+		if (this.m_Y != other.getY())
+			return false;
+		return true;
+	}
 }
