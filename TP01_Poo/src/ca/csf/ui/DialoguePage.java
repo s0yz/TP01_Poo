@@ -37,8 +37,8 @@ public class DialoguePage extends JDialog {
 	 */
 	private boolean m_Resultat;
 
-	public DialoguePage(JFrame parent) {
-		super(parent, "Propriété de l'image", true);
+	public DialoguePage(JFrame p_Parent) {
+		super(p_Parent, "Propriété de l'image", true);
 		this.parametrer();
 		this.initialiserComposants();
 		this.pack();
@@ -48,7 +48,7 @@ public class DialoguePage extends JDialog {
 	 * Configure le dialogue.
 	 */
 	private void parametrer() {
-		this.setLocationRelativeTo(this.getParent());
+		//this.setLocationRelativeTo(this.getParent());
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 	}

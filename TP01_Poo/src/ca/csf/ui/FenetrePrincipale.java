@@ -230,8 +230,7 @@ public class FenetrePrincipale extends JFrame {
 		// item_Page  
 		item_Page.addActionListener(e -> {
 			DialoguePage dialogueParametre = new DialoguePage(this);
-			dialogueParametre.montrer((int) Math.round(this.m_Modele.getLargeur()),
-					(int) Math.round(this.m_Modele.getHauteur()), this.m_Modele.getArrierePlan());
+			dialogueParametre.montrer((int) this.m_Modele.getLargeur(), (int) this.m_Modele.getHauteur(), this.m_Modele.getArrierePlan());
 			if (dialogueParametre.getResultat()) {
 				this.m_Modele.setDimension(dialogueParametre.getLargeur(), dialogueParametre.getHauteur());
 				this.m_Modele.setArrierePlan(dialogueParametre.getCouleur());
