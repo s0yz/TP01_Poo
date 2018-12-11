@@ -1,7 +1,6 @@
 package ca.csf.formes;
 
 /**
- * @author Cedric Mariage
  *
  */
 public class UsineForme implements UsineElementGraphique {
@@ -21,14 +20,6 @@ public class UsineForme implements UsineElementGraphique {
 	@Override
 	public ElementGraphique getForme(String p_Nom) {
 		return this.getForme(p_Nom, 0, 0, 0, 0);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ElementGraphique getForme(String p_Nom, double p_X, double p_Y) {
-		return this.getForme(p_Nom, p_X, p_Y, 0, 0);
 	}
 
 	/**

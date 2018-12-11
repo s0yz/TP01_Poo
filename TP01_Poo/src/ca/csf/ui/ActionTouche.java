@@ -36,5 +36,4 @@ public class ActionTouche extends AbstractAction {
 	public void actionPerformed(ActionEvent p_e) {
 		this.m_Action.accept(p_e);
 	}
-
 }

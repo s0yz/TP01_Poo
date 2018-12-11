@@ -28,11 +28,6 @@ class SelecteurFichierExtensionUniqueTest {
 		assertFalse(".t ar.gz".matches(regex));
 	}
 	
-//	@Test()
-//	void constructeur() {		
-//		SelecteurFichierExtensionUnique selecteur = new SelecteurFichierExtensionUnique(".xml", "XML");
-//	}
-	
 	@Test()
 	void constructeurInvalide() {
 		assertThrows(IllegalArgumentException.class, () -> new SelecteurFichierExtensionUnique("", "XML"));
@@ -58,26 +53,12 @@ class SelecteurFichierExtensionUniqueTest {
 	
 	@Test()
 	void getSelectedFile() {
-		File f = new File("");
-		SelecteurFichierExtensionUnique select = new SelecteurFichierExtensionUnique(".txt", "");
-		select.setSelectedFile(f);
+		SelecteurFichierExtensionUnique s1 = new SelecteurFichierExtensionUnique(".txt", "TXT");
 		
-		assertEquals(new File(".txt"), select.getSelectedFile());
-		assertNotEquals(new File("test.txt"), select.getSelectedFile());
-		assertNotEquals(new File("test."), select.getSelectedFile());
-		
-		File ff = new File("test");
-		select.setSelectedFile(ff);
-		assertEquals(new File("test.txt"), select.getSelectedFile());
-		
-		SelecteurFichierExtensionUnique selecte = new SelecteurFichierExtensionUnique(".txt.zip.pimp", "");
-		selecte.setSelectedFile(ff);
-		assertEquals(new File("test.txt.zip.pimp"), selecte.getSelectedFile());
-		
-		
-		
-		
-		
-	}
-	
+		s1.setSelectedFile(new File(""));		
+		assertEquals(new File(".txt"), s1.getSelectedFile());
+				
+		s1.setSelectedFile(new File("test"));
+		assertEquals(new File("test.txt"), s1.getSelectedFile());
+	}	
 }
