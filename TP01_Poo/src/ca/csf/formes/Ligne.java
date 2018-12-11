@@ -16,11 +16,12 @@ public class Ligne extends Forme {
 	}
 
 	/**
+	 * Instancie une ligne selon les points spécifié.
 	 * 
-	 * @param p_X1
-	 * @param p_Y1
-	 * @param p_X2
-	 * @param p_Y2
+	 * @param p_X1 coordonnée en x du premier point.
+	 * @param p_Y1 coordonnée en y du premier point.
+	 * @param p_X2 coordonnée en x du second point.
+	 * @param p_Y2 coordonnée en y du second point.
 	 */
 	public Ligne(double p_X1, double p_Y1, double p_X2, double p_Y2) {
 		super("Ligne", p_X1, p_Y1, p_X2 - p_X1, p_Y2 - p_Y1);

@@ -70,4 +70,18 @@ class LigneTest {
 		assertEquals(x2 - x1, ligne.getLargeur());
 		assertEquals(y2 - y1, ligne.getHauteur());
 	}
+	
+	@Test
+	void contient() {
+		Ligne ligne = new Ligne(0, 0, 50, 0);
+		assertTrue(ligne.contient(25, 0));
+		assertTrue(ligne.contient(0, 0));
+		assertTrue(ligne.contient(50, 0));
+		
+		assertFalse(ligne.contient(-1, 0));
+		assertFalse(ligne.contient(51, 0));		
+		assertFalse(ligne.contient(25, 1));
+		assertFalse(ligne.contient(0, -1));
+	}
+	
 }
