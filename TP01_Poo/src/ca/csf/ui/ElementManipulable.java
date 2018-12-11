@@ -11,7 +11,7 @@ import ca.csf.formes.UsineForme;
 /**
  * Décorateur concret d'{@code ElementGraphiqe}.
  * 
- * Optimisé pour être manipuler par une souris. Gère les dimensions négatives.
+ * Represente un élément sélectionné, optimisé pour être manipulé par une souris.
  */
 public class ElementManipulable extends DecorateurElementGraphique {
 
@@ -19,6 +19,11 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	 * Couleur du trait de sélection.
 	 */
 	private static final Color COULEUR_TRAIT = Color.CYAN;
+	
+	/**
+	 * Largeur du trait de sélection.
+	 */
+	private static final int Largeur_TRAIT = 2;
 
 	/**
 	 * Taille du petit carré permettant la redimension.
@@ -45,14 +50,8 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	 */
 	private double m_Y;
 
-	/**
-	 * Largeur.
-	 */
 	private double m_Largeur;
 
-	/**
-	 * Hauteur.
-	 */
 	private double m_Hauteur;
 
 	/**
@@ -77,6 +76,11 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	 */
 	private ElementGraphique m_Carre;
 
+	/**
+	 * Instancie un ElementManipulable
+	 * 
+	 * @param p_Element l'élément sélectionné.
+	 */
 	public ElementManipulable(ElementGraphique p_Element) {
 		this(p_Element, 0, 0);
 	}
@@ -90,13 +94,15 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	 */
 	public ElementManipulable(ElementGraphique p_Element, double p_X, double p_Y) {
 		super(p_Element);
+		int trait = ElementManipulable.Largeur_TRAIT;
 		this.m_Carre = UsineForme.getInstance().getForme("Rectangle");
-		this.getCarre().setCouleur(ElementManipulable.COULEUR_CARRE);
-		this.getCarre().setCouleurTrait(ElementManipulable.COULEUR_CARRE_TRAIT);
-		this.getCarre().setDimension(ElementManipulable.TAILLE_CARRE, ElementManipulable.TAILLE_CARRE);
+		this.m_Carre.setCouleur(ElementManipulable.COULEUR_CARRE);
+		this.m_Carre.setCouleurTrait(ElementManipulable.COULEUR_CARRE_TRAIT);
+		this.m_Carre.setLargeurTrait(trait);
+		this.m_Carre.setDimension(ElementManipulable.TAILLE_CARRE, ElementManipulable.TAILLE_CARRE);
 		this.set(p_Element, p_X, p_Y);
-		float[] tirets = { 2.0f };
-		this.m_Trait = new BasicStroke(2.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 2.0f, tirets, 0.0f);
+		float[] tirets = { trait };
+		this.m_Trait = new BasicStroke(trait, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, trait, tirets, 0.0f);
 	}
 
 	/**
@@ -105,6 +111,16 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	 * @param p_Element la nouvelle sélection.
 	 */
 	public void set(ElementGraphique p_Element) {
+		this.set(p_Element, 0, 0);
+	}
+	
+	/**
+	 * Change l'élément sélectionné.
+	 * 
+	 * @param p_Element la nouvelle sélection.
+	 */
+	@Override
+	public void setElement(ElementGraphique p_Element) {
 		this.set(p_Element, 0, 0);
 	}
 

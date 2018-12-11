@@ -10,6 +10,4 @@ class EllipseTest {
 	void test() {
 		fail("Not yet implemented");
 	}
-	
-
 }

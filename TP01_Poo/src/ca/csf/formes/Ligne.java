@@ -8,15 +8,11 @@ import java.awt.geom.Line2D;
  */
 public class Ligne extends Forme {
 
-	public Ligne() {
-		this(0, 0);
-	}
-
 	/**
-	 * @param p_Nom
+	 * Instancie une ligne. Les valeurs par défaut en font un point à (0, 0).
 	 */
-	public Ligne(double p_X, double p_Y) {
-		this(p_X, p_Y, p_X, p_Y);
+	public Ligne() {
+		this(0, 0, 0 ,0);
 	}
 
 	/**

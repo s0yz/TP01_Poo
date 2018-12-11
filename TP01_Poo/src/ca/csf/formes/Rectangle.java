@@ -9,8 +9,11 @@ import java.awt.Shape;
  */
 public class Rectangle extends Forme {
 	
+	/**
+	 * Instancie 
+	 */
 	public Rectangle() {
-		this(0, 0);
+		this(0, 0, 0, 0);
 	}
 	
 	/**
@@ -24,10 +27,10 @@ public class Rectangle extends Forme {
 	
 	/**
 	 * 
-	 * @param p_X
-	 * @param p_Y
-	 * @param p_Largeur
-	 * @param p_Hauteur
+	 * @param p_X coordonnée en x.
+	 * @param p_Y coordonnée en y.
+	 * @param p_Largeur largeur.
+	 * @param p_Hauteur hauteur.
 	 */
 	public Rectangle(double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
 		super("Rectangle", p_X, p_Y, p_Largeur, p_Hauteur);

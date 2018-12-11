@@ -14,8 +14,6 @@ import ca.csf.formes.ElementGraphique;
  */
 public abstract class Forme implements ElementGraphique {
 	
-	public static final int LARGEUR_TRAIT_DEFAUT = 1;
-	
 	/**
 	 * Nom de la forme.
 	 */
@@ -44,7 +42,7 @@ public abstract class Forme implements ElementGraphique {
 	/**
 	 * Largeur du trait.
 	 */
-	private int m_LargeurTrait = Forme.LARGEUR_TRAIT_DEFAUT;
+	private int m_LargeurTrait;
 	
 	/**
 	 * Couleur.
