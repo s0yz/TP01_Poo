@@ -38,6 +38,7 @@ class SelecteurFichierExtensionUniqueTest {
 		assertThrows(IllegalArgumentException.class, () -> new SelecteurFichierExtensionUnique("", "XML"));
 	}
 	
+	
 	@Test()
 	void accept() {
 		SelecteurFichierExtensionUnique selecteur = new SelecteurFichierExtensionUnique(".xml", "XML");
@@ -54,4 +55,29 @@ class SelecteurFichierExtensionUniqueTest {
 		
 		dossier.delete();
 	}
+	
+	@Test()
+	void getSelectedFile() {
+		File f = new File("");
+		SelecteurFichierExtensionUnique select = new SelecteurFichierExtensionUnique(".txt", "");
+		select.setSelectedFile(f);
+		
+		assertEquals(new File(".txt"), select.getSelectedFile());
+		assertNotEquals(new File("test.txt"), select.getSelectedFile());
+		assertNotEquals(new File("test."), select.getSelectedFile());
+		
+		File ff = new File("test");
+		select.setSelectedFile(ff);
+		assertEquals(new File("test.txt"), select.getSelectedFile());
+		
+		SelecteurFichierExtensionUnique selecte = new SelecteurFichierExtensionUnique(".txt.zip.pimp", "");
+		selecte.setSelectedFile(ff);
+		assertEquals(new File("test.txt.zip.pimp"), selecte.getSelectedFile());
+		
+		
+		
+		
+		
+	}
+	
 }
