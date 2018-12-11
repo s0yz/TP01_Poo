@@ -3,6 +3,7 @@ package ca.csf.ui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -13,8 +14,6 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-
-import com.sun.glass.events.KeyEvent;
 
 import ca.csf.formes.ElementGraphique;
 import ca.csf.modele.EcouteurModeleGraphique;

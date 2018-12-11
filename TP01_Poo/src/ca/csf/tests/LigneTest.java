@@ -24,6 +24,7 @@ class LigneTest {
 		assertEquals(0, ligne.getLargeurTrait());
 		assertNull(ligne.getCouleur());
 		assertNull(ligne.getCouleurTrait());
+		assertEquals("Ligne", ligne.getNom());
 	}
 	
 	@Test
@@ -41,6 +42,7 @@ class LigneTest {
 		assertEquals(0, ligne.getLargeurTrait());
 		assertNull(ligne.getCouleur());
 		assertNull(ligne.getCouleurTrait());
+		assertEquals("Ligne", ligne.getNom());
 	}
 	
 	@Test
@@ -84,4 +86,22 @@ class LigneTest {
 		assertFalse(ligne.contient(0, -1));
 	}
 	
+	@Test
+	void setPosition() {
+		double x2 = 50;
+		double y2 = 70;
+		Ligne ligne = new Ligne(0, 0, x2, y2);
+		
+		ligne.setPosition(25, 25);
+		assertEquals(25, ligne.getX1());
+		assertEquals(25, ligne.getY1());
+		assertEquals(x2 + 25, ligne.getX2());
+		assertEquals(y2 + 25, ligne.getY2());
+		
+		ligne.setPosition(-900, -300);
+		assertEquals(-900, ligne.getX1());
+		assertEquals(-300, ligne.getY1());
+		assertEquals(-925, ligne.getX2());
+		assertEquals(-805, ligne.getY2());
+	}
 }
