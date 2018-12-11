@@ -4,18 +4,18 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 
 /**
- * 
+ * Représente une ligne 2D.
  */
 public class Ligne extends Forme {
 
-	Ligne() {
+	public Ligne() {
 		this(0, 0);
 	}
 
 	/**
 	 * @param p_Nom
 	 */
-	Ligne(double p_X, double p_Y) {
+	public Ligne(double p_X, double p_Y) {
 		this(p_X, p_Y, p_X, p_Y);
 	}
 
@@ -26,7 +26,7 @@ public class Ligne extends Forme {
 	 * @param p_X2
 	 * @param p_Y2
 	 */
-	Ligne(double p_X1, double p_Y1, double p_X2, double p_Y2) {
+	public Ligne(double p_X1, double p_Y1, double p_X2, double p_Y2) {
 		super("Ligne", p_X1, p_Y1, p_X2 - p_X1, p_Y2 - p_Y1);
 	}
 

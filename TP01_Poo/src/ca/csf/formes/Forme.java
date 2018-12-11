@@ -54,7 +54,7 @@ public abstract class Forme implements ElementGraphique {
 	/**
 	 * Couleur du trait.
 	 */
-	private Color m_CouleurTrait = Color.BLACK;
+	private Color m_CouleurTrait;
 		
 	/**
 	 * Construit une forme.
@@ -64,8 +64,12 @@ public abstract class Forme implements ElementGraphique {
 	 * @param p_Y coordonnée en y.
 	 * @param p_Largeur largeur.
 	 * @param p_Hauteur hauteur.
+	 * @throws IllegalArgumentException si p_Nom est null.
 	 */
 	protected Forme(String p_Nom, double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
+		if (p_Nom == null) {
+			throw new IllegalArgumentException("p_Nom est null.");
+		}
 		this.m_Nom = p_Nom;
 		this.setPosition(p_X, p_Y);
 		this.setDimension(p_Largeur, p_Hauteur);
@@ -85,7 +89,7 @@ public abstract class Forme implements ElementGraphique {
 			p_Graphic.setStroke(new BasicStroke(this.getLargeurTrait()));
 			p_Graphic.setColor(this.getCouleurTrait());
 			p_Graphic.draw(forme);
-		}		
+		}
 	}
 
 	@Override
@@ -219,8 +223,11 @@ public abstract class Forme implements ElementGraphique {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setLargeurTrait(int p_PX) {
-		this.m_LargeurTrait = p_PX;
+	public void setLargeurTrait(int p_Epaisseur) {
+		if (p_Epaisseur < 0) {
+			throw new IllegalArgumentException("Largeur de trait invalide : " + p_Epaisseur);
+		}
+		this.m_LargeurTrait = p_Epaisseur;
 	}
 	
 	/**
