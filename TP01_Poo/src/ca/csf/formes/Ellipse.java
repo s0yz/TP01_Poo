@@ -8,14 +8,14 @@ import java.awt.Shape;
  */
 public class Ellipse extends Forme {
 
-	Ellipse() {
+	public Ellipse() {
 		this(0, 0, 0, 0);
 	}
 	
 	/**
 	 * @param p_Nom
 	 */
-	Ellipse(double p_X, double p_Y) {
+	public Ellipse(double p_X, double p_Y) {
 		this(p_X, p_Y, 0, 0);
 	}
 	
@@ -27,7 +27,7 @@ public class Ellipse extends Forme {
 	 * @param p_Largeur largeur.
 	 * @param p_Hauteur hauteur.
 	 */
-	Ellipse(double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
+	public Ellipse(double p_X, double p_Y, double p_Largeur, double p_Hauteur) {
 		super("Ellipse", p_X, p_Y, p_Largeur, p_Hauteur);
 	}
 

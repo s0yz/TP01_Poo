@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import org.junit.jupiter.api.Test;
 
+import ca.csf.formes.Ellipse;
 import ca.csf.formes.Rectangle;
 
 class RectangleTest {
@@ -112,6 +113,27 @@ class RectangleTest {
 	}
 	
 	@Test
+	void RectangleTraitTest() {
+		Rectangle rect = new Rectangle(0.0,0.0,10,10);
+		rect.setLargeurTrait(20);
+		rect.setCouleurTrait(Color.GREEN);
+		
+		assertEquals(Color.GREEN, rect.getCouleurTrait());
+		assertEquals(20, rect.getLargeurTrait());
+		assertNotEquals(0, rect.getLargeurTrait());
+		assertNotEquals(Color.BLACK,rect.getCouleurTrait());
+		
+		Rectangle rectangle = new Rectangle(10,10,0.0,0.0);
+		rectangle.setDimension(9999999999999.9999,9999999999999.9999);
+		rectangle.setLargeurTrait(0);
+		rectangle.setCouleurTrait(Color.BLACK);
+		
+		assertNotEquals(9999999999999.999, rectangle.getLargeur());
+		assertEquals(0, rectangle.getLargeurTrait());
+		assertEquals(Color.BLACK, rectangle.getCouleurTrait());
+		
+	}
+	@Test
 	void deplacer() {
 		Rectangle rect = new Rectangle();
 		rect.setPosition(-10, -10);
@@ -125,7 +147,6 @@ class RectangleTest {
 		assertEquals(-18,rect.getX());
 		assertEquals(-18, rect.getY());
 		rect.deplacer(Double.MAX_VALUE, Double.MIN_VALUE);	
-		//assertThrows(IllegalArgumentException.class, () -> rect.setPosition(-18 + Double.MAX_VALUE, -18 + Double.MIN_VALUE));
 		
 	}
 	@Test
@@ -144,6 +165,8 @@ class RectangleTest {
 		
 		Rectangle rect1 = new Rectangle(10,20,0,0);
 		Rectangle rect2 = new Rectangle(10,19,0,0);
+		rect1.setLargeurTrait(10);
+		rect2.setLargeurTrait(10);
 		assertNotEquals(rect1, rect2);
 		assertNotEquals(rect2, rect1);
 		
@@ -151,6 +174,12 @@ class RectangleTest {
 		Rectangle rect4 = new Rectangle(0,0,0,0);
 		assertEquals(rect3, rect4);
 		assertEquals(rect4, rect3);
+		rect3.setLargeurTrait(0);
+		rect4.setLargeurTrait(0);
+		assertEquals(rect3, rect4);
+		rect3.setCouleurTrait(Color.BLACK);
+		rect4.setCouleurTrait(Color.BLUE);
+		assertNotEquals(rect3, rect4);
 		
 		rect3.setCouleur(Color.BLACK);
 		rect4.setCouleur(Color.BLUE);
@@ -161,8 +190,16 @@ class RectangleTest {
 		
 		
 		Rectangle rect5 = new Rectangle(9999,9999,9999,9999);
-		Rectangle rect6 = new Rectangle(9999,9999,9999,9999);
-		//assertEquals();
-		//assertEquals();
+		Rectangle rect6 = new Rectangle(9999.01,9999.01,9999.01,9999.01);
+		assertEquals(rect5,rect5);
+		assertEquals(rect6,rect6);
+		assertNotEquals(2, rect5);
+		assertNotEquals(rect6, rect5);
+		
+		Ellipse ellipse = new Ellipse(10,10,10,10);
+		assertNotEquals(ellipse, rect5);
+		
+		
+		
 	}
 }
