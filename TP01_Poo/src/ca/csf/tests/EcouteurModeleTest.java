@@ -14,19 +14,19 @@ public class EcouteurModeleTest implements EcouteurModeleGraphique {
 	private boolean m_NouvelleCouleurDeFond = false;
 	
 
-	public boolean isaReagitModifications() {
+	public boolean aReagitModifications() {
 		return m_Modifications;
 	}
 
-	public boolean isaReagitModificationsElements() {
+	public boolean aReagitModificationsElements() {
 		return m_ModificationsElements;
 	}
 
-	public boolean isaReagitNouvelleTaille() {
+	public boolean aReagitNouvelleTaille() {
 		return m_NouvelleTaille;
 	}
 
-	public boolean isaReagitNouvelleCouleurDeFond() {
+	public boolean aReagitNouvelleCouleurDeFond() {
 		return m_NouvelleCouleurDeFond;
 	}
 	

@@ -184,7 +184,7 @@ class LigneTest {
 		assertEquals(50, ligne.getX2());
 		assertEquals(0, ligne.getY2());
 		assertEquals(50, ligne.getLargeur());
-		assertEquals(0, ligne.getHauteur());		
+		assertEquals(0, ligne.getHauteur());
 	}
 	
 	//...
