@@ -106,7 +106,7 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	}
 
 	/**
-	 * Change l'élément sélectionné.
+	 * Change l'élément sélectionné. Une valeur null vide la sélection.
 	 * 
 	 * @param p_Element la nouvelle sélection.
 	 */

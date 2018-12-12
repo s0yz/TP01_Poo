@@ -8,58 +8,59 @@ import java.awt.Shape;
 import ca.csf.formes.ElementGraphique;
 
 /**
- * Classe abstraite définissant des méthodes permettant de manipuler des formes 2D.
+ * Classe abstraite définissant des méthodes permettant de manipuler des formes
+ * 2D.
  * 
  * @author Cedric Mariage
  */
 public abstract class Forme implements ElementGraphique {
-	
+
 	/**
 	 * Nom de la forme.
 	 */
 	private final String m_Nom;
-	
+
 	/**
 	 * Coordonnée en x du point suppérieure gauche.
 	 */
 	private double m_X;
-	
+
 	/**
 	 * Coordonnée en y du point suppérieure gauche.
 	 */
 	private double m_Y;
-	
+
 	/**
 	 * Largeur.
 	 */
 	private double m_Largeur;
-	
+
 	/**
 	 * Hauteur.
 	 */
 	private double m_Hauteur;
-	
+
 	/**
 	 * Largeur du trait.
 	 */
 	private int m_LargeurTrait;
-	
+
 	/**
 	 * Couleur.
 	 */
 	private Color m_Couleur;
-	
+
 	/**
 	 * Couleur du trait.
 	 */
 	private Color m_CouleurTrait;
-		
+
 	/**
 	 * Construit une forme.
 	 * 
-	 * @param p_Nom nom de la forme.
-	 * @param p_X coordonnée en x.
-	 * @param p_Y coordonnée en y.
+	 * @param p_Nom     nom de la forme.
+	 * @param p_X       coordonnée en x.
+	 * @param p_Y       coordonnée en y.
 	 * @param p_Largeur largeur.
 	 * @param p_Hauteur hauteur.
 	 * @throws IllegalArgumentException si p_Nom est null.
@@ -72,7 +73,7 @@ public abstract class Forme implements ElementGraphique {
 		this.setPosition(p_X, p_Y);
 		this.setDimension(p_Largeur, p_Hauteur);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -118,7 +119,7 @@ public abstract class Forme implements ElementGraphique {
 	public double getHauteur() {
 		return this.m_Hauteur;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -126,7 +127,7 @@ public abstract class Forme implements ElementGraphique {
 	public Color getCouleur() {
 		return this.m_Couleur;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -134,7 +135,7 @@ public abstract class Forme implements ElementGraphique {
 	public int getLargeurTrait() {
 		return this.m_LargeurTrait;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -148,7 +149,7 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public boolean contient(double p_X, double p_Y) {
-		return this.getShape().contains(p_X, p_Y);
+		return this.getLargeur() != 0 && this.getHauteur() != 0 && this.getShape().contains(p_X, p_Y);
 	}
 
 	/**
@@ -170,6 +171,7 @@ public abstract class Forme implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @throws IllegalArgumentException si p_Largeur < 0.
 	 */
 	@Override
@@ -182,6 +184,7 @@ public abstract class Forme implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @throws IllegalArgumentException si p_Hauteur < 0.
 	 */
 	@Override
@@ -191,7 +194,7 @@ public abstract class Forme implements ElementGraphique {
 		}
 		this.m_Hauteur = p_Hauteur;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -200,7 +203,7 @@ public abstract class Forme implements ElementGraphique {
 		this.setLargeur(p_Largeur);
 		this.setHauteur(p_Hauteur);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -216,7 +219,7 @@ public abstract class Forme implements ElementGraphique {
 	public void setCouleur(Color p_Couleur) {
 		this.m_Couleur = p_Couleur;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -227,7 +230,7 @@ public abstract class Forme implements ElementGraphique {
 		}
 		this.m_LargeurTrait = p_Epaisseur;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -235,7 +238,7 @@ public abstract class Forme implements ElementGraphique {
 	public void setCouleurTrait(Color p_Couleur) {
 		this.m_CouleurTrait = p_Couleur;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -243,7 +246,7 @@ public abstract class Forme implements ElementGraphique {
 	public boolean supporteDimensionsNegatives() {
 		return false;
 	}
-		
+
 	/**
 	 * Pour obtenir la Shape correspondant à la Forme.
 	 * 
@@ -251,31 +254,6 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	protected abstract Shape getShape();
 	
-	/**
-	 * Code généré par eclipse.
-	 * 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((this.m_Couleur == null) ? 0 : this.m_Couleur.hashCode());
-		result = prime * result + ((this.m_CouleurTrait == null) ? 0 : this.m_CouleurTrait.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(this.m_Hauteur);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.m_Largeur);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + this.m_LargeurTrait;
-		result = prime * result + ((this.m_Nom == null) ? 0 : this.m_Nom.hashCode());
-		temp = Double.doubleToLongBits(this.m_X);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.m_Y);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
-
 	/**
 	 * Code généré par eclipse.
 	 * 

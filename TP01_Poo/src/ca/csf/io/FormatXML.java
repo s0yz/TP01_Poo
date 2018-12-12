@@ -22,9 +22,6 @@ public class FormatXML implements FormatFichier {
 
 	private UsineElementGraphique m_factory;
 
-	public FormatXML() {
-	}
-
 	public FormatXML(UsineElementGraphique p_Factory) {
 		this.m_factory = p_Factory;
 	}
@@ -74,9 +71,7 @@ public class FormatXML implements FormatFichier {
 		ArrayList<ElementGraphique> temp = new ArrayList<>();
 		FileReader input = new FileReader(p_Fichier);
 		doc = XMLInputFactory.newInstance().createXMLStreamReader(input);
-		// Pour passer par-dessus le Start Document
 		doc.next();
-		// Le document doit commencer par un <fond>
 		if (!doc.getLocalName().equals("dessin")) {
 			throw new XMLStreamException("Pas le bon element racine : " + doc.getLocalName());
 		}
@@ -84,7 +79,6 @@ public class FormatXML implements FormatFichier {
 		double haut = Double.parseDouble(doc.getAttributeValue("", "hauteur"));
 		double larg = Double.parseDouble(doc.getAttributeValue("", "largeur"));
 		Color c = new Color(Integer.parseInt(doc.getAttributeValue("", "couleur")));
-		// Pour passer par-dessus <forme>
 		doc.next();
 		doc.next();
 		while (doc.isStartElement()) {

@@ -12,7 +12,7 @@ public class Ligne extends Forme {
 	 * Instancie une ligne. Les valeurs par défaut en font un point à (0, 0).
 	 */
 	public Ligne() {
-		this(0, 0, 0 ,0);
+		this(0, 0, 0, 0);
 	}
 
 	/**
@@ -37,17 +37,20 @@ public class Ligne extends Forme {
 	}
 
 	/**
-	 * Approximation généreuse.
+	 * Approximation généreuse...
 	 * 
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean contient(double p_X, double p_Y) {
-		double distAB = Math.hypot(this.getX1() - this.getX2(), this.getY1() - this.getY2());
-		double distAC = Math.hypot(this.getX1() - p_X, this.getY1() - p_Y);
+		if (this.getLargeur() == 0 && this.getHauteur() == 0) {
+			return false;
+		}
+		double distAB = Math.hypot(this.getX() - this.getX2(), this.getY() - this.getY2());
+		double distAC = Math.hypot(this.getX() - p_X, this.getY() - p_Y);
 		double distBC = Math.hypot(this.getX2() - p_X, this.getY2() - p_Y);
 		distAB -= distAC + distBC;
-		return Math.abs(distAB) <= this.getLargeurTrait() >> 1;
+		return Math.abs(distAB) <= this.getLargeurTrait() * 0.05;
 	}
 
 	/**
@@ -58,28 +61,45 @@ public class Ligne extends Forme {
 		return true;
 	}
 
-	public double getX1() {
-		return this.getX();
-	}
-
+	/**
+	 * Pour obtenir la coordonnée en x du second point.
+	 * 
+	 * @return la coordonnée en x du second point.
+	 */
 	public double getX2() {
 		return this.getX() + this.getLargeur();
 	}
 
-	public double getY1() {
-		return this.getY();
-	}
-
+	/**
+	 * Pour obtenir la coordonnée en y du second point.
+	 * 
+	 * @return la coordonnée en y du second point.
+	 */
 	public double getY2() {
 		return this.getY() + this.getHauteur();
 	}
-	
+
+	/**
+	 * Pour modifier les cooordonnées du premier point.
+	 * 
+	 * @param p_X1 coordonnée en x.
+	 * @param p_Y1 coordonnée en y.
+	 */
 	public void setPoint1(double p_X1, double p_Y1) {
+		this.setLargeur(this.getX2() - p_X1);
+		this.setHauteur(this.getY2() - p_Y1);
 		this.setPosition(p_X1, p_Y1);
+		
 	}
-	
+
+	/**
+	 * Pour modifier les cooordonnées du second point.
+	 * 
+	 * @param p_X1 coordonnée en x.
+	 * @param p_Y1 coordonnée en y.
+	 */
 	public void setPoint2(double p_X2, double p_Y2) {
-		this.setLargeur(this.getX() - p_X2);
-		this.setHauteur(this.getY() - p_Y2);
+		this.setLargeur(p_X2 - this.getX());
+		this.setHauteur(p_Y2 - this.getY());
 	}
 }
