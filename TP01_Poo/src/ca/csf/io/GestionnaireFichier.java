@@ -16,19 +16,19 @@ import ca.csf.modele.ModeleElementGraphique;
 public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphique {
 
 	private File m_Fichier;
-	private JFrame m_Fenetre;
+	private JFrame m_Parent;
 	private ModeleElementGraphique m_Modele;
 	private FormatFichier m_Format;
 	private boolean m_Modifications = false;
 
 	/**
 	 * 
-	 * @param p_Proprio parent du GestionnaireFichier
+	 * @param p_Parent parent du GestionnaireFichier
 	 * @param p_Modele 
 	 */
-	public GestionnaireFichier(JFrame p_Proprio, ModeleElementGraphique p_Modele) {
+	public GestionnaireFichier(JFrame p_Parent, ModeleElementGraphique p_Modele) {
 		this.m_Modele = p_Modele;
-		this.m_Fenetre = p_Proprio;
+		this.m_Parent = p_Parent;
 		this.m_Modele.ajouterEcouteur(this);
 	}
 
@@ -55,12 +55,13 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	 */
 	@Override
 	public void enregistrerSous(FormatFichier p_Format) {
-		SelecteurFichierExtensionUnique chooser = new SelecteurFichierExtensionUnique(".xml", "XML");
-		if (chooser.showSaveDialog(this.m_Fenetre) == JFileChooser.APPROVE_OPTION) {
+		SelecteurFichierExtensionUnique chooser = new SelecteurFichierExtensionUnique(".svg", "SVG");
+		if (chooser.showSaveDialog(this.m_Parent) == JFileChooser.APPROVE_OPTION) {
 			try {
 				File fichier = chooser.getSelectedFile();
 				p_Format.enregistrer(this.m_Modele, fichier);
 				this.m_Fichier = fichier;
+				this.m_Format = p_Format;
 				this.m_Modifications = false;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -76,7 +77,7 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	public void ouvrir(FormatFichier p_Format) {
 		if (this.verifierSauvegarde()) {
 			SelecteurFichierExtensionUnique fc = new SelecteurFichierExtensionUnique(".xml", "XML");
-			if (fc.showOpenDialog(this.m_Fenetre) == JFileChooser.APPROVE_OPTION) {
+			if (fc.showOpenDialog(this.m_Parent) == JFileChooser.APPROVE_OPTION) {
 				File file = fc.getSelectedFile();
 				if (!fc.accept(file)) {
 					this.afficherErreur("Type de fichier non-supporté.");
@@ -106,14 +107,13 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	}
 
 	/**
-	 * 
-	 * 
+	 *  
 	 */
 	public boolean verifierSauvegarde() {
 		if (this.m_Modifications) {
-			String titre = this.m_Fichier == null ? this.m_Fenetre.getTitle() : this.m_Fichier.getName();
+			String titre = this.m_Fichier == null ? this.m_Parent.getTitle() : this.m_Fichier.getName();
 			String message = "Voulez-vous sauvegarder les modifications ?";
-			int reponse = JOptionPane.showConfirmDialog(this.m_Fenetre, message, titre,
+			int reponse = JOptionPane.showConfirmDialog(this.m_Parent, message, titre,
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			if (reponse == JOptionPane.YES_OPTION) {
 				this.enregistrer(this.m_Format);
@@ -157,11 +157,12 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	}
 
 	/**
+	 * Affiche un message d'erreur dans une boîte de dialogue.
 	 * 
-	 * @param p_Message
+	 * @param p_Message le message à afficher.
 	 */
 	private void afficherErreur(String p_Message) {
-		JOptionPane.showMessageDialog(this.m_Fenetre, p_Message,
-				this.m_Fichier == null ? this.m_Fenetre.getTitle() : this.m_Fichier.getName(), JOptionPane.OK_OPTION);
+		JOptionPane.showMessageDialog(this.m_Parent, p_Message,
+				this.m_Fichier == null ? this.m_Parent.getTitle() : this.m_Fichier.getName(), JOptionPane.OK_OPTION);
 	}
 }

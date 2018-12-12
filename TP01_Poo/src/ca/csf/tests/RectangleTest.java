@@ -35,7 +35,50 @@ class RectangleTest {
 	
 	@Test
 	void ConstructeurInitialisationXYLH( ) {
+		Rectangle rect = new Rectangle(1,2,3,4);
+		assertEquals(3, rect.getLargeur());
+		assertEquals(4, rect.getHauteur());
+		assertEquals(1,rect.getX());
+		assertEquals(2,rect.getY());
 		
+		rect = new Rectangle(-50,-25,50,25);
+		assertEquals(-50, rect.getX());
+		assertEquals(-25, rect.getY());
+		assertNotEquals(-25, rect.getHauteur());
+		assertNotEquals(-50, rect.getLargeur());
+		
+		rect = new Rectangle(0,0,0,0);
+		assertEquals(0, rect.getX());
+		assertEquals(0, rect.getY());
+		assertEquals(0, rect.getHauteur());
+		assertEquals(0, rect.getLargeur());
+	}
+
+	@Test
+	void contient() {
+		Rectangle rect = new Rectangle(2,2,3,4);
+		assertFalse(rect.contient(0, 0));
+		assertFalse(rect.contient(1.99, 1.99));
+		assertFalse(rect.contient(0, 2));
+		assertFalse(rect.contient(6, 2));
+		
+		assertTrue(rect.contient(2, 2));
+		assertTrue(rect.contient(3.5, 4));
+		assertTrue(rect.contient(2, 6));
+		assertTrue(rect.contient(5, 2));
+		assertTrue(rect.contient(5, 6));
+		
+		assertFalse(rect.contient(1.99, 2));
+		assertFalse(rect.contient(2, 1.99));			
+		assertFalse(rect.contient(1.99, 6));
+		assertFalse(rect.contient(2, 6.01));
+		assertFalse(rect.contient(1.99, 6.01));
+		assertFalse(rect.contient(5, 1.99));
+		assertFalse(rect.contient(5.01, 2));
+		assertFalse(rect.contient(5.01, 6));
+		assertFalse(rect.contient(5, 6.01));
+		
+		assertFalse(new Rectangle().contient(0, 0));		
 	}
 	
 	@Test
@@ -57,7 +100,7 @@ class RectangleTest {
 	}
 	
 	@Test
-	void RectangleSetPosition() {
+	void setPosition() {
 		Rectangle rect = new Rectangle();
 		rect.setDimension(10, 10);
 		assertEquals(0,rect.getX());
@@ -69,7 +112,7 @@ class RectangleTest {
 	}
 	
 	@Test
-	void RectangleDeplacement() {
+	void deplacer() {
 		Rectangle rect = new Rectangle();
 		rect.setPosition(-10, -10);
 		rect.deplacer(1, 1);
@@ -83,5 +126,43 @@ class RectangleTest {
 		assertEquals(-18, rect.getY());
 		rect.deplacer(Double.MAX_VALUE, Double.MIN_VALUE);	
 		//assertThrows(IllegalArgumentException.class, () -> rect.setPosition(-18 + Double.MAX_VALUE, -18 + Double.MIN_VALUE));
+		
+	}
+	@Test
+	void equals() {
+		Rectangle rectangle1 = new Rectangle(2,2,2,2);
+		Rectangle rectangle2 = new Rectangle(2,2,2,2);
+		
+		assertEquals(rectangle1, rectangle2);
+		
+		// Si l'assertion échoue, c'est Java qui est brisé, pas rectangle :
+		assertNotSame(rectangle1, rectangle2);
+		
+		Rectangle rectangle3 = new Rectangle(2,2,1,1);
+		assertNotEquals(rectangle1, rectangle3);
+		assertNotEquals(rectangle3, rectangle1);
+		
+		Rectangle rect1 = new Rectangle(10,20,0,0);
+		Rectangle rect2 = new Rectangle(10,19,0,0);
+		assertNotEquals(rect1, rect2);
+		assertNotEquals(rect2, rect1);
+		
+		Rectangle rect3 = new Rectangle(0,0,0,0);
+		Rectangle rect4 = new Rectangle(0,0,0,0);
+		assertEquals(rect3, rect4);
+		assertEquals(rect4, rect3);
+		
+		rect3.setCouleur(Color.BLACK);
+		rect4.setCouleur(Color.BLUE);
+		assertNotEquals(rect3, rect4);
+		rect3.setCouleurTrait(Color.BLACK);
+		rect4.setCouleurTrait(Color.BLACK);
+		assertNotEquals(rect4, rect3);
+		
+		
+		Rectangle rect5 = new Rectangle(9999,9999,9999,9999);
+		Rectangle rect6 = new Rectangle(9999,9999,9999,9999);
+		//assertEquals();
+		//assertEquals();
 	}
 }

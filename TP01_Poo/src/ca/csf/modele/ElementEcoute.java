@@ -9,7 +9,8 @@ import ca.csf.formes.ElementGraphique;
 /**
  * Décorateur concret d'{@code ElementGraphiqe}.
  * 
- * ElementGraphiqe signalant toutes modifications à une liste d'{@code EcouteurModeleGraphique}s.
+ * ElementGraphiqe signalant toutes modifications à une liste
+ * d'{@code EcouteurModeleGraphique}s.
  */
 public class ElementEcoute extends DecorateurElementGraphique {
 
@@ -17,28 +18,32 @@ public class ElementEcoute extends DecorateurElementGraphique {
 	 * Liste d'écouteurs
 	 */
 	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs;
-	
+
 	/**
-	 * Construit un ElementEcouté
+	 * Construit un ElementEcouté.
 	 * 
-	 * @param p_Element
-	 * @param p_Ecouteurs
+	 * @param p_Element   élément décoré.
+	 * @param p_Ecouteurs liste d'écouteurs.
+	 * @throws IllegalArgumentException si p_Ecouteurs est null.
 	 */
 	public ElementEcoute(ElementGraphique p_Element, ArrayList<EcouteurModeleGraphique> p_Ecouteurs) {
 		super(p_Element);
+		if (p_Ecouteurs == null) {
+			throw new IllegalArgumentException("p_Ecouteurs est null");
+		}
 		this.m_Ecouteurs = p_Ecouteurs;
 	}
-	
-	/** 
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setPosition(double p_X, double p_Y) {		
+	public void setPosition(double p_X, double p_Y) {
 		super.setPosition(p_X, p_Y);
 		this.m_Ecouteurs.forEach(e -> e.reagirModifications());
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -47,7 +52,7 @@ public class ElementEcoute extends DecorateurElementGraphique {
 		this.avertirModifications(this);
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -56,7 +61,7 @@ public class ElementEcoute extends DecorateurElementGraphique {
 		this.avertirModifications(this);
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -66,7 +71,7 @@ public class ElementEcoute extends DecorateurElementGraphique {
 		this.avertirModifications(this);
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -75,7 +80,7 @@ public class ElementEcoute extends DecorateurElementGraphique {
 		this.avertirModifications(this);
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -84,7 +89,7 @@ public class ElementEcoute extends DecorateurElementGraphique {
 		this.avertirModifications(this);
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -92,8 +97,12 @@ public class ElementEcoute extends DecorateurElementGraphique {
 		super.setCouleurTrait(p_Couleur);
 		this.avertirModifications(this);
 	}
-			
+	
+	/**
+	 * Avertir les écouteurs d'une modification.
+	 * @param p_Element Element ayant été modifié.
+	 */
 	private void avertirModifications(ElementGraphique p_Element) {
-		this.m_Ecouteurs.forEach(e-> e.reagirModifications(p_Element));
+		this.m_Ecouteurs.forEach(e -> e.reagirModifications(p_Element));
 	}
 }

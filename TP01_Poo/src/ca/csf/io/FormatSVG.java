@@ -1,5 +1,6 @@
 package ca.csf.io;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -9,95 +10,76 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 
 import ca.csf.formes.ElementGraphique;
-import ca.csf.formes.Ligne;
 import ca.csf.formes.UsineElementGraphique;
 import ca.csf.modele.ModeleElementGraphique;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class FormatSVG implements FormatFichier{
+public class FormatSVG implements FormatFichier {
 
 	private UsineElementGraphique m_factory;
-
-	public FormatSVG() {
-	}
 
 	public FormatSVG(UsineElementGraphique p_Factory) {
 		this.m_factory = p_Factory;
 	}
-	
+
 	@Override
 	public void enregistrer(ModeleElementGraphique p_Modele, File p_Fichier) throws IOException, Exception {
-		// TODO Auto-generated method stub
 		XMLStreamWriter doc = null;
 		FileWriter output = new FileWriter(p_Fichier);
+
 		doc = XMLOutputFactory.newInstance().createXMLStreamWriter(output);
 		doc.writeStartDocument();
-		
+
 		doc.writeStartElement("svg");
-		doc.writeAttribute("version","1.1");
-		doc.writeAttribute("width",Double.toString(p_Modele.getLargeur()));
-		doc.writeAttribute("height",Double.toString(p_Modele.getHauteur()));
-		doc.writeAttribute("xlmns","http://www.w3.org/2000/svg");
-	
-	
-		
+		doc.writeAttribute("xmlns", "http://www.w3.org/2000/svg");
+		doc.writeAttribute("version", "1.1");
+		doc.writeAttribute("width", Double.toString(p_Modele.getLargeur()));
+		doc.writeAttribute("height", Double.toString(p_Modele.getHauteur()));
+
 		doc.writeStartElement("title");
-		doc.writeCharacters("hello world");
+		doc.writeCharacters(p_Fichier.getName().replaceAll(".svg", ""));
 		doc.writeEndElement();
-		
-		doc.writeStartElement("desc");
-		doc.writeCharacters("vraiment bien");
+
+		// Arrière-Plan
+		doc.writeStartElement("rect");
+		doc.writeAttribute("width", "100%");
+		doc.writeAttribute("height", "100%");
+		doc.writeAttribute("x", "0");
+		doc.writeAttribute("y", "0");
+		doc.writeAttribute("fill", FormatSVG.convertirCouleur(p_Modele.getArrierePlan()));
 		doc.writeEndElement();
-		
-		
-		
-		for (ElementGraphique elementGraphique : p_Modele) {
-			
-			if (elementGraphique.getNom() == "Rectangle") {
-				doc.writeStartElement("rect");
-				doc.writeAttribute("width", Double.toString(elementGraphique.getLargeur()));
-				doc.writeAttribute("height", Double.toString(elementGraphique.getHauteur()));
-				doc.writeAttribute("x", Double.toString(elementGraphique.getX()));
-				doc.writeAttribute("y", Double.toString(elementGraphique.getY()));
-				doc.writeAttribute("stroke-width", Integer.toString(elementGraphique.getLargeurTrait()));
-				doc.writeAttribute("stroke", "rgb("+Integer.toString(elementGraphique.getCouleurTrait().getRed())+","
-						+Integer.toString(elementGraphique.getCouleurTrait().getGreen())+","+elementGraphique.getCouleurTrait().getBlue()+")");
-				if (elementGraphique.getCouleur() != null) {
-					doc.writeAttribute("fill", "rgb("+Integer.toString(elementGraphique.getCouleur().getRed())+","
-							+Integer.toString(elementGraphique.getCouleur().getGreen())+","+elementGraphique.getCouleur().getBlue()+")");
-				} else {doc.writeAttribute("couleur", "null");}
-			}else if (elementGraphique.getNom() == "Ellipse") {
-				doc.writeStartElement("circle");
-				doc.writeAttribute("width", Double.toString(elementGraphique.getLargeur()));
-				doc.writeAttribute("height", Double.toString(elementGraphique.getHauteur()));
-				doc.writeAttribute("x", Double.toString(elementGraphique.getX()));
-				doc.writeAttribute("y", Double.toString(elementGraphique.getY()));
-				doc.writeAttribute("stroke-width", Integer.toString(elementGraphique.getLargeurTrait()));
-				doc.writeAttribute("stroke", "rgb("+Integer.toString(elementGraphique.getCouleurTrait().getRed())+","
-						+Integer.toString(elementGraphique.getCouleurTrait().getGreen())+","+elementGraphique.getCouleurTrait().getBlue()+")");
-				if (elementGraphique.getCouleur() != null) {
-					doc.writeAttribute("fill", "rgb("+Integer.toString(elementGraphique.getCouleur().getRed())+","
-							+Integer.toString(elementGraphique.getCouleur().getGreen())+","+elementGraphique.getCouleur().getBlue()+")");
-				} else {doc.writeAttribute("couleur", "null");}
-			}else if (elementGraphique.getNom() == "Ligne") {
+
+		for (ElementGraphique e : p_Modele) {
+			if (e.getNom() == "Ligne") {
 				doc.writeStartElement("line");
-				Ligne l = (Ligne)elementGraphique;
-				doc.writeAttribute("x1", Double.toString(l.getX1()));
-				doc.writeAttribute("y1", Double.toString(l.getY1()));
-				doc.writeAttribute("x2", Double.toString(l.getX2()));
-				doc.writeAttribute("y2", Double.toString(l.getY2()));
-				doc.writeAttribute("stroke-width", Integer.toString(elementGraphique.getLargeurTrait()));
-				doc.writeAttribute("stroke", "rgb("+Integer.toString(elementGraphique.getCouleurTrait().getRed())+","
-						+Integer.toString(elementGraphique.getCouleurTrait().getGreen())+","+elementGraphique.getCouleurTrait().getBlue()+")");
-				if (elementGraphique.getCouleur() != null) {
-					doc.writeAttribute("fill", "rgb("+Integer.toString(elementGraphique.getCouleur().getRed())+","
-							+Integer.toString(elementGraphique.getCouleur().getGreen())+","+elementGraphique.getCouleur().getBlue()+")");
-				} else {doc.writeAttribute("couleur", "null");}
+				doc.writeAttribute("x1", Double.toString(e.getX()));
+				doc.writeAttribute("y1", Double.toString(e.getY()));
+				doc.writeAttribute("x2", Double.toString(e.getX() + e.getLargeur()));
+				doc.writeAttribute("y2", Double.toString(e.getY() + e.getHauteur()));
+			} else {
+				if (e.getNom() == "Rectangle") {
+					doc.writeStartElement("rect");
+					doc.writeAttribute("width", Double.toString(e.getLargeur()));
+					doc.writeAttribute("height", Double.toString(e.getHauteur()));
+					doc.writeAttribute("x", Double.toString(e.getX()));
+					doc.writeAttribute("y", Double.toString(e.getY()));
+				} else if (e.getNom() == "Ellipse") {
+					double rx = e.getLargeur() * 0.5;
+					double ry = e.getHauteur() * 0.5;
+					doc.writeStartElement("ellipse");
+					doc.writeAttribute("rx", Double.toString(rx));
+					doc.writeAttribute("ry", Double.toString(ry));
+					doc.writeAttribute("cx", Double.toString(e.getX() + rx));
+					doc.writeAttribute("cy", Double.toString(e.getY() + ry));
+				}				
+				doc.writeAttribute("fill", FormatSVG.convertirCouleur(e.getCouleur()));
+				doc.writeAttribute("fill-opacity", Double.toString(e.getCouleur().getAlpha() / 255));
 			}
-		
+			doc.writeAttribute("stroke-width", Integer.toString(e.getLargeurTrait()));
+			doc.writeAttribute("stroke", FormatSVG.convertirCouleur(e.getCouleurTrait()));
+			doc.writeAttribute("stroke-opacity", Double.toString(e.getCouleurTrait().getAlpha() / 255));			
 			doc.writeEndElement();
-		
-			;}
-		
+		}
 		doc.writeEndElement();
 		doc.writeEndDocument();
 		if (doc != null) {
@@ -108,8 +90,18 @@ public class FormatSVG implements FormatFichier{
 
 	@Override
 	public void ouvrir(ModeleElementGraphique p_graph, File p_file) throws Exception, FileNotFoundException {
-		// TODO Auto-generated method stub
-		
+		throw new NotImplementedException();
 	}
 
+	private static String convertirCouleur(Color p_Couleur) {
+		if (p_Couleur == null) {
+			return "none";
+		} else {
+			StringBuilder sb = new StringBuilder("rgb(");
+			sb.append(p_Couleur.getRed()).append(",")
+			.append(p_Couleur.getGreen()).append(",")
+			.append(p_Couleur.getBlue()).append(")");
+			return sb.toString();
+		}
+	}
 }
