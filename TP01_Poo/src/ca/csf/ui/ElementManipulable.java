@@ -207,6 +207,9 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	}
 
 	/**
+	 * Dessine un rectangle autour de l'élément décoré.
+	 * Ne redessinne pas l'élément décoré.
+	 * 
 	 * {@inheritDoc}
 	 */
 	@Override

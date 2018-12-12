@@ -174,7 +174,7 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void setLargeur(double p_Largeur) {
-		if (p_Largeur < 0 && !supporteDimensionsNegatives()) {
+		if (p_Largeur < 0 && !this.supporteDimensionsNegatives()) {
 			throw new IllegalArgumentException("Largeur invalide : " + p_Largeur);
 		}
 		this.m_Largeur = p_Largeur;
@@ -285,8 +285,6 @@ public abstract class Forme implements ElementGraphique {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
 		if (!(obj instanceof ElementGraphique))
 			return false;
 		ElementGraphique other = (ElementGraphique) obj;

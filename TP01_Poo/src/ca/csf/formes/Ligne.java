@@ -73,4 +73,13 @@ public class Ligne extends Forme {
 	public double getY2() {
 		return this.getY() + this.getHauteur();
 	}
+	
+	public void setPoint1(double p_X1, double p_Y1) {
+		this.setPosition(p_X1, p_Y1);
+	}
+	
+	public void setPoint2(double p_X2, double p_Y2) {
+		this.setLargeur(this.getX() - p_X2);
+		this.setHauteur(this.getY() - p_Y2);
+	}
 }

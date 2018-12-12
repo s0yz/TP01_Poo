@@ -15,8 +15,6 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-
-
 import ca.csf.formes.ElementGraphique;
 import ca.csf.modele.EcouteurModeleGraphique;
 import ca.csf.modele.ModeleElementGraphique;
