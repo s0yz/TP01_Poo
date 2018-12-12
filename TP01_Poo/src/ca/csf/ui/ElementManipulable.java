@@ -106,7 +106,7 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	}
 
 	/**
-	 * Change l'élément sélectionné.
+	 * Change l'élément sélectionné. Une valeur null vide la sélection.
 	 * 
 	 * @param p_Element la nouvelle sélection.
 	 */
@@ -207,6 +207,9 @@ public class ElementManipulable extends DecorateurElementGraphique {
 	}
 
 	/**
+	 * Dessine un rectangle autour de l'élément décoré.
+	 * Ne redessinne pas l'élément décoré.
+	 * 
 	 * {@inheritDoc}
 	 */
 	@Override

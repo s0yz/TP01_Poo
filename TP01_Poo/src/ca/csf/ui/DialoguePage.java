@@ -48,7 +48,7 @@ public class DialoguePage extends JDialog {
 	 * Configure le dialogue.
 	 */
 	private void parametrer() {
-		//this.setLocationRelativeTo(this.getParent());
+		this.setLocationRelativeTo(this.getParent());
 		this.setResizable(false);
 		this.setLayout(new BorderLayout());
 	}

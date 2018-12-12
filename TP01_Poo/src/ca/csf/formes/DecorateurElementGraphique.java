@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
- * Décorateur d'{@code ElementGraphiqe}. Les classes intéressées à décorer un
+ * Décorateur d'{@link ElementGraphique}. Les classes intéressées à décorer un
  * ÉlémentGraphique hériterons de cette classe.
  */
 public class DecorateurElementGraphique implements ElementGraphique {
@@ -15,6 +15,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 * Construit un décorateur d'{@code ElementGraphiqe}.
 	 * 
 	 * @param p_Element l'élément décoré.
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	public DecorateurElementGraphique(ElementGraphique p_Element) {
 		this.m_Element = p_Element;
@@ -23,7 +24,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	/**
 	 * Pour obtenir l'élément décoré.
 	 * 
-	 * @return
+	 * @return l'élément décoré.
 	 */
 	public ElementGraphique getElement() {
 		return this.m_Element;
@@ -40,6 +41,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void dessiner(Graphics2D p_Graphic) {
@@ -48,6 +50,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public double getX() {
@@ -56,6 +59,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public double getY() {
@@ -64,6 +68,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public double getLargeur() {
@@ -72,6 +77,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public double getHauteur() {
@@ -80,6 +86,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public Color getCouleur() {
@@ -88,6 +95,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public int getLargeurTrait() {
@@ -96,6 +104,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public Color getCouleurTrait() {
@@ -104,6 +113,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public boolean contient(double p_X, double p_Y) {
@@ -112,6 +122,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public String getNom() {
@@ -120,6 +131,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void setPosition(double p_X, double p_Y) {
@@ -128,6 +140,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void deplacer(double p_X, double p_Y) {
@@ -136,6 +149,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void setLargeur(double p_Largeur) {
@@ -144,6 +158,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void setHauteur(double p_Hauteur) {
@@ -152,6 +167,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void setDimension(double p_Largeur, double p_Hauteur) {
@@ -160,6 +176,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void setCouleur(Color p_Couleur) {
@@ -168,6 +185,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void setLargeurTrait(int p_PX) {
@@ -176,6 +194,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public void setCouleurTrait(Color p_Couleur) {
@@ -184,6 +203,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 
 	/**
 	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
 	 */
 	@Override
 	public boolean supporteDimensionsNegatives() {
@@ -197,4 +217,15 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	public boolean equals(Object p_obj) {
 		return (this.m_Element == null && p_obj == null) || this.m_Element.equals(p_obj);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 * @throws NullPointerException si l'élément décoré est null.
+	 */
+	@Override
+	public String toString() {
+		return this.m_Element.toString();
+	}
+	
+	
 }

@@ -3,9 +3,9 @@ package ca.csf.ui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.function.Supplier;
 
 import javax.swing.ActionMap;
@@ -13,8 +13,6 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-
-import com.sun.glass.events.KeyEvent;
 
 import ca.csf.formes.ElementGraphique;
 import ca.csf.modele.EcouteurModeleGraphique;
@@ -36,11 +34,6 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	private static final String vkBas = "vkBas";
 	private static final String vkDelete = "vkDelete";
 
-	/*
-	 * Test. To be continued...
-	 */
-	private BufferedImage m_Dessin;
-
 	/**
 	 * Modèle
 	 */
@@ -54,26 +47,14 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	/**
 	 * Construit un EspaceTravail
 	 * 
-	 * @param p_Modele
+	 * @param p_Modele 
 	 */
 	public EspaceTravail(ModeleElementGraphique p_Modele) {
 		this.setModeleGraphique(p_Modele);
 		this.parametrerActionsTouche();
 		this.setOpaque(true);
 	}
-
-	/**
-	 * Pour déplacer la sélection.
-	 * 
-	 * @param p_X déplacement en x.
-	 * @param p_Y déplacement en y.
-	 */
-	private void deplacerSelection(int p_X, int p_Y) {
-		if (!this.m_Selection.estVide()) {
-			this.m_Selection.deplacer(p_X, p_Y);
-		}
-	}
-
+	
 	/**
 	 * Pour obtenir le modèle.
 	 * 
@@ -81,6 +62,16 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 */
 	public ModeleElementGraphique getModele() {
 		return this.m_Modele;
+	}
+	
+	/**
+	 * Pour obtenir la selection.
+	 * 
+	 * @return l'élément sélectionner selection.
+	 */
+	public ElementGraphique getSelection() {
+		assert (!(this.m_Selection.getElement() instanceof ElementManipulable)) : "L'élément est encore décoré";
+		return this.m_Selection.getElement();
 	}
 
 	/**
@@ -103,55 +94,44 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		hauteur = (int) Math.round(this.m_Modele.getHauteur());
 		this.setBackground(this.m_Modele.getArrierePlan());
 		this.setPreferredSize(new Dimension(largeur, hauteur));
-		// this.m_Dessin = new BufferedImage(largeur, hauteur, 1);
 		this.repaint();
 	}
-
-	/**
-	 * Pour obtenir la selection.
-	 * 
-	 * @return l'élément sélectionner selection.
-	 */
-	public ElementGraphique getSelection() {
-		assert (!(this.m_Selection.getElement() instanceof ElementManipulable)) : "L'élément est encore décoré";
-		return this.m_Selection.getElement();
-	}
-
+	
 	/**
 	 * Pour modifier la selection.
 	 * 
 	 * @param p_selection l'élément à selectionner.
+	 * @throws IllegalArgumentException si p_selection est null.
 	 */
 	public void setSelection(ElementGraphique p_Element) {
 		if (p_Element == null) {
 			throw new IllegalArgumentException("p_selection est null");
 		}
 		assert (!(p_Element instanceof ElementManipulable))  : "p_Element est déjà décoré";
+		this.m_Selection = new ElementManipulable(p_Element);
 		this.repaint();
 	}
 
 	/**
 	 * Pour modifier la selection. Utilisée par l'{@code EcouteurSourisEG}.
 	 * 
-	 * @param p_Element l'élément à selectionner.
+	 * @param p_Element l'élément à selectionner
 	 */
 	private void setSelection(ElementManipulable p_Element) {
-		if (p_Element == null) {
-			throw new IllegalArgumentException("p_selection est null");
-		}
+		assert(p_Element != null) : "p_Element est null";
 		this.m_Selection = p_Element;
 		this.repaint();
 	}
-
+	
 	/**
-	 * Non-utilisée. À suivre...
+	 * Pour déplacer la sélection.
+	 * 
+	 * @param p_X déplacement en x.
+	 * @param p_Y déplacement en y.
 	 */
-	@SuppressWarnings("unused")
-	private void dessiner() {
-		Graphics2D graphics2d = this.m_Dessin.createGraphics();
-		this.m_Modele.forEach(e -> e.dessiner(graphics2d));
+	private void deplacerSelection(int p_X, int p_Y) {
 		if (!this.m_Selection.estVide()) {
-			this.m_Selection.dessiner(graphics2d);
+			this.m_Selection.deplacer(p_X, p_Y);
 		}
 	}
 
@@ -173,6 +153,12 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 */
 	@Override
 	public void reagirModifications() {
+		if (this.m_Modele.getCompte() == 0 ||
+				this.m_Modele.getIndiceDe(this.m_Selection) == -1) {
+			this.m_Selection.set(null);
+		}
+		this.reagirNouvelleTaille();
+		this.reagirNouvelleCouleurDeFond();
 		this.repaint();
 	}
 
@@ -192,7 +178,6 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		int largeur = (int) Math.floor(this.m_Modele.getLargeur());
 		int hauteur = (int) Math.floor(this.m_Modele.getHauteur());
 		this.setPreferredSize(new Dimension(largeur, hauteur));
-		this.updateUI();
 	};
 
 	/**
@@ -201,7 +186,6 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	@Override
 	public void reagirNouvelleCouleurDeFond() {
 		this.setBackground(this.m_Modele.getArrierePlan());
-		this.updateUI();
 	};
 
 	/**
