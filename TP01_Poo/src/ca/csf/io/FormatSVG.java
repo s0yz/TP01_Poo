@@ -71,13 +71,13 @@ public class FormatSVG implements FormatFichier {
 					doc.writeAttribute("ry", Double.toString(ry));
 					doc.writeAttribute("cx", Double.toString(e.getX() + rx));
 					doc.writeAttribute("cy", Double.toString(e.getY() + ry));
-				}				
+				}
 				doc.writeAttribute("fill", FormatSVG.convertirCouleur(e.getCouleur()));
 				doc.writeAttribute("fill-opacity", Double.toString(e.getCouleur().getAlpha() / 255));
 			}
 			doc.writeAttribute("stroke-width", Integer.toString(e.getLargeurTrait()));
 			doc.writeAttribute("stroke", FormatSVG.convertirCouleur(e.getCouleurTrait()));
-			doc.writeAttribute("stroke-opacity", Double.toString(e.getCouleurTrait().getAlpha() / 255));			
+			doc.writeAttribute("stroke-opacity", Double.toString(e.getCouleurTrait().getAlpha() / 255));
 			doc.writeEndElement();
 		}
 		doc.writeEndElement();
@@ -98,9 +98,8 @@ public class FormatSVG implements FormatFichier {
 			return "none";
 		} else {
 			StringBuilder sb = new StringBuilder("rgb(");
-			sb.append(p_Couleur.getRed()).append(",")
-			.append(p_Couleur.getGreen()).append(",")
-			.append(p_Couleur.getBlue()).append(")");
+			sb.append(p_Couleur.getRed()).append(",").append(p_Couleur.getGreen()).append(",")
+					.append(p_Couleur.getBlue()).append(")");
 			return sb.toString();
 		}
 	}
