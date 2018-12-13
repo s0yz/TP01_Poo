@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import ca.csf.formes.ElementGraphique;
 import ca.csf.formes.Rectangle;
-import ca.csf.modele.EcouteurModeleGraphique;
-import ca.csf.modele.ElementEcoute;
 import ca.csf.modele.ModeleDessin;
 
 class ModeleDessinTest {
@@ -141,6 +139,7 @@ class ModeleDessinTest {
 		ElementGraphique el = new Rectangle();  
 		md.ajouter(el);
 		assertThrows(IllegalArgumentException.class, () -> md.get(-1));
+		assertThrows(IllegalArgumentException.class, () -> md.get(1));
 	}
 	
 	@Test
@@ -193,7 +192,7 @@ class ModeleDessinTest {
 		egList.add(b);
 		egList.add(c);
 		md.ajouter(egList);
-		Iterator it = md.iterator();
+		Iterator<ElementGraphique> it = md.iterator();
 		while (it.hasNext()) {
 			increment++;
 			it.next();

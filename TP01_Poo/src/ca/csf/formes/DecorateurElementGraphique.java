@@ -215,7 +215,7 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	 */
 	@Override
 	public boolean equals(Object p_obj) {
-		return (this.m_Element == null && p_obj == null) || this.m_Element.equals(p_obj);
+		return this.m_Element == null ? p_obj == null : this.m_Element.equals(p_obj);
 	}
 	
 	/**
@@ -226,6 +226,4 @@ public class DecorateurElementGraphique implements ElementGraphique {
 	public String toString() {
 		return this.m_Element.toString();
 	}
-	
-	
 }

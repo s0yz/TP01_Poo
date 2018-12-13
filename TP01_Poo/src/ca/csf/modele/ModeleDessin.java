@@ -242,7 +242,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public Iterator<ElementGraphique> iterator() {
-		return new ModeleDessiniterator();
+		return new ModeleDessinIterator();
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	/**
 	 * Itérateur de {@code ModeleDessin}.
 	 */
-	private class ModeleDessiniterator implements Iterator<ElementGraphique> {
+	private class ModeleDessinIterator implements Iterator<ElementGraphique> {
 
 		private int m_Indice;
 

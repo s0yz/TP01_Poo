@@ -16,12 +16,21 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class FormatSVG implements FormatFichier {
 
+	// Ouvrir n'est pas implémentée, alors m_factory est inutilisée.
+	@SuppressWarnings("unused")
 	private UsineElementGraphique m_factory;
 
+	/**
+	 * 
+	 * @param p_Factory
+	 */
 	public FormatSVG(UsineElementGraphique p_Factory) {
 		this.m_factory = p_Factory;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void enregistrer(ModeleElementGraphique p_Modele, File p_Fichier) throws IOException, Exception {
 		XMLStreamWriter doc = null;
@@ -88,11 +97,22 @@ public class FormatSVG implements FormatFichier {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void ouvrir(ModeleElementGraphique p_graph, File p_file) throws Exception, FileNotFoundException {
 		throw new NotImplementedException();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getExtension() {
+		return ".svg";
+	}
+	
 	private static String convertirCouleur(Color p_Couleur) {
 		if (p_Couleur == null) {
 			return "none";

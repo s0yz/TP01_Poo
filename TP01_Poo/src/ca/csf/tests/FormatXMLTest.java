@@ -23,12 +23,16 @@ import ca.csf.modele.ModeleDessin;
 
 class FormatXMLTest {
 
+	File fichier = new File("test.xml");
+	
 	@Test
 	void constructeurDefault() {
-		UsineForme uf = UsineForme.getInstance();
-		FormatXML fx = new FormatXML(uf);
-
-		assertEquals(uf, fx.getFactory());
+//		On ajoute pas des get pour juste pour des tests :P
+		
+//		UsineForme uf = UsineForme.getInstance();
+//		FormatXML fx = new FormatXML(uf);
+//		assertEquals(uf, fx.getFactory());
+		
 		assertThrows(IllegalArgumentException.class, () -> new FormatXML(null));
 	}
 
@@ -40,12 +44,11 @@ class FormatXMLTest {
 		md.ajouter(new Rectangle(5, 6, 7, 8));
 		md.get(0).setCouleurTrait(Color.BLUE);
 		md.get(0).setCouleur(Color.RED);
-		File f = new File("cool");
 
-		fx.enregistrer(md, f);
+		fx.enregistrer(md, this.fichier);
 
 		XMLStreamReader doc = null;
-		FileReader input = new FileReader(f);
+		FileReader input = new FileReader(this.fichier);
 		doc = XMLInputFactory.newInstance().createXMLStreamReader(input);
 		doc.next();
 
@@ -67,7 +70,7 @@ class FormatXMLTest {
 		assertEquals(Integer.toString(Color.BLUE.getRGB()), doc.getAttributeValue("", "traitcolor"));
 		assertEquals(Integer.toString(Color.RED.getRGB()), doc.getAttributeValue("", "couleur"));
 
-		f.delete();
+		this.fichier.delete();
 	}
 
 	@Test
@@ -77,12 +80,11 @@ class FormatXMLTest {
 		ModeleDessin md = new ModeleDessin();
 		md.ajouter(new Rectangle(5, 6, 7, 8));
 		md.get(0).setCouleurTrait(Color.BLUE);
-		File f = new File("cool");
 
-		fx.enregistrer(md, f);
+		fx.enregistrer(md, this.fichier);
 
 		XMLStreamReader doc = null;
-		FileReader input = new FileReader(f);
+		FileReader input = new FileReader(this.fichier);
 		doc = XMLInputFactory.newInstance().createXMLStreamReader(input);
 		doc.next();
 		doc.next();
@@ -91,7 +93,7 @@ class FormatXMLTest {
 
 		assertEquals("null", doc.getAttributeValue("", "couleur"));
 
-		f.delete();
+		this.fichier.delete();
 	}
 
 	@Test
@@ -101,18 +103,16 @@ class FormatXMLTest {
 		ModeleDessin md = new ModeleDessin();
 		md.ajouter(new Rectangle(5, 6, 7, 8));
 		md.get(0).setCouleurTrait(Color.BLUE);
-		File f = new File("cool");
 
 		XMLStreamWriter doc = null;
-		FileWriter output = new FileWriter(f);
+		FileWriter output = new FileWriter(this.fichier);
 		doc = XMLOutputFactory.newInstance().createXMLStreamWriter(output);
 		doc.writeStartDocument();
 		doc.writeStartElement("crazy");
 		doc.writeEndDocument();
 		doc.writeEndDocument();
 
-		assertThrows(XMLStreamException.class, () -> fx.ouvrir(md, f));
-
+		assertThrows(XMLStreamException.class, () -> fx.ouvrir(md, this.fichier));
 	}
 
 	@Test
@@ -123,17 +123,14 @@ class FormatXMLTest {
 		md.ajouter(new Rectangle(5, 6, 7, 8));
 		md.get(0).setCouleurTrait(Color.BLUE);
 		md.get(0).setCouleur(Color.RED);
-		File f = new File("cool");
 
-		fx.enregistrer(md, f);
+		fx.enregistrer(md, this.fichier);
 
 		ModeleDessin md2 = new ModeleDessin();
-		fx.ouvrir(md2, f);
+		fx.ouvrir(md2, this.fichier);
 
 		assertEquals(md.get(0), md2.get(0));
 
-		f.delete();
-
+		this.fichier.delete();
 	}
-
 }

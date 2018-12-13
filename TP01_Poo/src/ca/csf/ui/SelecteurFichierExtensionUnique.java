@@ -1,4 +1,4 @@
-package ca.csf.io;
+package ca.csf.ui;
 
 import java.io.File;
 

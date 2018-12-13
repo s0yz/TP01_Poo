@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
-import ca.csf.io.SelecteurFichierExtensionUnique;
+import ca.csf.ui.SelecteurFichierExtensionUnique;
 
 /**
  * Teste la class SelecteurFichierExtensionUniqueTest.
