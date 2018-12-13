@@ -209,6 +209,7 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void deplacer(double p_X, double p_Y) {
+		
 		this.setPosition(this.getX() + p_X, this.getY() + p_Y);
 	}
 
