@@ -178,6 +178,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		int largeur = (int) Math.floor(this.m_Modele.getLargeur());
 		int hauteur = (int) Math.floor(this.m_Modele.getHauteur());
 		this.setPreferredSize(new Dimension(largeur, hauteur));
+		this.updateUI();
 	};
 
 	/**

@@ -31,6 +31,7 @@ class SelecteurFichierExtensionUniqueTest {
 	@Test()
 	void constructeurInvalide() {
 		assertThrows(IllegalArgumentException.class, () -> new SelecteurFichierExtensionUnique("", "XML"));
+		assertThrows(IllegalArgumentException.class, () -> new SelecteurFichierExtensionUnique(null, "XML"));
 	}
 	
 	
