@@ -23,9 +23,12 @@ public class FormatXML implements FormatFichier {
 	private UsineElementGraphique m_factory;
 
 	public FormatXML(UsineElementGraphique p_Factory) {
+		if (p_Factory == null) {
+			throw new IllegalArgumentException("p_factory est null, constructeur FormatXML");
+		}
 		this.m_factory = p_Factory;
 	}
-
+	
 	@Override
 	public void enregistrer(ModeleElementGraphique p_Modele, File p_Fichier) throws IOException, XMLStreamException {
 		XMLStreamWriter doc = null;
@@ -73,7 +76,7 @@ public class FormatXML implements FormatFichier {
 		doc = XMLInputFactory.newInstance().createXMLStreamReader(input);
 		doc.next();
 		if (!doc.getLocalName().equals("dessin")) {
-			throw new XMLStreamException("Pas le bon element racine : " + doc.getLocalName());
+			throw new XMLStreamException("Element attendu : \"dessin\", reçu : \"" + doc.getLocalName() + "\"");
 		}
 		doc.next();
 		double haut = Double.parseDouble(doc.getAttributeValue("", "hauteur"));
@@ -104,5 +107,13 @@ public class FormatXML implements FormatFichier {
 		p_Modele.remplir(temp);
 		p_Modele.setDimension(larg, haut);
 		p_Modele.setArrierePlan(c);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getExtension() {
+		return ".xml";
 	}
 }

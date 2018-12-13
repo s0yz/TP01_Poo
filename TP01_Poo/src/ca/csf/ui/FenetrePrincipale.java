@@ -61,6 +61,10 @@ public class FenetrePrincipale extends JFrame {
 	 * 
 	 */
 	private GestionnaireFichier m_GestionnaireFichier;
+	
+	/**
+	 *
+	 */
 
 	private JButton btn_Selection;
 	private JButton btn_Remplissage;
@@ -157,6 +161,9 @@ public class FenetrePrincipale extends JFrame {
 		this.m_Espace.addMouseMotionListener(ecouteurSouris);
 		panel_Centre.add(this.m_Espace);
 		//
+		// m_GestionnaireFichier
+		this.m_GestionnaireFichier.setFormat(new FormatXML(UsineForme.getInstance()));
+		//
 		// menuBar
 		super.setJMenuBar(menuBar);
 		menuBar.add(menu_Fichier);
@@ -230,7 +237,10 @@ public class FenetrePrincipale extends JFrame {
 		// item_Page  
 		item_Page.addActionListener(e -> {
 			DialoguePage dialogueParametre = new DialoguePage(this);
-			dialogueParametre.montrer((int) this.m_Modele.getLargeur(), (int) this.m_Modele.getHauteur(), this.m_Modele.getArrierePlan());
+			int largeur = (int) this.m_Modele.getLargeur();
+			int hauteur = (int) this.m_Modele.getHauteur();
+			Color couleur = this.m_Modele.getArrierePlan();
+			dialogueParametre.montrer(largeur, hauteur, couleur);
 			if (dialogueParametre.getResultat()) {
 				this.m_Modele.setDimension(dialogueParametre.getLargeur(), dialogueParametre.getHauteur());
 				this.m_Modele.setArrierePlan(dialogueParametre.getCouleur());
@@ -358,7 +368,8 @@ public class FenetrePrincipale extends JFrame {
 		this.btn_Remplissage.setIcon(FenetrePrincipale.chargerIcone("24_Vide.png"));
 		this.btn_Remplissage.setBackground(FenetrePrincipale.COULEUR_DEFAUT);
 		this.btn_Remplissage.addActionListener(e -> {
-			Color couleur = JColorChooser.showDialog(this, "Choisissez votre couleur", null);
+			Color couleur = this.btn_Remplissage.getBackground();
+			couleur = JColorChooser.showDialog(this, "Choisissez votre couleur", couleur);
 			if (couleur != null) {
 				this.btn_Remplissage.setBackground(couleur);
 				if (this.m_Espace.getSelection() != null) {

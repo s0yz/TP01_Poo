@@ -144,4 +144,6 @@ public interface ModeleElementGraphique extends Iterable<ElementGraphique> {
 	 * @return le nombre d'éléments.
 	 */
 	int getCompte();
+
+	int getCompteEcouteur();
 }

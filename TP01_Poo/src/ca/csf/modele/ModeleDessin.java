@@ -39,12 +39,12 @@ public class ModeleDessin implements ModeleElementGraphique {
 	/**
 	 * 
 	 */
-	private LinkedList<ElementGraphique> m_Elements = new LinkedList<ElementGraphique>();
+	private LinkedList<ElementGraphique> m_Elements;
 
 	/**
 	 * 
 	 */
-	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs = new ArrayList<EcouteurModeleGraphique>();
+	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs;
 
 	public ModeleDessin() {
 		this(LARGEUR_DEFAULT, HAUTEUR_DEFAULT);
@@ -90,6 +90,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 			throw new IllegalArgumentException("p_Elements est null");
 		}
 		this.m_Elements.add(p_Indice, p_Element);
+		this.avertirModifications(p_Element);
 	}
 
 	/**
@@ -124,6 +125,9 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public ElementGraphique get(int p_Indice) {
+		if (p_Indice < 0 || p_Indice >= this.m_Elements.size()) {
+			throw new IllegalArgumentException("Indice invalide : " + p_Indice);
+		}
 		return this.convertir(this.m_Elements.get(p_Indice));
 	}
 
@@ -181,6 +185,14 @@ public class ModeleDessin implements ModeleElementGraphique {
 	public void retirerEcouteur(EcouteurModeleGraphique p_Ecouteur) {
 		this.m_Ecouteurs.remove(p_Ecouteur);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getCompteEcouteur() {
+		return this.m_Ecouteurs.size();
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -230,7 +242,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	 */
 	@Override
 	public Iterator<ElementGraphique> iterator() {
-		return new ModeleDessiniterator();
+		return new ModeleDessinIterator();
 	}
 
 	/**
@@ -266,7 +278,7 @@ public class ModeleDessin implements ModeleElementGraphique {
 	/**
 	 * Itérateur de {@code ModeleDessin}.
 	 */
-	private class ModeleDessiniterator implements Iterator<ElementGraphique> {
+	private class ModeleDessinIterator implements Iterator<ElementGraphique> {
 
 		private int m_Indice;
 

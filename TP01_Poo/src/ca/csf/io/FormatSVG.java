@@ -16,12 +16,21 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class FormatSVG implements FormatFichier {
 
+	// Ouvrir n'est pas implémentée, alors m_factory est inutilisée.
+	@SuppressWarnings("unused")
 	private UsineElementGraphique m_factory;
 
+	/**
+	 * 
+	 * @param p_Factory
+	 */
 	public FormatSVG(UsineElementGraphique p_Factory) {
 		this.m_factory = p_Factory;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void enregistrer(ModeleElementGraphique p_Modele, File p_Fichier) throws IOException, Exception {
 		XMLStreamWriter doc = null;
@@ -71,13 +80,13 @@ public class FormatSVG implements FormatFichier {
 					doc.writeAttribute("ry", Double.toString(ry));
 					doc.writeAttribute("cx", Double.toString(e.getX() + rx));
 					doc.writeAttribute("cy", Double.toString(e.getY() + ry));
-				}				
+				}
 				doc.writeAttribute("fill", FormatSVG.convertirCouleur(e.getCouleur()));
 				doc.writeAttribute("fill-opacity", Double.toString(e.getCouleur().getAlpha() / 255));
 			}
 			doc.writeAttribute("stroke-width", Integer.toString(e.getLargeurTrait()));
 			doc.writeAttribute("stroke", FormatSVG.convertirCouleur(e.getCouleurTrait()));
-			doc.writeAttribute("stroke-opacity", Double.toString(e.getCouleurTrait().getAlpha() / 255));			
+			doc.writeAttribute("stroke-opacity", Double.toString(e.getCouleurTrait().getAlpha() / 255));
 			doc.writeEndElement();
 		}
 		doc.writeEndElement();
@@ -88,19 +97,29 @@ public class FormatSVG implements FormatFichier {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void ouvrir(ModeleElementGraphique p_graph, File p_file) throws Exception, FileNotFoundException {
 		throw new NotImplementedException();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getExtension() {
+		return ".svg";
+	}
+	
 	private static String convertirCouleur(Color p_Couleur) {
 		if (p_Couleur == null) {
 			return "none";
 		} else {
 			StringBuilder sb = new StringBuilder("rgb(");
-			sb.append(p_Couleur.getRed()).append(",")
-			.append(p_Couleur.getGreen()).append(",")
-			.append(p_Couleur.getBlue()).append(")");
+			sb.append(p_Couleur.getRed()).append(",").append(p_Couleur.getGreen()).append(",")
+					.append(p_Couleur.getBlue()).append(")");
 			return sb.toString();
 		}
 	}

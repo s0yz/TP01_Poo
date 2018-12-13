@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import ca.csf.formes.ElementGraphique;
 import ca.csf.modele.EcouteurModeleGraphique;
 import ca.csf.modele.ModeleElementGraphique;
+import ca.csf.ui.SelecteurFichierExtensionUnique;
 
 /**
  * Contrôleur de fichier.
@@ -55,7 +56,9 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	 */
 	@Override
 	public void enregistrerSous(FormatFichier p_Format) {
-		SelecteurFichierExtensionUnique chooser = new SelecteurFichierExtensionUnique(".svg", "SVG");
+		String ext = p_Format.getExtension();
+		String nom = ext.substring(1).toUpperCase();
+		SelecteurFichierExtensionUnique chooser = new SelecteurFichierExtensionUnique(ext, nom);
 		if (chooser.showSaveDialog(this.m_Parent) == JFileChooser.APPROVE_OPTION) {
 			try {
 				File fichier = chooser.getSelectedFile();
@@ -124,6 +127,31 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 		return true;
 	}
 
+	/**
+	 * Pour modifier le fichier.
+	 * 
+	 * @param p_fichier La nouvelle valeur.
+	 * @throws IllegalArgumentException si p_Fichier est null.
+	 */
+	public void setFichier(File p_fichier) {
+		if (p_fichier == null) {
+			throw new IllegalArgumentException("p_fichier est null");
+		}
+		this.m_Fichier = p_fichier;
+	}
+
+	/**
+	 * Pour modifier le format.
+	 * 
+	 * @param p_format La nouvelle valeur.
+	 */
+	public void setFormat(FormatFichier p_format) {
+		if (p_format == null) {
+			throw new IllegalArgumentException("p_format est null");
+		}
+		this.m_Format = p_format;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
