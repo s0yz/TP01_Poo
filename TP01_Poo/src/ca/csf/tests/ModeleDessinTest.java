@@ -85,6 +85,7 @@ class ModeleDessinTest {
 		ModeleDessin md = new ModeleDessin();
 		ElementGraphique el = new Rectangle();
 		assertThrows(IllegalArgumentException.class, () -> md.inserer(3, el));
+		assertThrows(IllegalArgumentException.class, () -> md.inserer(-3, el));
 	}
 	
 	@Test
