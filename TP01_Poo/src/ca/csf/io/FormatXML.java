@@ -23,9 +23,16 @@ public class FormatXML implements FormatFichier {
 	private UsineElementGraphique m_factory;
 
 	public FormatXML(UsineElementGraphique p_Factory) {
+		if (p_Factory == null) {
+			throw new IllegalArgumentException("p_factory est null, constructeur FormatXML");
+		}
 		this.m_factory = p_Factory;
 	}
 
+	public UsineElementGraphique getFactory() {
+	return m_factory;
+	}
+	
 	@Override
 	public void enregistrer(ModeleElementGraphique p_Modele, File p_Fichier) throws IOException, XMLStreamException {
 		XMLStreamWriter doc = null;
