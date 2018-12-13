@@ -59,15 +59,25 @@ class RectangleTest {
 	void contient() {
 		Rectangle rect = new Rectangle(2,2,3,4);
 		assertFalse(rect.contient(0, 0));
-		assertFalse(rect.contient(1.99, 1.99));
+		assertFalse(rect.contient(4.99, 1.99));
 		assertFalse(rect.contient(0, 2));
 		assertFalse(rect.contient(6, 2));
 		
 		assertTrue(rect.contient(2, 2));
 		assertTrue(rect.contient(3.5, 4));
-		assertTrue(rect.contient(2, 6));
-		assertTrue(rect.contient(5, 2));
-		assertTrue(rect.contient(5, 6));
+		assertTrue(rect.contient(4.99, 2));
+		assertTrue(rect.contient(4.9999, 5.9999));
+		assertTrue(rect.contient(2, 5.99));
+		assertTrue(rect.contient(2, 2));
+		
+		
+		
+		
+		
+		
+		assertFalse(rect.contient(2, 6));
+		assertFalse(rect.contient(5, 2));
+		assertFalse(rect.contient(5, 6));
 		
 		assertFalse(rect.contient(1.99, 2));
 		assertFalse(rect.contient(2, 1.99));			
@@ -82,7 +92,7 @@ class RectangleTest {
 		assertFalse(new Rectangle().contient(0, 0));		
 	}
 	
-	@Test
+	@Test 
 	void RectangleSet() {		
 		Rectangle rect = new Rectangle();
 		rect.setHauteur(33);

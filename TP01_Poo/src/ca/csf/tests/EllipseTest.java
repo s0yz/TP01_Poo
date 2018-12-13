@@ -20,33 +20,33 @@ class EllipseTest {
   * @ *NOTES* a = hauteur si (a < b) ELSE a = largeur si (a > b)
   * @ *NOTES* b =  hauteur si (b < a) ELSE b = largeur si (b > a)
   * @return
-  */
-	public int checkpoint(double h, double k, double x, double y, double a, double b) {
-		
-		//verifier l'equation de l'ellipse avec un point donné
-		
-		int p = ((int)Math.pow((x - h), 2) / (int)Math.pow(a, 2))
-				+ ((int)Math.pow((y - k), 2) / (int)Math.pow(b, 2));
-		
-		int res = 0;
-		
-		// sur la ligne d'ellipse
-		if(p == 1)
-		{
-			res = 0;
-		}
-		// exterieur de la ligne d'ellipse
-		else if( p > 1)
-		{
-			res = -1;
-		}
-		//interieur de la ligne d'ellipse
-		else 
-		{
-			res = 1;
-		}
-		return res;
-	}
+//  */
+//	public int checkpoint(double h, double k, double x, double y, double a, double b) {
+//		
+//		//verifier l'equation de l'ellipse avec un point donné
+//		
+//		int p = ((int)Math.pow((x - h), 2) / (int)Math.pow(a, 2))
+//				+ ((int)Math.pow((y - k), 2) / (int)Math.pow(b, 2));
+//		
+//		int res = 0;
+//		
+//		// sur la ligne d'ellipse
+//		if(p == 1)
+//		{
+//			res = 0;
+//		}
+//		// exterieur de la ligne d'ellipse
+//		else if( p > 1)
+//		{
+//			res = -1;
+//		}
+//		//interieur de la ligne d'ellipse
+//		else 
+//		{
+//			res = 1;
+//		}
+//		return res;
+//	}
 	@Test
 	void ConstructeurDefault() {
 		Ellipse ellipse = new Ellipse();
