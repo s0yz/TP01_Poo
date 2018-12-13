@@ -4,7 +4,7 @@ import ca.csf.formes.ElementGraphique;
 import ca.csf.modele.EcouteurModeleGraphique;
 
 /**
- * Utilisée pour tester les ModeleElemen.
+ * Utilisée pour tester ModeleElementGraphique.
  */
 public class EcouteurModeleTest implements EcouteurModeleGraphique {
 	
