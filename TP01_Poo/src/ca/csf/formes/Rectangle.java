@@ -36,15 +36,7 @@ public class Rectangle extends Forme {
 		super("Rectangle", p_X, p_Y, p_Largeur, p_Hauteur);
 	}
 
-	@Override
-	public boolean contient(double p_X, double p_Y) {
-        return (this.getLargeur() != 0 && 
-        		this.getHauteur() != 0 &&
-        		p_X >= this.getX() &&
-        		p_Y >= this.getY() &&
-                p_X <= this.getX() + this.getLargeur() &&
-                p_Y <= this.getY() + this.getHauteur());
-	}
+
 	
 	/**
 	 * {@inheritDoc}

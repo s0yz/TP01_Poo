@@ -11,39 +11,6 @@ import ca.csf.formes.Forme;
 import ca.csf.formes.Rectangle;
 
 class EllipseTest {
-	/**
-	 * 
-	 * @param h centre x
-	 * @param k centre y
-	 * @param x point test x
-	 * @param y point test y
-	 * @ *NOTES* a = hauteur si (a < b) ELSE a = largeur si (a > b)
-	 * @ *NOTES* b = hauteur si (b < a) ELSE b = largeur si (b > a)
-	 * @return
-	 */
-	public int checkpoint(double h, double k, double x, double y, double a, double b) {
-
-		// verifier l'equation de l'ellipse avec un point donn�
-
-		int p = ((int) Math.pow((x - h), 2) / (int) Math.pow(a, 2))
-				+ ((int) Math.pow((y - k), 2) / (int) Math.pow(b, 2));
-
-		int res = 0;
-
-		// sur la ligne d'ellipse
-		if (p == 1) {
-			res = 0;
-		}
-		// exterieur de la ligne d'ellipse
-		else if (p > 1) {
-			res = -1;
-		}
-		// interieur de la ligne d'ellipse
-		else {
-			res = 1;
-		}
-		return res;
-	}
 
 	@Test
 	void ConstructeurDefault() {
