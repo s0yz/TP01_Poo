@@ -18,28 +18,54 @@ import ca.csf.formes.ElementGraphique;
 import ca.csf.formes.UsineElementGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 
+/**
+ * Représente une stratégie d'écriture et lecteur de fichier XML pour des
+ * {@link ModeleElementGraphique}
+ */
 public class FormatXML implements FormatFichier {
 
+	// Utilisé lors de lecture.
 	private UsineElementGraphique m_factory;
 
+	/**
+	 * Construit un FormatXML sans {@link UsineElementGraphique}. L'objet construit
+	 * sera dans l'impossibilité de lire un fichier.
+	 */
+	public FormatXML() {
+	}
+
+	/**
+	 * Construit un FormatXML en spécifiant l'{@link UsineElementGraphique} utilisée
+	 * pour instancier les élément lors de la lecture.
+	 * 
+	 * @param p_Factory
+	 * @see UsineElementGraphique
+	 */
 	public FormatXML(UsineElementGraphique p_Factory) {
 		if (p_Factory == null) {
-			throw new IllegalArgumentException("p_factory est null, constructeur FormatXML");
+			throw new IllegalArgumentException("p_factory est null");
 		}
 		this.m_factory = p_Factory;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void enregistrer(ModeleElementGraphique p_Modele, File p_Fichier) throws IOException, XMLStreamException {
+		if (p_Fichier == null) {
+			throw new IllegalArgumentException("p_Fichier est null");
+		}
 		XMLStreamWriter doc = null;
 		FileWriter output = new FileWriter(p_Fichier);
-		doc = XMLOutputFactory.newInstance().createXMLStreamWriter(output);
+		doc = XMLOutputFactory.newInstance().createXMLStreamWriter(output);		
 		doc.writeStartDocument();
 		doc.writeStartElement("dessin");
 		doc.writeStartElement("fond");
 		doc.writeAttribute("hauteur", Double.toString(p_Modele.getHauteur()));
 		doc.writeAttribute("largeur", Double.toString(p_Modele.getLargeur()));
 		doc.writeAttribute("couleur", Integer.toString(p_Modele.getArrierePlan().getRGB()));
+		doc.writeEndElement();
 
 		doc.writeStartElement("forme");
 		for (ElementGraphique elementGraphique : p_Modele) {
@@ -57,10 +83,9 @@ public class FormatXML implements FormatFichier {
 			}
 			doc.writeEndElement();
 		}
+		
 		doc.writeEndElement();
 		doc.writeEndElement();
-		doc.writeEndElement();
-		doc.writeEndDocument();
 		if (doc != null) {
 			doc.flush();
 			doc.close();
@@ -70,6 +95,12 @@ public class FormatXML implements FormatFichier {
 	@Override
 	public void ouvrir(ModeleElementGraphique p_Modele, File p_Fichier)
 			throws XMLStreamException, FileNotFoundException {
+		if (this.m_factory == null) {
+			throw new RuntimeException("Factory non-définie. voir FormatXML(UsineElementGraphique p_Factory)."
+					+ "Je l'avais dit qu'on aurait du dissocier l'input et l'output !");
+		} else if (p_Fichier == null) {
+			throw new IllegalArgumentException("p_Fichier est null");
+		}
 		XMLStreamReader doc = null;
 		ArrayList<ElementGraphique> temp = new ArrayList<>();
 		FileReader input = new FileReader(p_Fichier);
@@ -82,6 +113,7 @@ public class FormatXML implements FormatFichier {
 		double haut = Double.parseDouble(doc.getAttributeValue("", "hauteur"));
 		double larg = Double.parseDouble(doc.getAttributeValue("", "largeur"));
 		Color c = new Color(Integer.parseInt(doc.getAttributeValue("", "couleur")));
+		doc.next();
 		doc.next();
 		doc.next();
 		while (doc.isStartElement()) {

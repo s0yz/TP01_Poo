@@ -1,7 +1,7 @@
 package ca.csf.formes;
 
 /**
- * FFournit des méthodes pour obtenir des {@link Forme}.
+ * Fournit des méthodes pour obtenir des {@link Forme}.
  */
 public class UsineForme implements UsineElementGraphique {
 

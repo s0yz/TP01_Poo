@@ -4,8 +4,6 @@ import ca.csf.formes.ElementGraphique;
 
 /**
  * Interface pour des ecouteurs de {@code ModeleElementGraphique}.
- * 
- * @author Cedric Mariage
  */
 public interface EcouteurModeleGraphique {
 	

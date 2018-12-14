@@ -12,7 +12,9 @@ import ca.csf.modele.ModeleElementGraphique;
 import ca.csf.ui.SelecteurFichierExtensionUnique;
 
 /**
- * Contrôleur de fichier.
+ * Contrôleur de fichier surveillant les modifications du modèle.
+ * 
+ * @see ModeleElementGraphique
  */
 public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphique {
 
@@ -25,9 +27,12 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 	/**
 	 * 
 	 * @param p_Parent parent du GestionnaireFichier
-	 * @param p_Modele 
+	 * @param p_Modele modèle à gérer.
 	 */
 	public GestionnaireFichier(JFrame p_Parent, ModeleElementGraphique p_Modele) {
+		if (p_Modele == null) {
+			throw new IllegalArgumentException("p_Modele est null");
+		}
 		this.m_Modele = p_Modele;
 		this.m_Parent = p_Parent;
 		this.m_Modele.ajouterEcouteur(this);
@@ -125,6 +130,14 @@ public class GestionnaireFichier implements GestionnaireIO, EcouteurModeleGraphi
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Pour savoir si le fichier est enregistré.
+	 * @return faux si des modifications n'ont pas été enregistrées, sinon false.
+	 */
+	public boolean estEnregistrer() {
+		return !this.m_Modifications;
 	}
 
 	/**

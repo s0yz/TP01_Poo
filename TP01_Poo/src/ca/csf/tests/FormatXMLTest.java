@@ -26,20 +26,13 @@ class FormatXMLTest {
 	File fichier = new File("test.xml");
 	
 	@Test
-	void constructeurDefault() {
-//		On ajoute pas des get pour juste pour des tests :P
-		
-//		UsineForme uf = UsineForme.getInstance();
-//		FormatXML fx = new FormatXML(uf);
-//		assertEquals(uf, fx.getFactory());
-		
+	void constructeurDefault() {		
 		assertThrows(IllegalArgumentException.class, () -> new FormatXML(null));
 	}
 
 	@Test
 	void enregistrer() throws IOException, XMLStreamException {
-		UsineForme uf = UsineForme.getInstance();
-		FormatXML fx = new FormatXML(uf);
+		FormatXML fx = new FormatXML();
 		ModeleDessin md = new ModeleDessin();
 		md.ajouter(new Rectangle(5, 6, 7, 8));
 		md.get(0).setCouleurTrait(Color.BLUE);
@@ -59,6 +52,7 @@ class FormatXMLTest {
 		assertEquals("640.0", doc.getAttributeValue("", "largeur"));
 		assertEquals("-1", doc.getAttributeValue("", "couleur"));
 		doc.next();
+		doc.next();
 		assertEquals("forme", doc.getLocalName());
 		doc.next();
 		assertEquals("Rectangle", doc.getLocalName());
@@ -69,14 +63,18 @@ class FormatXMLTest {
 		assertEquals("0", doc.getAttributeValue("", "trait"));
 		assertEquals(Integer.toString(Color.BLUE.getRGB()), doc.getAttributeValue("", "traitcolor"));
 		assertEquals(Integer.toString(Color.RED.getRGB()), doc.getAttributeValue("", "couleur"));
-
-		this.fichier.delete();
 	}
 
 	@Test
+	void enregistreFichierNull() throws IOException, XMLStreamException {
+		FormatXML fx = new FormatXML();
+		ModeleDessin md = new ModeleDessin();
+		assertThrows(IllegalArgumentException.class, () -> fx.enregistrer(md, null));
+	}
+	
+	@Test
 	void enregistrer_couleur_null() throws IOException, XMLStreamException {
-		UsineForme uf = UsineForme.getInstance();
-		FormatXML fx = new FormatXML(uf);
+		FormatXML fx = new FormatXML();
 		ModeleDessin md = new ModeleDessin();
 		md.ajouter(new Rectangle(5, 6, 7, 8));
 		md.get(0).setCouleurTrait(Color.BLUE);
@@ -90,10 +88,9 @@ class FormatXMLTest {
 		doc.next();
 		doc.next();
 		doc.next();
+		doc.next();
 
 		assertEquals("null", doc.getAttributeValue("", "couleur"));
-
-		this.fichier.delete();
 	}
 
 	@Test
@@ -131,6 +128,36 @@ class FormatXMLTest {
 
 		assertEquals(md.get(0), md2.get(0));
 
+	}
+	
+	@Test
+	void ouvrirUsineNull() throws XMLStreamException, IOException {
+		FormatXML fx = new FormatXML();
+		ModeleDessin md = new ModeleDessin();
+		assertThrows(RuntimeException.class, () -> fx.ouvrir(md, this.fichier));
+	}
+	
+	@Test
+	void ouvrirFichierNull() throws XMLStreamException, IOException {
+		UsineForme uf = UsineForme.getInstance();
+		FormatXML fx = new FormatXML(uf);
+		ModeleDessin md = new ModeleDessin();
+		assertThrows(IllegalArgumentException.class, () -> fx.ouvrir(md, null));
+		
 		this.fichier.delete();
+	}
+	
+	@Test
+	void ouvrirMauvaisFormat() throws XMLStreamException, IOException {
+		File f = new File("invalide.xml");
+		UsineForme uf = UsineForme.getInstance();
+		FormatXML fx = new FormatXML(uf);
+		ModeleDessin md = new ModeleDessin();
+		assertThrows(XMLStreamException.class, () -> fx.ouvrir(md, f));
+	}
+	
+	@Test
+	void getExtension() {
+		assertEquals(".xml", new FormatXML().getExtension());
 	}
 }

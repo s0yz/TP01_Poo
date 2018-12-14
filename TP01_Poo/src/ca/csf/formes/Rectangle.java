@@ -3,9 +3,9 @@ package ca.csf.formes;
 import java.awt.Shape;
 
 /**
+ * Représente un rectangle 2D.
  * 
- * 
- * @author Cedric Mariage
+ * @see ElementGraphique
  */
 public class Rectangle extends Forme {
 	

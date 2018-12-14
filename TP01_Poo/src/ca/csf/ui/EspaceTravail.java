@@ -20,6 +20,12 @@ import ca.csf.modele.ModeleElementGraphique;
 
 /**
  * Classe représentant l'espace de dessin.
+ * 
+ * Une interface était prévue pour cette classe. FenetrePrincipale aurait alors
+ * utilisée cette interface comme donnée membre. Nous lui aurions ensuite donné
+ * cette classe dans le main en l'initialisant ou nous lui aurions ajouter une
+ * factory method.
+ * 
  */
 public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 
@@ -47,14 +53,14 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	/**
 	 * Construit un EspaceTravail
 	 * 
-	 * @param p_Modele 
+	 * @param p_Modele
 	 */
 	public EspaceTravail(ModeleElementGraphique p_Modele) {
 		this.setModeleGraphique(p_Modele);
 		this.parametrerActionsTouche();
 		this.setOpaque(true);
 	}
-	
+
 	/**
 	 * Pour obtenir le modèle.
 	 * 
@@ -63,7 +69,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	public ModeleElementGraphique getModele() {
 		return this.m_Modele;
 	}
-	
+
 	/**
 	 * Pour obtenir la selection.
 	 * 
@@ -96,7 +102,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		this.setPreferredSize(new Dimension(largeur, hauteur));
 		this.repaint();
 	}
-	
+
 	/**
 	 * Pour modifier la selection.
 	 * 
@@ -107,7 +113,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 		if (p_Element == null) {
 			throw new IllegalArgumentException("p_selection est null");
 		}
-		assert (!(p_Element instanceof ElementManipulable))  : "p_Element est déjà décoré";
+		assert (!(p_Element instanceof ElementManipulable)) : "p_Element est déjà décoré";
 		this.m_Selection = new ElementManipulable(p_Element);
 		this.repaint();
 	}
@@ -118,11 +124,11 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 * @param p_Element l'élément à selectionner
 	 */
 	private void setSelection(ElementManipulable p_Element) {
-		assert(p_Element != null) : "p_Element est null";
+		assert (p_Element != null) : "p_Element est null";
 		this.m_Selection = p_Element;
 		this.repaint();
 	}
-	
+
 	/**
 	 * Pour déplacer la sélection.
 	 * 
@@ -153,8 +159,7 @@ public class EspaceTravail extends JPanel implements EcouteurModeleGraphique {
 	 */
 	@Override
 	public void reagirModifications() {
-		if (this.m_Modele.getCompte() == 0 ||
-				this.m_Modele.getIndiceDe(this.m_Selection) == -1) {
+		if (this.m_Modele.getCompte() == 0 || this.m_Modele.getIndiceDe(this.m_Selection) == -1) {
 			this.m_Selection.set(null);
 		}
 		this.reagirNouvelleTaille();

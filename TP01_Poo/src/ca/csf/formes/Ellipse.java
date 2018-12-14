@@ -3,8 +3,9 @@ package ca.csf.formes;
 import java.awt.Shape;
 
 /**
- * @author Cedric Mariage
- *
+ * Représente une ellipse 2D.
+ * 
+ * @see ElementGraphique
  */
 public class Ellipse extends Forme {
 

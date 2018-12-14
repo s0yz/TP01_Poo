@@ -1,7 +1,7 @@
 package ca.csf.modele;
 
 import java.awt.Color;
-import java.util.ArrayList;
+import java.util.List;
 
 import ca.csf.formes.DecorateurElementGraphique;
 import ca.csf.formes.ElementGraphique;
@@ -17,7 +17,7 @@ public class ElementEcoute extends DecorateurElementGraphique {
 	/**
 	 * Liste d'écouteurs
 	 */
-	private ArrayList<EcouteurModeleGraphique> m_Ecouteurs;
+	private List<EcouteurModeleGraphique> m_Ecouteurs;
 
 	/**
 	 * Construit un ElementEcouté.
@@ -26,7 +26,7 @@ public class ElementEcoute extends DecorateurElementGraphique {
 	 * @param p_Ecouteurs liste d'écouteurs.
 	 * @throws IllegalArgumentException si p_Ecouteurs est null.
 	 */
-	public ElementEcoute(ElementGraphique p_Element, ArrayList<EcouteurModeleGraphique> p_Ecouteurs) {
+	public ElementEcoute(ElementGraphique p_Element, List<EcouteurModeleGraphique> p_Ecouteurs) {
 		super(p_Element);
 		if (p_Ecouteurs == null) {
 			throw new IllegalArgumentException("p_Ecouteurs est null");

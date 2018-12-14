@@ -1,10 +1,10 @@
-package ca.csf.tests;
+package ca.csf.tests.classes;
 
 import ca.csf.formes.ElementGraphique;
 import ca.csf.modele.EcouteurModeleGraphique;
 
 /**
- * Utilisée pour tester ModeleElementGraphique.
+ * Utilisée pour tester {@link ca.csf.modele.ModeleElementGraphique} et {@link ca.csf.modele.ElementEcoute}
  */
 public class EcouteurModeleTest implements EcouteurModeleGraphique {
 	

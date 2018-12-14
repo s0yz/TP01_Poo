@@ -11,7 +11,7 @@ import ca.csf.formes.ElementGraphique;
  * Classe abstraite définissant des méthodes permettant de manipuler des formes
  * 2D.
  * 
- * @author Cedric Mariage
+ * @see ElementGraphique
  */
 public abstract class Forme implements ElementGraphique {
 
@@ -209,7 +209,7 @@ public abstract class Forme implements ElementGraphique {
 	 */
 	@Override
 	public void deplacer(double p_X, double p_Y) {
-		
+
 		this.setPosition(this.getX() + p_X, this.getY() + p_Y);
 	}
 
@@ -254,7 +254,7 @@ public abstract class Forme implements ElementGraphique {
 	 * @return
 	 */
 	protected abstract Shape getShape();
-	
+
 	/**
 	 * Code généré par eclipse.
 	 * 

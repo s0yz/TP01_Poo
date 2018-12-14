@@ -12,8 +12,6 @@ import ca.csf.formes.ElementGraphique;
  * 
  * Implémentation de {@code ModeleElementGraphique} utilisant une
  * {@code linkedList} pour stocker les {@code ElementGraphique}.
- * 
- * @author
  */
 public class ModeleDessin implements ModeleElementGraphique {
 

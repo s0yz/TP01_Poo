@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import ca.csf.formes.ElementGraphique;
 import ca.csf.formes.Rectangle;
 import ca.csf.modele.ModeleDessin;
+import ca.csf.tests.classes.EcouteurModeleTest;
 
 class ModeleDessinTest {
 	

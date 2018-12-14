@@ -5,6 +5,8 @@ import java.awt.geom.Line2D;
 
 /**
  * Représente une ligne 2D.
+ * 
+ * @see ElementGraphique
  */
 public class Ligne extends Forme {
 

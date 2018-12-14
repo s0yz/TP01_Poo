@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import ca.csf.formes.Ellipse;
 import ca.csf.formes.Forme;
-import ca.csf.formes.Rectangle;
 
 class EllipseTest {
 

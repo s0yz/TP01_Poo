@@ -24,6 +24,9 @@ public class ActionTouche extends AbstractAction {
 	 * @param p_Action action exécuté lors de {@link #actionPerformed(ActionEvent)}.
 	 */
 	public ActionTouche(Consumer<ActionEvent> p_Action) {
+		if (p_Action == null) {
+			throw new IllegalArgumentException("p_Action est null");
+		}
 		this.m_Action = p_Action;
 	}
 

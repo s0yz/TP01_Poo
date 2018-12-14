@@ -14,6 +14,10 @@ import ca.csf.formes.UsineElementGraphique;
 import ca.csf.modele.ModeleElementGraphique;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+/**
+ * Représente une stratégie d'écriture et lecteur de fichier SVG pour des
+ * {@link ModeleElementGraphique}
+ */
 public class FormatSVG implements FormatFichier {
 
 	// Ouvrir n'est pas implémentée, alors m_factory est inutilisée.
@@ -21,10 +25,20 @@ public class FormatSVG implements FormatFichier {
 	private UsineElementGraphique m_factory;
 
 	/**
+	 * Construit un FormatSVG sans {@link UsineElementGraphique}. L'objet construit
+	 * sera dans l'impossibilité de lire un fichier.
+	 */
+	public FormatSVG() {
+	}
+	
+	/**
 	 * 
 	 * @param p_Factory
 	 */
 	public FormatSVG(UsineElementGraphique p_Factory) {
+		if (p_Factory == null) {
+			throw new IllegalArgumentException("p_factory est null");
+		}
 		this.m_factory = p_Factory;
 	}
 
@@ -113,6 +127,12 @@ public class FormatSVG implements FormatFichier {
 		return ".svg";
 	}
 	
+	/**
+	 * Pour convertir une couleur en sa représentation SVG.
+	 * 
+	 * @param p_Couleur couleur à convertir
+	 * @return un String représentant la couleur.
+	 */
 	private static String convertirCouleur(Color p_Couleur) {
 		if (p_Couleur == null) {
 			return "none";
