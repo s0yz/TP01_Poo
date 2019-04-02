@@ -49,23 +49,23 @@ Fichier :
 
 formes :
 - [ ] Decorateur (?)
-- [ ] Ellipse
-- [ ] Rectangle
-- [ ] Ligne
-- [ ] Usine
+- [x] Ellipse
+- [x] Rectangle
+- [x] Ligne
+- [x] Usine
 
 io :
 - [ ] FormatSVG (?)
-- [ ] FormatXML (?)
+- [x] FormatXML (?)
 - [ ] GestionnaireFichier (?)
 - [x] SelecteurFichier (?)
 
 modèle :
-- [ ] ElementEcoute (?)
-- [ ] ModeleDessin
+- [x] ElementEcoute (?)
+- [x] ModeleDessin
 
 ui :
-- [ ] ActionTouche (?)
+- [x] ActionTouche (?)
 - [ ] ElementManipulable (?)
 
 ## Auteurs
